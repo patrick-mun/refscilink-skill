@@ -51,6 +51,18 @@ Recommended default for first installation:
 Page dédiée + bouton Références dans index.html
 ```
 
+Then ask:
+
+```text
+Souhaites-tu que RefSciLink s'adapte automatiquement à la charte graphique du site ?
+```
+
+Recommended default:
+
+```text
+Oui — mode Auto + fichier de personnalisation modifiable.
+```
+
 ---
 
 ## Required module location
@@ -73,7 +85,8 @@ data/reference_bibliographique/
 │   └── js/
 │       └── reference.js
 ├── json/
-│   └── references.json
+│   ├── references.json
+│   └── theme_refscilink.json
 └── tools/
     ├── build_references.mjs
     ├── prompt_recherche_ia.md
@@ -95,7 +108,8 @@ Detect:
 - existing JavaScript files;
 - visual style variables if present;
 - existing navigation bar or menu;
-- Markdown files containing references.
+- Markdown files containing references;
+- existing design system, if any.
 
 Do not overwrite existing files without checking whether the module already exists.
 
@@ -103,7 +117,29 @@ If the module already exists, propose an update mode instead of recreating every
 
 ---
 
-### 2. Create module files
+### 2. Analyse host visual identity
+
+Before generating CSS, analyse the host site's visual identity.
+
+Inspect:
+
+- `index.html`;
+- linked CSS files;
+- inline `<style>` blocks;
+- CSS custom properties in `:root`;
+- button classes;
+- navigation classes;
+- card/container classes;
+- body background;
+- typography declarations;
+- common border-radius values;
+- common box-shadow values.
+
+The goal is to make the bibliography module feel native to the existing site.
+
+---
+
+### 3. Create module files
 
 Create all required module files under:
 
@@ -118,13 +154,14 @@ The module must include:
 - CSS adapted to the host site style;
 - JavaScript to load `references.json`;
 - JSON data file;
+- `theme_refscilink.json` for visual overrides;
 - a Node.js tool for extracting and preparing references;
 - a JSON schema documenting the expected data structure;
 - an AI prompt used to enrich references.
 
 ---
 
-### 3. Add a References button
+### 4. Add a References button
 
 Add a visible navigation button to the main page.
 
@@ -140,13 +177,15 @@ Default link:
 <a href="data/reference_bibliographique/index_ref.html" class="refscilink-button">Références</a>
 ```
 
-If the site already has a navigation bar, integrate the button inside the existing navigation.
+If the site already has a navigation bar, integrate the button inside the existing navigation and reuse existing button/link classes when safe.
 
 If no navigation exists, add a simple floating button without breaking the layout.
 
+Do not force a new visual style on the main site.
+
 ---
 
-### 4. Extract references from Markdown
+### 5. Extract references from Markdown
 
 The assistant must search the selected Markdown file for sections whose titles may include:
 
@@ -177,7 +216,7 @@ If a reference is incomplete, attempt correction first. If correction fails, mar
 
 ---
 
-### 5. Scientific lookup and access classification
+### 6. Scientific lookup and access classification
 
 For each reference, search appropriate bibliographic sources such as:
 
@@ -207,7 +246,7 @@ If only the abstract is accessible, explicitly state that the full article is no
 
 ---
 
-### 6. Summary generation
+### 7. Summary generation
 
 For each reference, prepare these fields:
 
@@ -236,7 +275,7 @@ Default validation fields:
 
 ---
 
-### 7. Required JSON schema
+### 8. Required reference JSON schema
 
 Each reference in `references.json` must follow this structure:
 
@@ -271,7 +310,7 @@ Each reference in `references.json` must follow this structure:
 
 ---
 
-### 8. Web interface requirements
+### 9. Web interface requirements
 
 The bibliography interface must display a simple list with:
 
@@ -302,34 +341,159 @@ If a Node.js local tool is available, optionally provide a script able to persis
 
 ---
 
-### 9. Style adaptation
+### 10. Theme adaptation — mandatory visual integration
 
-The module must adapt to the visual style of the host site.
+The module must adapt to the artistic and visual identity of the host site.
 
-Detect when possible:
+This is a core feature, not optional decoration.
+
+Use a **Theme Mode = Auto + Override** approach.
+
+#### 10.1 Auto theme detection
+
+The assistant must inspect the existing site and infer:
 
 - primary color;
+- secondary/accent color;
 - background color;
+- card/background surface color;
 - text color;
-- border radius;
+- muted text color;
+- border color;
+- font family;
 - button style;
-- navigation style.
+- navigation style;
+- border radius;
+- card radius;
+- button radius;
+- box-shadow style;
+- spacing density;
+- dark/light mode tendency.
 
-If no style can be detected, use a sober scientific default:
+Detection priority:
 
-```css
---ref-primary: #007B83;
---ref-bg: #f7fafb;
---ref-card: #ffffff;
---ref-text: #102027;
---ref-muted: #607d8b;
+1. CSS variables in `:root`.
+2. Existing design-system variables.
+3. Navbar and button classes.
+4. Repeated colors in CSS files.
+5. Body and section styles.
+6. Fallback scientific theme.
+
+#### 10.2 Theme override file
+
+Generate this file:
+
+```text
+data/reference_bibliographique/json/theme_refscilink.json
 ```
 
-Do not make the module visually dominant over the host site.
+Required structure:
+
+```json
+{
+  "theme_mode": "auto_override",
+  "detected_from": [],
+  "primary": "#007B83",
+  "secondary": "#00A6B2",
+  "background": "#f7fafb",
+  "surface": "#ffffff",
+  "text": "#102027",
+  "muted": "#607d8b",
+  "border": "#d8e3e7",
+  "font_family": "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+  "radius": "12px",
+  "button_radius": "999px",
+  "card_radius": "18px",
+  "shadow": "0 12px 30px rgba(0,0,0,0.08)",
+  "spacing_density": "normal",
+  "notes": "Auto-detected values. Edit manually if needed."
+}
+```
+
+The user must be able to manually edit this file after installation.
+
+#### 10.3 CSS variable bridge
+
+In `reference.css`, define RefSciLink variables from the theme values.
+
+Use namespaced variables only:
+
+```css
+:root {
+  --ref-primary: #007B83;
+  --ref-secondary: #00A6B2;
+  --ref-bg: #f7fafb;
+  --ref-card: #ffffff;
+  --ref-text: #102027;
+  --ref-muted: #607d8b;
+  --ref-border: #d8e3e7;
+  --ref-radius: 12px;
+  --ref-button-radius: 999px;
+  --ref-card-radius: 18px;
+  --ref-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+```
+
+Do not modify the host site's global CSS variables unless explicitly requested.
+
+#### 10.4 Visual safety rules
+
+The module must not break or dominate the existing site.
+
+Rules:
+
+- Do not overwrite existing global classes like `.button`, `.btn`, `.card`, `.container`, `.nav`.
+- Prefix module classes with `refscilink-` or `ref-`.
+- Avoid global selectors except minimal `:root` variable declarations.
+- Do not reset `body`, `html`, `*`, `a`, `button` globally.
+- Do not import external fonts without user approval.
+- Do not add CSS frameworks.
+- Keep the reference page coherent with the site but visually secondary.
+
+#### 10.5 Button integration
+
+When adding the `Références` button:
+
+- prefer reusing the existing navigation/link style;
+- if a primary button class exists, reuse it only if it will not affect layout;
+- otherwise create `.refscilink-button`;
+- preserve mobile responsiveness;
+- do not remove or reorder existing navigation items unless necessary.
+
+#### 10.6 Manual mode
+
+If the user rejects automatic adaptation, create a clear manual file:
+
+```text
+data/reference_bibliographique/json/theme_refscilink.json
+```
+
+and set:
+
+```json
+{
+  "theme_mode": "manual"
+}
+```
+
+The CSS must still use the values defined in that file or the generated CSS variables.
+
+#### 10.7 Final theme report
+
+At the end of installation, report:
+
+```text
+Theme mode: Auto + Override
+Theme file: data/reference_bibliographique/json/theme_refscilink.json
+Detected primary color: ...
+Detected font: ...
+Detected radius: ...
+Manual override possible: yes
+```
 
 ---
 
-### 10. Safety and scientific reliability rules
+### 11. Safety and scientific reliability rules
 
 The assistant must never mark a generated summary as validated automatically.
 
@@ -367,6 +531,12 @@ Fichier Markdown analysé : ...
 Nombre de références détectées : ...
 Nombre de références complètes : ...
 Nombre de références à vérifier : ...
+
+Theme mode : Auto + Override / Manual / Fallback
+Theme file : data/reference_bibliographique/json/theme_refscilink.json
+Couleur principale détectée : ...
+Police détectée : ...
+Rayon de bordure détecté : ...
 
 Prochaine étape recommandée : ouvrir data/reference_bibliographique/index_ref.html
 ```

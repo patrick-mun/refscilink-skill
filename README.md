@@ -55,6 +55,67 @@ When invoked, the assistant:
 8. Attempts to repair incomplete references.
 9. Searches scientific metadata.
 10. Prepares structured summaries and JSON records.
+11. Analyses the site's visual identity.
+12. Adapts the bibliography module to the host design.
+
+### Automatic theme adaptation
+
+Visual integration is a core feature of RefSciLink.
+
+The goal is that the generated bibliography module looks like a natural part of the host website instead of an unrelated external page.
+
+The installation skill uses:
+
+```text
+Theme Mode = Auto + Override
+```
+
+During installation, the AI analyses:
+
+- HTML structure;
+- CSS files;
+- CSS variables (`:root`);
+- buttons;
+- navigation bar;
+- typography;
+- spacing;
+- border radius;
+- shadows;
+- dominant colors;
+- dark/light mode tendencies.
+
+RefSciLink then generates a dedicated theme configuration file:
+
+```text
+data/reference_bibliographique/json/theme_refscilink.json
+```
+
+Example:
+
+```json
+{
+  "theme_mode": "auto_override",
+  "primary": "#007B83",
+  "secondary": "#00A6B2",
+  "font_family": "Inter",
+  "radius": "12px"
+}
+```
+
+Developers can edit this file manually after installation to fine-tune the visual integration.
+
+### Visual safety rules
+
+RefSciLink is designed not to break the existing website.
+
+The generated module:
+
+- uses dedicated `refscilink-` CSS classes;
+- avoids modifying global styles;
+- does not overwrite `.btn`, `.card`, `.container`, `.nav`, etc.;
+- does not inject CSS frameworks;
+- preserves responsiveness;
+- keeps the host website as the visual reference.
 
 ### Example workflow
 
@@ -93,7 +154,8 @@ RefSciLink prioritises:
 - automation;
 - reproducibility;
 - scientific transparency;
-- mandatory human validation.
+- mandatory human validation;
+- visual consistency with the host website.
 
 No AI-generated summary is considered validated by default.
 
@@ -108,7 +170,8 @@ data/
     │   ├── css/reference.css
     │   └── js/reference.js
     ├── json/
-    │   └── references.json
+    │   ├── references.json
+    │   └── theme_refscilink.json
     └── tools/
         ├── build_references.mjs
         ├── prompt_recherche_ia.md
@@ -182,7 +245,7 @@ or:
 
 ## Current automation level
 
-The first public version includes:
+The current version includes:
 
 - automatic Markdown section detection;
 - reference extraction;
@@ -190,7 +253,10 @@ The first public version includes:
 - metadata lookup through Crossref when a DOI is present;
 - JSON schema for AI-enriched summaries;
 - static interface with filters, copy button, source link and validation button;
-- AI installation workflow through `/create_module_ref`.
+- AI installation workflow through `/create_module_ref`;
+- automatic host-theme detection;
+- theme override configuration file generation;
+- visual integration safeguards.
 
 ## Validation rule
 
@@ -214,7 +280,7 @@ The browser can store temporary validation in localStorage. For durable validati
 - BibTeX export.
 - RIS export.
 - CSL-JSON export.
-- Theme inheritance from host websites.
+- Advanced theme detection.
 - Interactive validation dashboard.
 
 ## License

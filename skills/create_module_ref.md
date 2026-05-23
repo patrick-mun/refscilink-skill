@@ -1,43 +1,66 @@
-# Skill: `/creat_modul_ref`
+# Skill: `/create_module_ref`
+
+Legacy command accepted: `/creat_modul_ref`
 
 ## Purpose
 
-`/creat_modul_ref` installs the RefSciLink bibliography module into the current web project.
+Install the RefSciLink bibliography module into the current web project.
 
-The skill is designed for use with Codex, Claude Code, or another coding assistant inside VS Code. It must install a reusable Vanilla HTML/CSS/JS bibliography module able to extract bibliographic references from Markdown files, prepare a structured JSON file, and expose the references through a web interface.
+The skill is designed for Codex, Claude Code, GitHub Copilot Agent, OpenHands or another coding assistant working inside VS Code.
 
-> Preferred normalized command name: `/create_module_ref`  
-> Legacy command accepted: `/creat_modul_ref`
-
----
-
-## Operating context
-
-The assistant must work inside the currently opened project folder.
-
-The project is expected to be a static web project or a web presentation using:
-
-- HTML
-- CSS
-- JavaScript
-- JSON
-- Markdown
-
-The assistant must not assume a framework such as React, Vue, Angular, Django, Flask, or Next.js unless it is clearly present in the project.
-
-The default implementation must be Vanilla HTML/CSS/JS.
+The default implementation is Vanilla HTML/CSS/JS.
 
 ---
 
-## First mandatory question
+## Core principles
 
-Before modifying files, ask the user:
+- Work inside the currently opened project folder.
+- Do not assume React, Vue, Angular, Django, Flask or Next.js unless clearly present.
+- Prefer static-hosting compatibility.
+- Preserve existing design and content.
+- Never overwrite user data without backup.
+- Never mark AI-generated summaries as validated by default.
+- Prefer a functional minimal installation over an incomplete advanced one.
+
+---
+
+## Execution modes
+
+The assistant must separate the workflow into three levels.
+
+### Mode 1 — Install only
+
+Creates the module structure, HTML/CSS/JS files, empty JSON files and button integration.
+
+### Mode 2 — Install + Extract references
+
+Mode 1 plus Markdown bibliography extraction and `references.json` generation.
+
+### Mode 3 — Install + Extract + Scientific enrichment
+
+Mode 2 plus scientific lookup, access classification and AI-generated summaries.
+
+Recommended default for first tests:
+
+```text
+Mode 2 — Install + Extract references
+```
+
+Scientific enrichment must not block the installation.
+
+If web access or API access is unavailable, generate the module and mark references as requiring enrichment.
+
+---
+
+## First mandatory questions
+
+Ask:
 
 ```text
 Quel fichier Markdown dois-je analyser pour extraire les références bibliographiques ?
 ```
 
-If several Markdown files are present, list the likely candidates.
+If several Markdown files are present, list likely candidates.
 
 Then ask:
 
@@ -45,7 +68,7 @@ Then ask:
 Souhaites-tu afficher les références dans une page dédiée, dans un panneau latéral, ou les deux ?
 ```
 
-Recommended default for first installation:
+Recommended default:
 
 ```text
 Page dédiée + bouton Références dans index.html
@@ -60,7 +83,19 @@ Souhaites-tu que RefSciLink s'adapte automatiquement à la charte graphique du s
 Recommended default:
 
 ```text
-Oui — mode Auto + fichier de personnalisation modifiable.
+Oui — Theme Mode = Auto + Override
+```
+
+Then ask or infer:
+
+```text
+Langue de l'interface : fr ou en ?
+```
+
+Default:
+
+```text
+fr
 ```
 
 ---
@@ -93,37 +128,113 @@ data/reference_bibliographique/
     └── schema_references.json
 ```
 
+Also create or update at project root:
+
+```text
+refscilink.config.json
+```
+
+---
+
+## Source strategy
+
+When installing files, use this priority order:
+
+1. If RefSciLink source/template files are present in the current repository, copy or adapt them.
+2. If source/template files are not available, generate a minimal functional module from this skill specification.
+3. If a file already exists in the target project, do not overwrite it without backup.
+
+Minimal functional module means:
+
+- `index_ref.html` can load `references.json`;
+- `reference.css` contains namespaced `refscilink-` styles;
+- `reference.js` can render references, filters and buttons;
+- `references.json` exists and is valid JSON;
+- `theme_refscilink.json` exists and is valid JSON.
+
+---
+
+## Idempotence and backup rules
+
+The skill must be safely rerunnable.
+
+If `data/reference_bibliographique/` already exists:
+
+1. Detect existing files.
+2. Create a backup before modifying anything.
+3. Preserve user-edited data.
+4. Report what was kept, updated or skipped.
+
+Backup path pattern:
+
+```text
+backup/refscilink/reference_bibliographique_YYYYMMDD_HHMMSS/
+```
+
+Never overwrite without backup:
+
+- `references.json`
+- `theme_refscilink.json`
+- manually edited `reference.css`
+- manually edited `reference.js`
+- existing `index.html`
+
+If the `Références` button already exists, do not duplicate it.
+
+---
+
+## Configuration file
+
+Create or update:
+
+```text
+refscilink.config.json
+```
+
+Recommended structure:
+
+```json
+{
+  "source_markdown": "bibliographie.md",
+  "output_dir": "data/reference_bibliographique",
+  "display_mode": "page",
+  "theme_mode": "auto_override",
+  "language": "fr",
+  "enrichment_mode": "extract_only",
+  "created_by": "RefSciLink Skill",
+  "version": "0.2.0-dev"
+}
+```
+
+Use the config file on future executions instead of asking again, unless the user explicitly wants to change settings.
+
 ---
 
 ## Installation tasks
-
-When the command `/creat_modul_ref` or `/create_module_ref` is invoked, perform the following steps.
 
 ### 1. Inspect project structure
 
 Detect:
 
 - main HTML entry point, usually `index.html`;
+- multiple possible `index.html` files;
 - existing CSS files;
 - existing JavaScript files;
-- visual style variables if present;
 - existing navigation bar or menu;
 - Markdown files containing references;
-- existing design system, if any.
+- existing design system;
+- existing RefSciLink installation.
 
-Do not overwrite existing files without checking whether the module already exists.
+If no `index.html` is found, do not fail completely. Create the module and report that navigation integration could not be performed.
 
-If the module already exists, propose an update mode instead of recreating everything.
+If several `index.html` files are found, ask which one should receive the `Références` button.
 
 ---
 
 ### 2. Analyse host visual identity
 
-Before generating CSS, analyse the host site's visual identity.
-
 Inspect:
 
-- `index.html`;
 - linked CSS files;
 - inline `<style>` blocks;
 - CSS custom properties in `:root`;
@@ -135,7 +246,14 @@ Inspect:
 - common border-radius values;
 - common box-shadow values.
 
-The goal is to make the bibliography module feel native to the existing site.
+Detection priority:
+
+1. CSS variables in `:root`.
+2. Existing design-system variables.
+3. Navbar and button classes.
+4. Repeated colors in CSS files.
+5. Body and section styles.
+6. Fallback scientific theme.
 
 ---
 
@@ -149,21 +267,19 @@ data/reference_bibliographique/
 
 The module must include:
 
-- a bibliography index page;
-- a detailed reference page;
-- CSS adapted to the host site style;
+- bibliography index page;
+- detailed reference page;
+- CSS adapted to host style;
 - JavaScript to load `references.json`;
-- JSON data file;
-- `theme_refscilink.json` for visual overrides;
-- a Node.js tool for extracting and preparing references;
-- a JSON schema documenting the expected data structure;
-- an AI prompt used to enrich references.
+- `references.json`;
+- `theme_refscilink.json`;
+- Node.js tool for extracting references;
+- JSON schema;
+- AI prompt for later enrichment.
 
 ---
 
 ### 4. Add a References button
-
-Add a visible navigation button to the main page.
 
 Default label:
 
@@ -177,17 +293,19 @@ Default link:
 <a href="data/reference_bibliographique/index_ref.html" class="refscilink-button">Références</a>
 ```
 
-If the site already has a navigation bar, integrate the button inside the existing navigation and reuse existing button/link classes when safe.
+Rules:
 
-If no navigation exists, add a simple floating button without breaking the layout.
-
-Do not force a new visual style on the main site.
+- prefer existing navigation style;
+- preserve navigation order;
+- do not duplicate the button;
+- if no navigation is found, add a safe floating button;
+- do not force a new visual style on the main site.
 
 ---
 
 ### 5. Extract references from Markdown
 
-The assistant must search the selected Markdown file for sections whose titles may include:
+Search for sections titled like:
 
 - `Références`
 - `Références bibliographiques`
@@ -195,12 +313,11 @@ The assistant must search the selected Markdown file for sections whose titles m
 - `Sources`
 - `References`
 - `Bibliographic references`
+- `Literature cited`
 
-The file may contain other text. The references may not be perfectly formatted.
+The Markdown file may contain unrelated content.
 
-The assistant must try to detect and normalize each reference.
-
-For each reference, extract when possible:
+Extract when possible:
 
 - title;
 - authors;
@@ -212,13 +329,15 @@ For each reference, extract when possible:
 - URL;
 - raw reference string.
 
-If a reference is incomplete, attempt correction first. If correction fails, mark it as incomplete and requiring manual review.
+If a reference is incomplete, attempt correction first. If correction fails, mark it as requiring manual review.
 
 ---
 
 ### 6. Scientific lookup and access classification
 
-For each reference, search appropriate bibliographic sources such as:
+Only perform this step in Mode 3 or when explicitly requested.
+
+Search appropriate sources:
 
 - PubMed;
 - CrossRef;
@@ -231,7 +350,7 @@ For each reference, search appropriate bibliographic sources such as:
 - publisher pages;
 - Unpaywall or equivalent open-access metadata.
 
-Classify access as one of:
+Allowed `access_type` values:
 
 ```json
 "open_access"
@@ -248,7 +367,9 @@ If only the abstract is accessible, explicitly state that the full article is no
 
 ### 7. Summary generation
 
-For each reference, prepare these fields:
+Only generate summaries in Mode 3 or when explicitly requested.
+
+Each reference supports:
 
 ```json
 {
@@ -260,9 +381,7 @@ For each reference, prepare these fields:
 }
 ```
 
-No generated summary should be considered validated by default.
-
-Default validation fields:
+Default validation:
 
 ```json
 {
@@ -275,7 +394,7 @@ Default validation fields:
 
 ---
 
-### 8. Required reference JSON schema
+## Required reference JSON schema
 
 Each reference in `references.json` must follow this structure:
 
@@ -310,78 +429,15 @@ Each reference in `references.json` must follow this structure:
 
 ---
 
-### 9. Web interface requirements
+## Theme adaptation — mandatory visual integration
 
-The bibliography interface must display a simple list with:
+Use:
 
-- reference number;
-- title;
-- authors;
-- year;
-- journal;
-- theme;
-- access status;
-- validation status.
+```text
+Theme Mode = Auto + Override
+```
 
-Each item must include:
-
-- `Lire le résumé` button;
-- `Voir la source` button;
-- `Copier la référence` button;
-- `Valider le résumé` button.
-
-Filtering must include at least:
-
-- theme;
-- validated / not validated.
-
-For the first version, validation may be stored in browser `localStorage` if no local server is present.
-
-If a Node.js local tool is available, optionally provide a script able to persist validation back into JSON.
-
----
-
-### 10. Theme adaptation — mandatory visual integration
-
-The module must adapt to the artistic and visual identity of the host site.
-
-This is a core feature, not optional decoration.
-
-Use a **Theme Mode = Auto + Override** approach.
-
-#### 10.1 Auto theme detection
-
-The assistant must inspect the existing site and infer:
-
-- primary color;
-- secondary/accent color;
-- background color;
-- card/background surface color;
-- text color;
-- muted text color;
-- border color;
-- font family;
-- button style;
-- navigation style;
-- border radius;
-- card radius;
-- button radius;
-- box-shadow style;
-- spacing density;
-- dark/light mode tendency.
-
-Detection priority:
-
-1. CSS variables in `:root`.
-2. Existing design-system variables.
-3. Navbar and button classes.
-4. Repeated colors in CSS files.
-5. Body and section styles.
-6. Fallback scientific theme.
-
-#### 10.2 Theme override file
-
-Generate this file:
+Generate:
 
 ```text
 data/reference_bibliographique/json/theme_refscilink.json
@@ -410,127 +466,104 @@ Required structure:
 }
 ```
 
-The user must be able to manually edit this file after installation.
+Visual safety rules:
 
-#### 10.3 CSS variable bridge
-
-In `reference.css`, define RefSciLink variables from the theme values.
-
-Use namespaced variables only:
-
-```css
-:root {
-  --ref-primary: #007B83;
-  --ref-secondary: #00A6B2;
-  --ref-bg: #f7fafb;
-  --ref-card: #ffffff;
-  --ref-text: #102027;
-  --ref-muted: #607d8b;
-  --ref-border: #d8e3e7;
-  --ref-radius: 12px;
-  --ref-button-radius: 999px;
-  --ref-card-radius: 18px;
-  --ref-shadow: 0 12px 30px rgba(0,0,0,0.08);
-}
-```
-
-Do not modify the host site's global CSS variables unless explicitly requested.
-
-#### 10.4 Visual safety rules
-
-The module must not break or dominate the existing site.
-
-Rules:
-
-- Do not overwrite existing global classes like `.button`, `.btn`, `.card`, `.container`, `.nav`.
-- Prefix module classes with `refscilink-` or `ref-`.
-- Avoid global selectors except minimal `:root` variable declarations.
-- Do not reset `body`, `html`, `*`, `a`, `button` globally.
-- Do not import external fonts without user approval.
-- Do not add CSS frameworks.
-- Keep the reference page coherent with the site but visually secondary.
-
-#### 10.5 Button integration
-
-When adding the `Références` button:
-
-- prefer reusing the existing navigation/link style;
-- if a primary button class exists, reuse it only if it will not affect layout;
-- otherwise create `.refscilink-button`;
-- preserve mobile responsiveness;
-- do not remove or reorder existing navigation items unless necessary.
-
-#### 10.6 Manual mode
-
-If the user rejects automatic adaptation, create a clear manual file:
-
-```text
-data/reference_bibliographique/json/theme_refscilink.json
-```
-
-and set:
-
-```json
-{
-  "theme_mode": "manual"
-}
-```
-
-The CSS must still use the values defined in that file or the generated CSS variables.
-
-#### 10.7 Final theme report
-
-At the end of installation, report:
-
-```text
-Theme mode: Auto + Override
-Theme file: data/reference_bibliographique/json/theme_refscilink.json
-Detected primary color: ...
-Detected font: ...
-Detected radius: ...
-Manual override possible: yes
-```
+- prefix module classes with `refscilink-` or `ref-`;
+- do not overwrite global `.button`, `.btn`, `.card`, `.container`, `.nav`;
+- avoid global selectors except minimal `:root` variables;
+- do not reset `body`, `html`, `*`, `a`, `button` globally;
+- do not import external fonts without approval;
+- do not add CSS frameworks.
 
 ---
 
-### 11. Safety and scientific reliability rules
+## Error handling
 
-The assistant must never mark a generated summary as validated automatically.
+### No Markdown file found
 
-The assistant must distinguish:
+Create the module in install-only mode and report:
 
-- metadata found from bibliographic databases;
-- content inferred from title and abstract;
-- content summarized from full text;
-- content that requires manual review.
+```text
+Aucun fichier Markdown détecté. Installation effectuée sans extraction.
+```
 
-If the article is not open access and only the abstract is available, the summary must clearly say so.
+### No references found
 
-Do not invent DOI, PMID, authors, or journal information.
+Create `references.json` with an empty array and report:
 
-If metadata cannot be verified, set:
+```text
+Aucune référence détectée. Vérifier le titre de la section bibliographique.
+```
+
+### No `index.html` found
+
+Create the module but skip button integration.
+
+### Several `index.html` files found
+
+Ask which one should be modified.
+
+### Theme detection failed
+
+Use fallback theme and report:
+
+```text
+Theme mode: Fallback
+```
+
+### Scientific lookup unavailable
+
+Do not fail installation. Mark references:
 
 ```json
+"access_type": "unknown",
 "validation_status": "metadata_a_verifier"
 ```
 
 ---
 
-## Expected final report after installation
+## Post-installation checks
 
-At the end of execution, report:
+After installation, verify:
+
+- `data/reference_bibliographique/index_ref.html` exists;
+- `data/reference_bibliographique/reference.html` exists;
+- `data/reference_bibliographique/assets/css/reference.css` exists;
+- `data/reference_bibliographique/assets/js/reference.js` exists;
+- `data/reference_bibliographique/json/references.json` is valid JSON;
+- `data/reference_bibliographique/json/theme_refscilink.json` is valid JSON;
+- `refscilink.config.json` exists;
+- the `Références` button was added or a clear reason is reported;
+- no duplicate `Références` button was created;
+- no original user file was overwritten without backup.
+
+If the current project is `examples/basic-site`, compare results with:
+
+```text
+examples/basic-site/expected_output/expected_tree.md
+examples/basic-site/expected_output/expected_result.md
+```
+
+---
+
+## Final report template
+
+At the end, report:
 
 ```text
 Module RefSciLink installé.
 
+Mode d'exécution : Install only / Install + Extract / Install + Extract + Enrichment
 Fichiers créés/modifiés :
 - ...
 
-Mode d’affichage : page dédiée / panneau latéral / les deux
 Fichier Markdown analysé : ...
 Nombre de références détectées : ...
 Nombre de références complètes : ...
 Nombre de références à vérifier : ...
+
+Mode d'affichage : page dédiée / panneau latéral / les deux
+Bouton Références : ajouté / déjà présent / non ajouté
 
 Theme mode : Auto + Override / Manual / Fallback
 Theme file : data/reference_bibliographique/json/theme_refscilink.json
@@ -538,6 +571,10 @@ Couleur principale détectée : ...
 Police détectée : ...
 Rayon de bordure détecté : ...
 
+Backups créés : oui / non
+Config : refscilink.config.json
+
+Tests post-installation : réussis / partiels / échec
 Prochaine étape recommandée : ouvrir data/reference_bibliographique/index_ref.html
 ```
 
@@ -548,19 +585,19 @@ Prochaine étape recommandée : ouvrir data/reference_bibliographique/index_ref.
 When the user types:
 
 ```text
-/creat_modul_ref
+/create_module_ref
 ```
 
 or:
 
 ```text
-/create_module_ref
+/creat_modul_ref
 ```
 
-The coding assistant must execute this skill.
+execute this skill.
 
 ---
 
 ## Development note
 
-This skill belongs to the RefSciLink project and should remain independent from larger scientific module frameworks until the bibliography module has been tested and stabilized.
+This skill belongs to RefSciLink and should remain focused on the bibliography module until the module is tested and stabilized.

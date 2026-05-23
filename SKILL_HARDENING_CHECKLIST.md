@@ -22,7 +22,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 
 | ID | Category | Required improvement | Expected result | Priority | Validé |
 |---|---|---|---|---|---|
-| SH-001 | Generated files contract | Define exact internal format of every generated file | No ambiguity about generated content | Critical | Non |
+| SH-001 | Generated files contract | Define exact internal format of every generated file | No ambiguity about generated content | Critical | Oui |
 | SH-002 | HTML contract | Define mandatory structure of `index_ref.html` | All agents generate equivalent bibliography index pages | Critical | Non |
 | SH-003 | HTML contract | Define mandatory structure of `reference.html` | All agents generate equivalent detail pages | Critical | Non |
 | SH-004 | JavaScript contract | Define mandatory functions of `reference.js` | Consistent behaviour across installations | Critical | Non |
@@ -55,11 +55,37 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 
 ---
 
+## Completed items
+
+### SH-001 — Generated Files Contract
+
+Implemented in `skills/create_module_ref.md`.
+
+The skill now defines:
+
+- mandatory generated files;
+- file type expectations;
+- creation/update rules;
+- backup behaviour;
+- metadata requirements;
+- GitHub Pages compatible relative paths;
+- adaptation hierarchy preserving the user's visual identity.
+
+Theme priority order:
+
+1. Host website visual identity.
+2. `theme_refscilink.json`.
+3. Automatic theme detection.
+4. RefSciLink fallback theme.
+
+The generated file contract must never prevent adaptation to the user's design system.
+
+---
+
 ## Recommended implementation order
 
 ### Phase 1 — Critical specification lock
 
-- SH-001
 - SH-002
 - SH-003
 - SH-004
@@ -74,56 +100,4 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 
 Goal:
 
-```text
 Remove all major implementation ambiguities.
-```
-
----
-
-### Phase 2 — Installation robustness
-
-- SH-008
-- SH-015
-- SH-016
-- SH-017
-- SH-018
-- SH-021
-- SH-022
-- SH-023
-- SH-024
-
-Goal:
-
-```text
-Make installation safe, reproducible and recoverable.
-```
-
----
-
-### Phase 3 — Production readiness
-
-- SH-020
-- SH-025
-- SH-026
-- SH-027
-- SH-028
-- SH-029
-- SH-030
-
-Goal:
-
-```text
-Prepare the skill for public use and long-term maintenance.
-```
-
----
-
-## Completion rule
-
-Before integrating RefSciLink into an AI coding workflow, all Critical items should be marked:
-
-```text
-Oui
-```
-
-and Phase 1 should be fully completed.

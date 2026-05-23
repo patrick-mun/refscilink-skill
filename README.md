@@ -1,5 +1,13 @@
 # RefSciLink Skill
 
+> 🚀 RefSciLink can be installed automatically using the AI skill:
+>
+> ```text
+> /create_module_ref
+> ```
+>
+> Compatible with Codex, Claude Code and AI-assisted development workflows.
+
 **RefSciLink Skill** is a reusable Vanilla HTML/CSS/JS module for scientific websites, web presentations and static tools. It extracts bibliographic references from Markdown documents, enriches them with web metadata, stores them in JSON, and displays a clean reference interface with detailed summaries and validation status.
 
 ## Goal
@@ -10,6 +18,84 @@ The module helps readers, reviewers and scientific collaborators verify the lite
 - open-access status: open access, abstract only, accepted author manuscript, preprint, paywalled or unknown;
 - short summary, detailed summary, key points, limitations and relevance for the project;
 - validation status with a user action button.
+
+## AI-Assisted Installation
+
+RefSciLink can be installed automatically by an AI coding assistant such as:
+
+- Codex
+- Claude Code
+- GitHub Copilot Agent
+- OpenHands
+- other compatible coding assistants
+
+The repository provides a dedicated skill:
+
+```text
+/creat_modul_ref
+```
+
+Recommended alias:
+
+```text
+/create_module_ref
+```
+
+### What the skill does
+
+When invoked, the assistant:
+
+1. Analyses the current web project structure.
+2. Searches Markdown files for bibliographic references.
+3. Asks which Markdown file should be analysed.
+4. Creates the RefSciLink module automatically.
+5. Adds a "Références" button to the website.
+6. Generates the required HTML/CSS/JS/JSON files.
+7. Extracts references.
+8. Attempts to repair incomplete references.
+9. Searches scientific metadata.
+10. Prepares structured summaries and JSON records.
+
+### Example workflow
+
+```text
+/create_module_ref
+```
+
+The assistant asks:
+
+```text
+Quel fichier Markdown dois-je analyser pour extraire les références bibliographiques ?
+```
+
+Example answer:
+
+```text
+sources/bibliographie.md
+```
+
+The module is then installed automatically.
+
+### Skill definition
+
+The installation behaviour is defined in:
+
+```text
+skills/create_module_ref.md
+```
+
+This file can be adapted, versioned and extended according to project needs.
+
+### Design philosophy
+
+RefSciLink prioritises:
+
+- automation;
+- reproducibility;
+- scientific transparency;
+- mandatory human validation.
+
+No AI-generated summary is considered validated by default.
 
 ## Structure
 
@@ -29,7 +115,7 @@ data/
         └── schema_references.json
 ```
 
-## Installation
+## Manual Installation
 
 ```bash
 git clone https://github.com/YOUR-USER/refscilink-skill.git
@@ -55,11 +141,11 @@ Path to the Markdown file containing references:
 
 It then searches for bibliographic sections such as:
 
-- `Références bibliographiques`
-- `Bibliographie`
-- `References`
-- `Sources`
-- `Literature cited`
+- Références bibliographiques
+- Bibliographie
+- References
+- Sources
+- Literature cited
 
 The generated JSON is written to:
 
@@ -83,13 +169,11 @@ http://localhost:8000/data/reference_bibliographique/index_ref.html
 
 ## Add a references button to an existing site
 
-In your main `index.html`, add either a page link:
-
 ```html
 <a class="refscilink-button" href="data/reference_bibliographique/index_ref.html">Références</a>
 ```
 
-or a side-panel button:
+or:
 
 ```html
 <button class="refscilink-button" data-refscilink-panel>Références</button>
@@ -104,30 +188,34 @@ The first public version includes:
 - reference extraction;
 - DOI detection;
 - metadata lookup through Crossref when a DOI is present;
-- a JSON schema for AI-enriched summaries;
-- a static interface with filters, copy button, source link and validation button.
-
-The module is designed so Codex, Claude Code or another local AI assistant can use `prompt_recherche_ia.md` to enrich each reference with detailed summaries and access-status verification.
+- JSON schema for AI-enriched summaries;
+- static interface with filters, copy button, source link and validation button;
+- AI installation workflow through `/create_module_ref`.
 
 ## Validation rule
-
-No AI-generated summary is considered validated by default.
 
 ```json
 "validated": false,
 "validation_status": "a_valider"
 ```
 
-The browser can store temporary validation in `localStorage`. For durable validation in the JSON file, run the builder again or edit the JSON in VS Code.
+AI-generated summaries are never validated automatically.
+
+The browser can store temporary validation in localStorage. For durable validation in JSON, rerun the builder or update the JSON file directly.
 
 ## Roadmap
 
-- PubMed / Europe PMC enrichment.
-- Unpaywall integration for open-access classification.
+- PubMed enrichment.
+- Europe PMC enrichment.
+- Unpaywall integration.
 - HAL and preprint detection.
-- GitHub Actions workflow for automatic JSON generation.
-- Export to BibTeX, RIS and CSL-JSON.
-- Optional local validation server for writing validation status back to JSON.
+- Full article availability classification.
+- GitHub Actions automation.
+- BibTeX export.
+- RIS export.
+- CSL-JSON export.
+- Theme inheritance from host websites.
+- Interactive validation dashboard.
 
 ## License
 

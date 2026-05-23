@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Population Genetics Learning Project — Basic Site Example</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="navbar" aria-label="Navigation principale">
+      <a href="#home" class="brand">PopGen Demo</a>
+      <div class="nav-links">
+        <a href="#home">Accueil</a>
+        <a href="#objectives">Objectifs</a>
+        <a href="#methods">Méthodes</a>
+        <a href="#results">Résultats</a>
+      </div>
+    </nav>
+
+    <section id="home" class="hero-section">
+      <div class="hero-content">
+        <p class="eyebrow">Example host website for RefSciLink</p>
+        <h1>Population Genetics Learning Project</h1>
+        <p class="hero-text">
+          This demonstration page is intentionally designed as a small scientific website.
+          It is used to test how RefSciLink installs a bibliography module, detects a visual identity,
+          and adds a references page without breaking the original design.
+        </p>
+        <div class="hero-actions">
+          <a href="#methods" class="button button-primary">Voir la méthode</a>
+          <a href="#results" class="button button-secondary">Voir les résultats</a>
+        </div>
+      </div>
+      <aside class="hero-card" aria-label="Résumé du projet">
+        <span class="card-label">Demo</span>
+        <strong>Theme detection target</strong>
+        <p>Primary color, rounded cards, navigation style and button geometry should be detected by the RefSciLink skill.</p>
+      </aside>
+    </section>
+  </header>
+
+  <main>
+    <section id="objectives" class="section-block">
+      <div class="section-heading">
+        <p class="eyebrow">Objectives</p>
+        <h2>Why this example exists</h2>
+      </div>
+      <div class="card-grid">
+        <article class="info-card">
+          <h3>Test installation</h3>
+          <p>Provide a clean host website where the command <code>/create_module_ref</code> can install the bibliography module.</p>
+        </article>
+        <article class="info-card">
+          <h3>Test theme adaptation</h3>
+          <p>Expose a clear visual identity so the AI can infer colors, typography, spacing and border radii.</p>
+        </article>
+        <article class="info-card">
+          <h3>Test Markdown parsing</h3>
+          <p>Use a mixed-format bibliography file with DOI, PMID, URL, preprint and incomplete references.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="methods" class="section-block split-layout">
+      <div>
+        <p class="eyebrow">Methods</p>
+        <h2>Expected RefSciLink behaviour</h2>
+        <p>
+          The skill should analyse <code>bibliographie.md</code>, detect the references section,
+          create <code>data/reference_bibliographique/</code>, generate JSON files and add a
+          <strong>Références</strong> button to the navigation or as a safe fallback button.
+        </p>
+      </div>
+      <div class="method-panel">
+        <ol>
+          <li>Analyse the host website.</li>
+          <li>Detect theme variables from CSS.</li>
+          <li>Extract references from Markdown.</li>
+          <li>Generate the bibliography module.</li>
+          <li>Preserve the original design.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="results" class="section-block">
+      <div class="section-heading">
+        <p class="eyebrow">Results</p>
+        <h2>What should be visible after installation</h2>
+      </div>
+      <div class="result-box">
+        <p>
+          After running the RefSciLink AI-assisted installation, this page should contain a new
+          <strong>Références</strong> entry. The generated bibliography page should visually inherit this
+          turquoise scientific theme.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Basic Site Example for RefSciLink Skill — Vanilla HTML/CSS/JS test host.</p>
+  </footer>
+</body>
+</html>

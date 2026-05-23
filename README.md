@@ -90,18 +90,6 @@ RefSciLink then generates a dedicated theme configuration file:
 data/reference_bibliographique/json/theme_refscilink.json
 ```
 
-Example:
-
-```json
-{
-  "theme_mode": "auto_override",
-  "primary": "#007B83",
-  "secondary": "#00A6B2",
-  "font_family": "Inter",
-  "radius": "12px"
-}
-```
-
 Developers can edit this file manually after installation to fine-tune the visual integration.
 
 ### Visual safety rules
@@ -117,26 +105,6 @@ The generated module:
 - preserves responsiveness;
 - keeps the host website as the visual reference.
 
-### Example workflow
-
-```text
-/create_module_ref
-```
-
-The assistant asks:
-
-```text
-Quel fichier Markdown dois-je analyser pour extraire les références bibliographiques ?
-```
-
-Example answer:
-
-```text
-sources/bibliographie.md
-```
-
-The module is then installed automatically.
-
 ### Skill definition
 
 The installation behaviour is defined in:
@@ -147,17 +115,111 @@ skills/create_module_ref.md
 
 This file can be adapted, versioned and extended according to project needs.
 
-### Design philosophy
+## Official Example and Validation Procedure
 
-RefSciLink prioritises:
+RefSciLink provides an official host website used to validate installations and future upgrades.
 
-- automation;
-- reproducibility;
-- scientific transparency;
-- mandatory human validation;
-- visual consistency with the host website.
+Location:
 
-No AI-generated summary is considered validated by default.
+```txt
+examples/basic-site/
+```
+
+The example intentionally includes:
+
+- a navigation bar;
+- a hero section;
+- cards and buttons;
+- a dedicated visual identity;
+- a Markdown bibliography file;
+- validation checklists.
+
+### Run the example locally
+
+```bash
+cd examples/basic-site
+python3 -m http.server 8000
+```
+
+Open:
+
+```txt
+http://localhost:8000
+```
+
+### Test the installation skill
+
+Invoke:
+
+```text
+/create_module_ref
+```
+
+When prompted, select:
+
+```text
+bibliographie.md
+```
+
+Recommended choices:
+
+```text
+Display mode: Page dédiée + bouton Références
+Theme mode: Auto + Override
+```
+
+### Expected generated structure
+
+The skill should create:
+
+```txt
+data/reference_bibliographique/
+```
+
+including:
+
+```txt
+index_ref.html
+reference.html
+references.json
+theme_refscilink.json
+```
+
+### Validation references
+
+Use the following documents:
+
+```txt
+examples/basic-site/expected_output/expected_tree.md
+examples/basic-site/expected_output/expected_result.md
+```
+
+These files define:
+
+- expected file structure;
+- bibliography extraction checks;
+- theme detection checks;
+- visual integration checks;
+- success criteria.
+
+### Validation goal
+
+An installation is considered successful when:
+
+- references are detected correctly;
+- metadata extraction works;
+- theme detection works;
+- a bibliography interface is generated;
+- navigation integration works;
+- the original website design remains intact.
+
+The official example must be used whenever a major change is made to:
+
+- bibliography extraction;
+- theme detection;
+- installation workflow;
+- JSON schema;
+- user interface.
 
 ## Structure
 
@@ -178,71 +240,6 @@ data/
         └── schema_references.json
 ```
 
-## Manual Installation
-
-```bash
-git clone https://github.com/YOUR-USER/refscilink-skill.git
-cd refscilink-skill
-npm install
-```
-
-No external JavaScript framework is required. The browser interface is pure HTML, CSS and JavaScript.
-
-## Usage in VS Code
-
-Run the builder and provide the Markdown file containing the bibliography when requested:
-
-```bash
-npm run build:refs
-```
-
-The script asks:
-
-```txt
-Path to the Markdown file containing references:
-```
-
-It then searches for bibliographic sections such as:
-
-- Références bibliographiques
-- Bibliographie
-- References
-- Sources
-- Literature cited
-
-The generated JSON is written to:
-
-```txt
-data/reference_bibliographique/json/references.json
-```
-
-## Display the bibliography
-
-Start a local server:
-
-```bash
-npm run serve
-```
-
-Open:
-
-```txt
-http://localhost:8000/data/reference_bibliographique/index_ref.html
-```
-
-## Add a references button to an existing site
-
-```html
-<a class="refscilink-button" href="data/reference_bibliographique/index_ref.html">Références</a>
-```
-
-or:
-
-```html
-<button class="refscilink-button" data-refscilink-panel>Références</button>
-<script src="data/reference_bibliographique/assets/js/reference.js"></script>
-```
-
 ## Current automation level
 
 The current version includes:
@@ -256,7 +253,8 @@ The current version includes:
 - AI installation workflow through `/create_module_ref`;
 - automatic host-theme detection;
 - theme override configuration file generation;
-- visual integration safeguards.
+- visual integration safeguards;
+- official validation example site.
 
 ## Validation rule
 
@@ -267,21 +265,15 @@ The current version includes:
 
 AI-generated summaries are never validated automatically.
 
-The browser can store temporary validation in localStorage. For durable validation in JSON, rerun the builder or update the JSON file directly.
-
 ## Roadmap
 
-- PubMed enrichment.
-- Europe PMC enrichment.
-- Unpaywall integration.
-- HAL and preprint detection.
-- Full article availability classification.
-- GitHub Actions automation.
-- BibTeX export.
-- RIS export.
-- CSL-JSON export.
-- Advanced theme detection.
-- Interactive validation dashboard.
+See:
+
+```txt
+ROADMAP_UPGRADES.md
+```
+
+for the complete upgrade plan and validation tracking.
 
 ## License
 

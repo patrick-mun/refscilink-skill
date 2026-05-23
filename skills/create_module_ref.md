@@ -21,6 +21,8 @@ The default implementation is Vanilla HTML/CSS/JS.
 - Never overwrite user data without backup.
 - Never mark AI-generated summaries as validated by default.
 - Prefer a functional minimal installation over an incomplete advanced one.
+- Keep this technical specification in English.
+- Generate user-facing content in the detected language of the host website.
 
 ---
 
@@ -57,7 +59,7 @@ If web access or API access is unavailable, generate the module and mark referen
 Ask:
 
 ```text
-Quel fichier Markdown dois-je analyser pour extraire les références bibliographiques ?
+Which Markdown file should be analysed for bibliography extraction?
 ```
 
 If several Markdown files are present, list likely candidates.
@@ -65,38 +67,103 @@ If several Markdown files are present, list likely candidates.
 Then ask:
 
 ```text
-Souhaites-tu afficher les références dans une page dédiée, dans un panneau latéral, ou les deux ?
+Which display mode should be used: dedicated page, side panel, or both?
 ```
 
 Recommended default:
 
 ```text
-Page dédiée + bouton Références dans index.html
+Dedicated page + References button in index.html
 ```
 
 Then ask:
 
 ```text
-Souhaites-tu que RefSciLink s'adapte automatiquement à la charte graphique du site ?
+Should RefSciLink automatically adapt to the host website visual identity?
 ```
 
 Recommended default:
 
 ```text
-Oui — Theme Mode = Auto + Override
+Yes — Theme Mode = Auto + Override
 ```
 
 Then ask or infer:
 
 ```text
-Langue de l'interface : fr ou en ?
+Interface language: auto / fr / en / other
 ```
 
-Default:
+Recommended default:
 
 ```text
-fr
+auto
 ```
+
+---
+
+## Language detection
+
+The skill must detect the host website language and use it for generated user-facing content.
+
+Generated content language affects:
+
+- page titles;
+- navigation labels;
+- interface buttons;
+- visible status labels;
+- AI-generated summaries;
+- user-facing error messages inside generated pages.
+
+The technical specification, code comments and implementation instructions remain in English.
+
+### Detection priority
+
+1. `<html lang="...">` in the selected HTML entry point.
+2. `<meta name="language" content="...">` or equivalent metadata.
+3. Visible text analysis from navigation, headings and buttons.
+4. `refscilink.config.json` if it already exists.
+5. Fallback: `en`.
+
+### Language behaviour examples
+
+If the host page contains:
+
+```html
+<html lang="fr">
+```
+
+then generated labels may include:
+
+```text
+Références
+Lire le résumé
+Voir la source
+Copier la référence
+Valider le résumé
+```
+
+If the host page contains:
+
+```html
+<html lang="en">
+```
+
+then generated labels may include:
+
+```text
+References
+Read summary
+View source
+Copy reference
+Validate summary
+```
+
+### Important rule
+
+The internal JSON keys must remain English and stable, regardless of the generated interface language.
+
+Only field values and visible UI text may be localized.
 
 ---
 
@@ -133,6 +200,56 @@ Also create or update at project root:
 ```text
 refscilink.config.json
 ```
+
+---
+
+## Generated files contract
+
+The following files are mandatory unless the installation mode explicitly reports why a file could not be created.
+
+| File | Type | Required role |
+|---|---|---|
+| `index_ref.html` | HTML | Bibliography list page |
+| `reference.html` | HTML | Detailed reference page |
+| `assets/css/reference.css` | CSS | Namespaced RefSciLink styles |
+| `assets/js/reference.js` | JavaScript | Reference loading, rendering, filtering and validation UI |
+| `json/references.json` | JSON | Structured bibliography data |
+| `json/theme_refscilink.json` | JSON | Detected and editable visual theme |
+| `tools/build_references.mjs` | Node.js ES Module | Local bibliography extraction helper |
+| `tools/prompt_recherche_ia.md` | Markdown | AI enrichment prompt |
+| `tools/schema_references.json` | JSON Schema | Reference data schema |
+| `refscilink.config.json` | JSON | Persistent project-level configuration |
+
+### Creation and update rules
+
+- Create missing files.
+- Update existing generated files only after backup.
+- Never delete user files automatically.
+- Never overwrite `references.json`, `theme_refscilink.json`, `index.html`, `reference.css` or `reference.js` without backup.
+- Use relative paths compatible with static hosting and GitHub Pages.
+
+### Minimal metadata
+
+Generated JSON files should include metadata when possible:
+
+```json
+{
+  "generated_by": "RefSciLink Skill",
+  "version": "0.2.0-dev",
+  "generated_at": "ISO-8601 timestamp"
+}
+```
+
+### Visual adaptation priority
+
+The generated file contract must never prevent adaptation to the user's visual identity.
+
+Visual priority order:
+
+1. Host website visual identity.
+2. `theme_refscilink.json` overrides.
+3. Automatic theme detection.
+4. RefSciLink fallback theme.
 
 ---
 
@@ -179,7 +296,7 @@ Never overwrite without backup:
 - manually edited `reference.js`
 - existing `index.html`
 
-If the `Références` button already exists, do not duplicate it.
+If the localized References button already exists, do not duplicate it.
 
 ---
 
@@ -199,7 +316,8 @@ Recommended structure:
   "output_dir": "data/reference_bibliographique",
   "display_mode": "page",
   "theme_mode": "auto_override",
-  "language": "fr",
+  "language": "auto",
+  "detected_language": "fr",
   "enrichment_mode": "extract_only",
   "created_by": "RefSciLink Skill",
   "version": "0.2.0-dev"
@@ -227,7 +345,7 @@ Detect:
 
 If no `index.html` is found, do not fail completely. Create the module and report that navigation integration could not be performed.
 
-If several `index.html` files are found, ask which one should receive the `Références` button.
+If several `index.html` files are found, ask which one should receive the localized References button.
 
 ---
 
@@ -279,22 +397,29 @@ The module must include:
 
 ---
 
-### 4. Add a References button
+### 4. Add a localized References button
 
-Default label:
+Default French label:
 
 ```text
 Références
 ```
 
+Default English label:
+
+```text
+References
+```
+
 Default link:
 
 ```html
-<a href="data/reference_bibliographique/index_ref.html" class="refscilink-button">Références</a>
+<a href="data/reference_bibliographique/index_ref.html" class="refscilink-button">References</a>
 ```
 
 Rules:
 
+- use the detected host language for the visible label;
 - prefer existing navigation style;
 - preserve navigation order;
 - do not duplicate the button;
@@ -307,13 +432,15 @@ Rules:
 
 Search for sections titled like:
 
+- `References`
+- `Bibliography`
+- `Sources`
+- `Bibliographic references`
+- `Literature cited`
 - `Références`
 - `Références bibliographiques`
 - `Bibliographie`
 - `Sources`
-- `References`
-- `Bibliographic references`
-- `Literature cited`
 
 The Markdown file may contain unrelated content.
 
@@ -369,15 +496,17 @@ If only the abstract is accessible, explicitly state that the full article is no
 
 Only generate summaries in Mode 3 or when explicitly requested.
 
+Summaries must be written in the detected host website language.
+
 Each reference supports:
 
 ```json
 {
-  "resume_court": "",
-  "resume_detaille": "",
-  "points_cles": [],
-  "interet_pour_le_projet": "",
-  "limites": ""
+  "short_summary": "",
+  "detailed_summary": "",
+  "key_points": [],
+  "project_relevance": "",
+  "limitations": ""
 }
 ```
 
@@ -386,7 +515,7 @@ Default validation:
 ```json
 {
   "validated": false,
-  "validation_status": "a_valider",
+  "validation_status": "pending_validation",
   "validated_by": "",
   "validation_date": ""
 }
@@ -396,15 +525,17 @@ Default validation:
 
 ## Required reference JSON schema
 
+Internal JSON keys must be English and stable across languages.
+
 Each reference in `references.json` must follow this structure:
 
 ```json
 {
   "id": "ref001",
-  "numero": 1,
-  "titre": "",
-  "auteurs": [],
-  "annee": "",
+  "number": 1,
+  "title": "",
+  "authors": [],
+  "year": "",
   "journal": "",
   "doi": "",
   "pmid": "",
@@ -412,18 +543,33 @@ Each reference in `references.json` must follow this structure:
   "url": "",
   "pdf_url": "",
   "access_type": "unknown",
-  "theme": "non_classe",
+  "theme": "unclassified",
   "raw_reference": "",
-  "resume_court": "",
-  "resume_detaille": "",
-  "points_cles": [],
-  "interet_pour_le_projet": "",
-  "limites": "",
+  "short_summary": "",
+  "detailed_summary": "",
+  "key_points": [],
+  "project_relevance": "",
+  "limitations": "",
   "validated": false,
-  "validation_status": "a_valider",
+  "validation_status": "pending_validation",
   "validated_by": "",
   "validation_date": "",
   "source_markdown": ""
+}
+```
+
+Recommended root structure:
+
+```json
+{
+  "metadata": {
+    "generated_by": "RefSciLink Skill",
+    "version": "0.2.0-dev",
+    "generated_at": "ISO-8601 timestamp",
+    "language": "fr",
+    "source_markdown": "bibliographie.md"
+  },
+  "references": []
 }
 ```
 
@@ -447,6 +593,11 @@ Required structure:
 
 ```json
 {
+  "metadata": {
+    "generated_by": "RefSciLink Skill",
+    "version": "0.2.0-dev",
+    "generated_at": "ISO-8601 timestamp"
+  },
   "theme_mode": "auto_override",
   "detected_from": [],
   "primary": "#007B83",
@@ -484,15 +635,15 @@ Visual safety rules:
 Create the module in install-only mode and report:
 
 ```text
-Aucun fichier Markdown détecté. Installation effectuée sans extraction.
+No Markdown file detected. Installation completed without extraction.
 ```
 
 ### No references found
 
-Create `references.json` with an empty array and report:
+Create `references.json` with an empty `references` array and report:
 
 ```text
-Aucune référence détectée. Vérifier le titre de la section bibliographique.
+No references detected. Verify the bibliography section heading.
 ```
 
 ### No `index.html` found
@@ -517,7 +668,7 @@ Do not fail installation. Mark references:
 
 ```json
 "access_type": "unknown",
-"validation_status": "metadata_a_verifier"
+"validation_status": "metadata_to_verify"
 ```
 
 ---
@@ -533,8 +684,8 @@ After installation, verify:
 - `data/reference_bibliographique/json/references.json` is valid JSON;
 - `data/reference_bibliographique/json/theme_refscilink.json` is valid JSON;
 - `refscilink.config.json` exists;
-- the `Références` button was added or a clear reason is reported;
-- no duplicate `Références` button was created;
+- the localized References button was added or a clear reason is reported;
+- no duplicate References button was created;
 - no original user file was overwritten without backup.
 
 If the current project is `examples/basic-site`, compare results with:
@@ -551,31 +702,34 @@ examples/basic-site/expected_output/expected_result.md
 At the end, report:
 
 ```text
-Module RefSciLink installé.
+RefSciLink module installed.
 
-Mode d'exécution : Install only / Install + Extract / Install + Extract + Enrichment
-Fichiers créés/modifiés :
+Execution mode: Install only / Install + Extract / Install + Extract + Enrichment
+Created/modified files:
 - ...
 
-Fichier Markdown analysé : ...
-Nombre de références détectées : ...
-Nombre de références complètes : ...
-Nombre de références à vérifier : ...
+Analysed Markdown file: ...
+Detected references: ...
+Complete references: ...
+References requiring review: ...
 
-Mode d'affichage : page dédiée / panneau latéral / les deux
-Bouton Références : ajouté / déjà présent / non ajouté
+Display mode: dedicated page / side panel / both
+References button: added / already present / not added
 
-Theme mode : Auto + Override / Manual / Fallback
-Theme file : data/reference_bibliographique/json/theme_refscilink.json
-Couleur principale détectée : ...
-Police détectée : ...
-Rayon de bordure détecté : ...
+Detected language: ...
+Generated interface language: ...
 
-Backups créés : oui / non
-Config : refscilink.config.json
+Theme mode: Auto + Override / Manual / Fallback
+Theme file: data/reference_bibliographique/json/theme_refscilink.json
+Detected primary color: ...
+Detected font: ...
+Detected border radius: ...
 
-Tests post-installation : réussis / partiels / échec
-Prochaine étape recommandée : ouvrir data/reference_bibliographique/index_ref.html
+Backups created: yes / no
+Config: refscilink.config.json
+
+Post-installation checks: passed / partial / failed
+Recommended next step: open data/reference_bibliographique/index_ref.html
 ```
 
 ---

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RefSciLink Reference",
+  "type": "object",
+  "required": ["id", "numero", "raw_reference", "titre", "validated"],
+  "properties": {
+    "id": {"type": "string"},
+    "numero": {"type": "integer"},
+    "raw_reference": {"type": "string"},
+    "titre": {"type": "string"},
+    "auteurs": {"type": "array", "items": {"type": "string"}},
+    "annee": {"type": "string"},
+    "journal": {"type": "string"},
+    "doi": {"type": "string"},
+    "pmid": {"type": "string"},
+    "url": {"type": "string"},
+    "pdf_url": {"type": "string"},
+    "theme": {"type": "string"},
+    "access_type": {"enum": ["open_access", "abstract_only", "accepted_author_version", "preprint", "paywalled", "unknown"]},
+    "resume_court": {"type": "string"},
+    "resume_detaille": {"type": "string"},
+    "points_cles": {"type": "array", "items": {"type": "string"}},
+    "interet_pour_le_projet": {"type": "string"},
+    "limites": {"type": "string"},
+    "validated": {"type": "boolean"},
+    "validation_status": {"enum": ["a_valider", "valide", "a_corriger"]},
+    "source_markdown": {"type": "string"}
+  }
+}

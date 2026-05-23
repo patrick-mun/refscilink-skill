@@ -1,0 +1,25 @@
+[
+  {
+    "id": "ref001",
+    "numero": 1,
+    "raw_reference": "Exemple A, Exemple B. Title of a scientific article. Journal. 2026. doi:10.0000/example",
+    "titre": "Title of a scientific article",
+    "auteurs": ["Exemple A", "Exemple B"],
+    "annee": "2026",
+    "journal": "Journal",
+    "doi": "10.0000/example",
+    "pmid": "",
+    "url": "",
+    "pdf_url": "",
+    "theme": "Exemple",
+    "access_type": "unknown",
+    "resume_court": "Exemple de résumé court à remplacer par l'analyse IA.",
+    "resume_detaille": "Exemple de résumé détaillé à remplacer après recherche et validation.",
+    "points_cles": ["Point clé exemple"],
+    "interet_pour_le_projet": "À préciser selon le sujet du site.",
+    "limites": "À vérifier manuellement.",
+    "validated": false,
+    "validation_status": "a_valider",
+    "source_markdown": ""
+  }
+]

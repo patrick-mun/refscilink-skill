@@ -22,6 +22,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 
 | ID | Category | Required improvement | Expected result | Priority | Validé |
 |---|---|---|---|---|---|
+| SH-000 | Skill normalization | Normalize technical skill specification to English while keeping generated content language-aware | Consistent behaviour across AI coding assistants | Critical | Oui |
 | SH-001 | Generated files contract | Define exact internal format of every generated file | No ambiguity about generated content | Critical | Oui |
 | SH-002 | HTML contract | Define mandatory structure of `index_ref.html` | All agents generate equivalent bibliography index pages | Critical | Non |
 | SH-003 | HTML contract | Define mandatory structure of `reference.html` | All agents generate equivalent detail pages | Critical | Non |
@@ -56,6 +57,33 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 ---
 
 ## Completed items
+
+### SH-000 — Technical Specification Normalization
+
+Implemented in `skills/create_module_ref.md`.
+
+The skill has been normalized as an English technical specification while preserving language-aware generation.
+
+Implemented:
+
+- English technical instructions;
+- English workflow descriptions;
+- English installation reports;
+- English error messages;
+- `Language Detection` section;
+- host-language driven content generation;
+- English internal JSON schema keys.
+
+Preserved:
+
+- multilingual bibliography detection keywords;
+- automatic language adaptation;
+- host visual identity adaptation;
+- GitHub Pages compatibility.
+
+Generated user-facing content must follow the detected host website language, while internal schema keys and technical instructions remain English.
+
+---
 
 ### SH-001 — Generated Files Contract
 

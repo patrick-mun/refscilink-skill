@@ -26,7 +26,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 | SH-001 | Generated files contract | Define exact internal format of every generated file | No ambiguity about generated content | Critical | Oui |
 | SH-002 | HTML contract | Define mandatory structure of `index_ref.html` | All agents generate equivalent bibliography index pages | Critical | Oui |
 | SH-003 | HTML contract | Define mandatory structure of `reference.html` | All agents generate equivalent detail pages | Critical | Oui |
-| SH-004 | JavaScript contract | Define mandatory functions of `reference.js` | Consistent behaviour across installations | Critical | Non |
+| SH-004 | JavaScript contract | Define mandatory functions of `reference.js` | Consistent behaviour across installations | Critical | Oui |
 | SH-005 | CSS contract | Define mandatory classes and namespaces in `reference.css` | Consistent styling and isolation | Critical | Non |
 | SH-006 | JSON contract | Define exact root structure of `references.json` | Identical JSON format across agents | Critical | Non |
 | SH-007 | JSON contract | Define exact root structure of `theme_refscilink.json` | Identical theme format across agents | Critical | Non |
@@ -169,11 +169,42 @@ The detail page must display one selected reference from `references.json` and m
 
 ---
 
+### SH-004 — reference.js JavaScript Contract
+
+Implemented in `skills/create_module_ref.md`.
+
+The skill now defines the mandatory contract for the generated JavaScript engine.
+
+Implemented:
+
+- strict no inline JavaScript policy;
+- mandatory use of `assets/js/reference.js`;
+- meaningful file header comment;
+- documented internal file organization;
+- required functional areas and functions;
+- JSON loading via GitHub Pages compatible relative paths;
+- support for `metadata` + `references` JSON root structure;
+- stable `data-refscilink-*` hook usage;
+- safe rendering rules using `textContent` by default;
+- restricted and justified `innerHTML` policy;
+- localization dictionary requirements;
+- index page rendering requirements;
+- detail page rendering requirements;
+- search and filter requirements;
+- localStorage validation state requirements;
+- error handling requirements;
+- accessibility requirements;
+- bootstrapping via `DOMContentLoaded`;
+- strict separation of JavaScript behaviour from HTML structure and CSS styling.
+
+The JavaScript contract must keep behaviour in `assets/js/reference.js`, avoid inline event handlers, preserve the host design system and avoid framework dependencies.
+
+---
+
 ## Recommended implementation order
 
 ### Phase 1 — Critical specification lock
 
-- SH-004
 - SH-005
 - SH-006
 - SH-007

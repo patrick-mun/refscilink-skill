@@ -24,7 +24,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 |---|---|---|---|---|---|
 | SH-000 | Skill normalization | Normalize technical skill specification to English while keeping generated content language-aware | Consistent behaviour across AI coding assistants | Critical | Oui |
 | SH-001 | Generated files contract | Define exact internal format of every generated file | No ambiguity about generated content | Critical | Oui |
-| SH-002 | HTML contract | Define mandatory structure of `index_ref.html` | All agents generate equivalent bibliography index pages | Critical | Non |
+| SH-002 | HTML contract | Define mandatory structure of `index_ref.html` | All agents generate equivalent bibliography index pages | Critical | Oui |
 | SH-003 | HTML contract | Define mandatory structure of `reference.html` | All agents generate equivalent detail pages | Critical | Non |
 | SH-004 | JavaScript contract | Define mandatory functions of `reference.js` | Consistent behaviour across installations | Critical | Non |
 | SH-005 | CSS contract | Define mandatory classes and namespaces in `reference.css` | Consistent styling and isolation | Critical | Non |
@@ -110,11 +110,37 @@ The generated file contract must never prevent adaptation to the user's design s
 
 ---
 
+### SH-002 — index_ref.html HTML Contract
+
+Implemented in `skills/create_module_ref.md`.
+
+The skill now defines the mandatory contract for the generated bibliography index page.
+
+Implemented:
+
+- minimal semantic HTML skeleton;
+- mandatory `index_ref.html` page sections;
+- stable JavaScript data hooks;
+- required search and filter controls;
+- reference card content requirements;
+- loading, ready, empty and error states;
+- accessibility requirements;
+- localization requirements;
+- external link security rules;
+- GitHub Pages compatible relative paths;
+- no inline styling policy;
+- mandatory meaningful code comments;
+- strict separation of HTML structure, CSS styling and JavaScript behaviour;
+- preservation of host visual identity.
+
+The HTML contract must provide structure and extension points only. Visual styling must remain in `assets/css/reference.css` unless a rare technical exception is explicitly justified in a comment.
+
+---
+
 ## Recommended implementation order
 
 ### Phase 1 — Critical specification lock
 
-- SH-002
 - SH-003
 - SH-004
 - SH-005

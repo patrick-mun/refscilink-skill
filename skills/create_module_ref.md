@@ -24,13 +24,12 @@ The default implementation is Vanilla HTML/CSS/JS.
 - Keep this technical specification in English.
 - Generate user-facing content in the detected language of the host website.
 - Keep visual design in CSS files under `assets/css/` unless a technical exception is explicitly justified.
-- Comment generated code meaningfully so that developers can maintain it.
+- Keep JavaScript in `assets/js/reference.js`; inline JavaScript is prohibited.
+- Comment generated code meaningfully so developers can maintain it.
 
 ---
 
 ## Execution modes
-
-The assistant must separate the workflow into three levels.
 
 ### Mode 1 — Install only
 
@@ -50,9 +49,7 @@ Recommended default for first tests:
 Mode 2 — Install + Extract references
 ```
 
-Scientific enrichment must not block the installation.
-
-If web access or API access is unavailable, generate the module and mark references as requiring enrichment.
+Scientific enrichment must not block installation. If web access or API access is unavailable, generate the module and mark references as requiring enrichment.
 
 ---
 
@@ -129,13 +126,7 @@ The technical specification, code comments and implementation instructions remai
 
 ### Language behaviour examples
 
-If the host page contains:
-
-```html
-<html lang="fr">
-```
-
-then generated labels may include:
+If the host page contains `<html lang="fr">`, generated labels may include:
 
 ```text
 Références
@@ -145,13 +136,7 @@ Copier la référence
 Valider le résumé
 ```
 
-If the host page contains:
-
-```html
-<html lang="en">
-```
-
-then generated labels may include:
+If the host page contains `<html lang="en">`, generated labels may include:
 
 ```text
 References
@@ -161,11 +146,7 @@ Copy reference
 Validate summary
 ```
 
-### Important rule
-
-The internal JSON keys must remain English and stable, regardless of the generated interface language.
-
-Only field values and visible UI text may be localized.
+Internal JSON keys must remain English and stable. Only field values and visible UI text may be localized.
 
 ---
 
@@ -259,7 +240,7 @@ Visual priority order:
 
 `index_ref.html` is the bibliography index page. It must provide a stable, accessible and JavaScript-addressable structure for listing references, filtering them and opening summaries.
 
-This contract defines the required structure of the generated HTML file. Visual styling belongs in `assets/css/reference.css`, and dynamic behaviour belongs in `assets/js/reference.js`.
+Visual styling belongs in `assets/css/reference.css`, and dynamic behaviour belongs in `assets/js/reference.js`.
 
 ### File-level requirements
 
@@ -269,8 +250,8 @@ This contract defines the required structure of the generated HTML file. Visual 
 - set `<html lang="{{detected_language}}">`;
 - include UTF-8 charset;
 - include a responsive viewport meta tag;
-- link CSS using a relative path: `./assets/css/reference.css`;
-- load JavaScript using a relative path: `./assets/js/reference.js`;
+- link CSS using `./assets/css/reference.css`;
+- load JavaScript using `./assets/js/reference.js`;
 - avoid external framework dependencies;
 - remain compatible with static hosting and GitHub Pages;
 - include meaningful comments explaining each major section.
@@ -278,22 +259,6 @@ This contract defines the required structure of the generated HTML file. Visual 
 ### No inline styling policy
 
 Inline CSS is prohibited unless technically required and explicitly justified in a code comment.
-
-Allowed only when unavoidable:
-
-- runtime values computed by JavaScript;
-- accessibility fallbacks;
-- temporary state attributes required by the browser.
-
-Not allowed inline:
-
-- colors;
-- typography;
-- spacing;
-- borders;
-- shadows;
-- layout rules;
-- visual component styles.
 
 All visual design must be implemented in:
 
@@ -303,17 +268,7 @@ assets/css/reference.css
 
 ### Code documentation policy
 
-Generated HTML must be commented in a useful and maintainable way.
-
-Comments should explain:
-
-- page sections;
-- extension points;
-- JavaScript hooks;
-- accessibility states;
-- fallback areas.
-
-Avoid meaningless comments that simply repeat tag names.
+Generated HTML must be commented in a useful and maintainable way. Comments should explain page sections, extension points, JavaScript hooks, accessibility states and fallback areas.
 
 ### Minimal HTML skeleton
 
@@ -371,14 +326,14 @@ The generated page must follow this skeleton or an equivalent semantic structure
 
 ### Mandatory semantic sections
 
-The page must include these semantic areas:
+The page must include:
 
-- `header.refscilink-header` for the localized title and back navigation;
-- `section.refscilink-controls` for search and filters;
-- `section.refscilink-summary` for counters and live status;
-- `section.refscilink-state-area` for loading, empty and error states;
-- `section.refscilink-list` with `id="refscilink-reference-list"` for rendered references;
-- `template#refscilink-reference-template` for reference cards.
+- `header.refscilink-header`;
+- `section.refscilink-controls`;
+- `section.refscilink-summary`;
+- `section.refscilink-state-area`;
+- `section.refscilink-list` with `id="refscilink-reference-list"`;
+- `template#refscilink-reference-template`.
 
 ### Mandatory JavaScript hooks
 
@@ -478,8 +433,6 @@ The HTML must support these states:
 - `empty`;
 - `error`.
 
-State visibility may be controlled by `reference.js` using `hidden`, ARIA attributes or CSS classes.
-
 ### External link security
 
 External links generated inside the reference list must use:
@@ -490,22 +443,13 @@ target="_blank" rel="noopener noreferrer"
 
 ### Visual integration rule
 
-The HTML must not impose a fixed artistic style.
-
-It must provide structure and hooks only. The visual identity must come from:
-
-1. the host website visual identity;
-2. `theme_refscilink.json`;
-3. automatic theme detection;
-4. fallback RefSciLink CSS variables.
+The HTML must not impose a fixed artistic style. It must provide structure and hooks only.
 
 ---
 
 ## HTML contract — `reference.html`
 
 `reference.html` is the detailed reference page. It must display one selected bibliographic reference and its summary, metadata, access status and validation controls.
-
-This page is opened from `index_ref.html` and should use a query parameter to identify the selected reference.
 
 Standard URL format:
 
@@ -525,8 +469,8 @@ Visual styling belongs in `assets/css/reference.css`, and dynamic behaviour belo
 - set `<html lang="{{detected_language}}">`;
 - include UTF-8 charset;
 - include a responsive viewport meta tag;
-- link CSS using a relative path: `./assets/css/reference.css`;
-- load JavaScript using a relative path: `./assets/js/reference.js`;
+- link CSS using `./assets/css/reference.css`;
+- load JavaScript using `./assets/js/reference.js`;
 - avoid external framework dependencies;
 - remain compatible with static hosting and GitHub Pages;
 - include meaningful comments explaining each major section.
@@ -535,43 +479,10 @@ Visual styling belongs in `assets/css/reference.css`, and dynamic behaviour belo
 
 Inline CSS is prohibited unless technically required and explicitly justified in a code comment.
 
-Not allowed inline:
-
-- colors;
-- typography;
-- spacing;
-- borders;
-- shadows;
-- layout rules;
-- visual component styles.
-
 All visual design must be implemented in:
 
 ```text
 assets/css/reference.css
-```
-
-### Code documentation policy
-
-Generated HTML must be commented in a useful and maintainable way.
-
-Comments should explain:
-
-- reference detail sections;
-- metadata zones;
-- JavaScript hooks;
-- summary sections;
-- validation controls;
-- loading, not-found and error fallbacks.
-
-Required examples:
-
-```html
-<!-- Reference metadata section populated by reference.js. -->
-```
-
-```html
-<!-- Validation controls for human review of AI-generated summaries. -->
 ```
 
 ### Minimal HTML skeleton
@@ -635,17 +546,6 @@ The generated page must follow this skeleton or an equivalent semantic structure
 </html>
 ```
 
-### Mandatory semantic sections
-
-The page must include these semantic areas:
-
-- `header.refscilink-header` for back navigation and the reference title;
-- `section.refscilink-state-area` for loading, not-found and error states;
-- `article.refscilink-detail` for the detailed reference content;
-- `section.refscilink-metadata` for DOI, PMID, PMCID, journal, year, authors and access status;
-- `section.refscilink-summary-section` for summaries and interpretation fields;
-- `section.refscilink-actions` for source, copy and validation controls.
-
 ### Mandatory JavaScript hooks
 
 The following data attributes must be present when relevant:
@@ -668,8 +568,6 @@ data-refscilink-loading
 data-refscilink-not-found
 data-refscilink-error
 ```
-
-Data attributes are stable JavaScript hooks. CSS classes may evolve for design reasons, but these hooks should remain stable.
 
 ### Required displayed content
 
@@ -709,17 +607,7 @@ Action controls must be real `<button>` or `<a>` elements.
 
 ### Accessibility requirements
 
-The page must:
-
-- use `<article>` for the reference content;
-- use `<section>` elements with headings for logical groups;
-- use real `<button>` elements for actions;
-- use `<a>` elements for navigation and external links;
-- use `aria-live="polite"` for loading and non-critical states;
-- use `role="alert"` for errors;
-- avoid clickable non-semantic `<div>` or `<span>` elements;
-- remain keyboard navigable;
-- maintain a coherent heading hierarchy.
+The page must use semantic HTML, preserve keyboard navigation, use `aria-live="polite"` for loading and non-critical states, and use `role="alert"` for errors.
 
 ### Localization requirements
 
@@ -751,8 +639,6 @@ Validate summary
 Reference not found
 ```
 
-Internal JSON keys and JavaScript hook names remain English.
-
 ### Page states
 
 The HTML must support these states:
@@ -774,14 +660,336 @@ target="_blank" rel="noopener noreferrer"
 
 ### Visual integration rule
 
-The HTML must not impose a fixed artistic style.
+The HTML must not impose a fixed artistic style. It must provide structure and hooks only.
 
-It must provide structure and hooks only. The visual identity must come from:
+---
 
-1. the host website visual identity;
-2. `theme_refscilink.json`;
-3. automatic theme detection;
-4. fallback RefSciLink CSS variables.
+## JavaScript contract — `assets/js/reference.js`
+
+`reference.js` is the functional engine of the RefSciLink browser module. It must power both `index_ref.html` and `reference.html` without inline JavaScript.
+
+The script must load data, detect the current page, render references, apply filters, render detail pages, manage validation state, handle localization and report errors safely.
+
+### No inline JavaScript policy
+
+Inline JavaScript is prohibited.
+
+Forbidden patterns:
+
+```html
+<button onclick="validateReference()">...</button>
+<script>
+  // Inline module logic is not allowed.
+</script>
+```
+
+Required pattern:
+
+```html
+<script src="./assets/js/reference.js"></script>
+```
+
+HTML must expose stable `data-refscilink-*` hooks, and `reference.js` must attach behaviour using `addEventListener()`.
+
+### File header requirement
+
+`reference.js` must start with a meaningful header comment:
+
+```js
+/**
+ * RefSciLink
+ * File: reference.js
+ * Purpose:
+ * Load references, render bibliography lists, render detail pages,
+ * manage filters, localization and validation state.
+ *
+ * Generated by RefSciLink Skill.
+ */
+```
+
+### Required file organization
+
+The file must be structured into documented sections:
+
+```js
+// ==========================================================
+// Constants and configuration
+// ==========================================================
+
+// ==========================================================
+// State management
+// ==========================================================
+
+// ==========================================================
+// Data loading
+// ==========================================================
+
+// ==========================================================
+// Localization
+// ==========================================================
+
+// ==========================================================
+// Rendering: index page
+// ==========================================================
+
+// ==========================================================
+// Rendering: detail page
+// ==========================================================
+
+// ==========================================================
+// Filters and search
+// ==========================================================
+
+// ==========================================================
+// Validation state
+// ==========================================================
+
+// ==========================================================
+// Utilities
+// ==========================================================
+
+// ==========================================================
+// Bootstrapping
+// ==========================================================
+```
+
+### Required functions
+
+`reference.js` must implement or clearly provide equivalent functions:
+
+```js
+initRefSciLink()
+loadReferences()
+loadTheme()
+detectCurrentPage()
+detectLanguage()
+getLocalizedLabels()
+renderIndexPage()
+renderDetailPage()
+renderReferenceCard()
+applyFilters()
+bindIndexEvents()
+bindDetailEvents()
+getReferenceIdFromUrl()
+findReferenceById()
+copyReferenceToClipboard()
+validateReference()
+loadValidationState()
+saveValidationState()
+setPageState()
+showError()
+sanitizeText()
+createExternalLink()
+```
+
+Equivalent names are allowed only if the final code remains clear, documented and functionally complete.
+
+### Data loading requirements
+
+The script must load JSON using relative paths compatible with static hosting:
+
+```text
+./json/references.json
+./json/theme_refscilink.json
+```
+
+It must support the recommended `references.json` root structure:
+
+```json
+{
+  "metadata": {},
+  "references": []
+}
+```
+
+It may support legacy arrays for backward compatibility, but the metadata object + `references` array is the preferred format.
+
+### Rendering rules
+
+The script must:
+
+- use `data-refscilink-*` hooks to find DOM targets;
+- not depend on CSS classes for core logic;
+- prefer `textContent` for user-controlled or bibliographic content;
+- avoid `innerHTML` unless the content is fully controlled, sanitized and justified in a comment;
+- create real `<button>` elements for actions;
+- create real `<a>` elements for navigation and external links;
+- set external links with `target="_blank"` and `rel="noopener noreferrer"`;
+- avoid injecting visual style rules.
+
+### `innerHTML` policy
+
+`innerHTML` is prohibited by default.
+
+Allowed only when:
+
+- rendering a fully controlled internal template;
+- content is explicitly sanitized;
+- a code comment explains why `textContent` is insufficient.
+
+Default rule:
+
+```js
+element.textContent = value;
+```
+
+### Localization requirements
+
+The script must include a minimal localization dictionary or load equivalent labels from configuration.
+
+Minimum built-in dictionary:
+
+```js
+const REFSCILINK_I18N = {
+  fr: {
+    references: "Références",
+    searchPlaceholder: "Rechercher une référence",
+    readSummary: "Lire le résumé",
+    viewSource: "Voir la source",
+    copyReference: "Copier la référence",
+    validateSummary: "Valider le résumé",
+    noReferences: "Aucune référence trouvée",
+    referenceNotFound: "Référence introuvable"
+  },
+  en: {
+    references: "References",
+    searchPlaceholder: "Search references",
+    readSummary: "Read summary",
+    viewSource: "View source",
+    copyReference: "Copy reference",
+    validateSummary: "Validate summary",
+    noReferences: "No references found",
+    referenceNotFound: "Reference not found"
+  }
+};
+```
+
+Visible UI text must use the detected host language. Internal JSON keys remain English.
+
+### Page state management
+
+For `index_ref.html`, the script must support:
+
+- `loading`;
+- `ready`;
+- `empty`;
+- `error`.
+
+For `reference.html`, the script must support:
+
+- `loading`;
+- `ready`;
+- `not_found`;
+- `error`.
+
+`setPageState()` or an equivalent function must control `hidden`, ARIA attributes or namespaced state classes.
+
+### Filtering and search requirements
+
+On `index_ref.html`, the script must support:
+
+- text search across title, authors, journal, year and raw reference;
+- theme filtering;
+- validation-status filtering;
+- access-type filtering;
+- result count updates;
+- empty state when filters return no result.
+
+### Detail page requirements
+
+On `reference.html`, the script must:
+
+- read the canonical `id` query parameter;
+- optionally accept `ref` as a backward-compatible alias;
+- find the matching reference in `references.json`;
+- render metadata, summaries, key points, project relevance and limitations;
+- show a localized not-found state if the reference does not exist;
+- update the document title when the reference is found.
+
+### Validation state requirements
+
+In static mode, validation may be stored in `localStorage`.
+
+Recommended localStorage key:
+
+```js
+const REFSCILINK_VALIDATION_STORAGE_KEY = "refscilink.validation.v1";
+```
+
+Recommended stored structure:
+
+```json
+{
+  "ref001": {
+    "validated": true,
+    "validation_status": "validated",
+    "validated_at": "ISO-8601 timestamp"
+  }
+}
+```
+
+The script must gracefully handle unavailable or blocked `localStorage`.
+
+Persistent JSON validation is not required in the browser-only module and should be handled later by a Node.js or backend tool.
+
+### Error handling requirements
+
+The script must handle:
+
+- missing `references.json`;
+- invalid JSON;
+- empty references;
+- missing `theme_refscilink.json`;
+- missing DOM targets;
+- unknown page type;
+- missing reference ID;
+- reference ID not found;
+- unavailable Clipboard API;
+- unavailable or blocked `localStorage`.
+
+Errors must be reported through user-facing localized error states and developer-friendly `console.warn()` / `console.error()` messages.
+
+### Accessibility requirements
+
+The script must:
+
+- update `aria-live` regions for count, loading, empty and error states;
+- preserve keyboard navigation;
+- attach events to real buttons and links;
+- avoid creating clickable non-semantic elements;
+- preserve focus behaviour where possible;
+- not remove labels required by the HTML contract.
+
+### Separation of responsibilities
+
+`reference.js` must not:
+
+- define inline styles;
+- inject `<style>` blocks;
+- modify global host CSS;
+- import or depend on Bootstrap, Tailwind, React, Vue or Angular;
+- modify the host website `index.html` after installation;
+- override global browser objects;
+- execute scientific enrichment calls unless explicitly configured.
+
+`reference.js` may:
+
+- add or remove `hidden`;
+- add or remove namespaced `refscilink-*` state classes;
+- populate text and attributes;
+- create semantic DOM nodes inside RefSciLink containers;
+- read local JSON files;
+- store temporary validation in localStorage.
+
+### Bootstrapping requirement
+
+The script must initialize after DOM readiness:
+
+```js
+document.addEventListener("DOMContentLoaded", initRefSciLink);
+```
+
+It must not assume that DOM nodes exist before the document is ready.
 
 ---
 

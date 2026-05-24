@@ -38,7 +38,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 | SH-013 | Markdown boundaries | Define bibliography section start/stop rules | Avoid over-capturing unrelated content | Critical | Oui |
 | SH-014 | Reference numbering | Define numbering and ordering strategy | Stable reference identifiers | Medium | Oui |
 | SH-015 | Reference status system | Define all reference validation and error states | Consistent lifecycle management | High | Oui |
-| SH-016 | Logging | Define installation logs and diagnostics | Easier debugging | Medium | Non |
+| SH-016 | Logging | Define installation logs and diagnostics | Easier debugging | Medium | Oui |
 | SH-017 | Dry-run mode | Define simulation mode without file modification | Safe testing workflow | High | Non |
 | SH-018 | Rollback mode | Define restoration strategy after failed installation | Safe recovery mechanism | High | Non |
 | SH-019 | Success criteria | Define machine-verifiable installation success criteria | Reliable validation process | Critical | Non |
@@ -471,9 +471,27 @@ The local extraction tool now normalizes generated status fields to allowed enum
 
 ---
 
+### SH-016 — Logging and Diagnostics Strategy
+
+Implemented in `skills/contracts/logging_diagnostics_strategy.md` and used as the normative strategy for human-readable logs, machine-readable diagnostics and stable report codes.
+
+The strategy defines:
+
+- allowed diagnostic severities: `info`, `success`, `warning`, `error` and `review_required`;
+- stable `REFSCILINK_*` diagnostic codes;
+- machine-readable diagnostic object structure for `metadata.diagnostics`;
+- concise console output format for local tools;
+- events that must be reported during installation, extraction, backup and review;
+- privacy rules preventing long reference text, abstracts, summaries, notes or secrets from being logged;
+- success criteria reusable by future dry-run and rollback tasks.
+
+The local extraction tool now writes `metadata.diagnostics`, emits matching console diagnostics, reports backups, reused/new/removed IDs and flags review-required states.
+
+---
+
 ## Contract externalization note
 
-The normative contracts for completed hardening items SH-001 to SH-015 are now externalized in:
+The normative contracts for completed hardening items SH-001 to SH-016 are now externalized in:
 
 ```text
 skills/contracts/
@@ -506,6 +524,7 @@ Current externalized contracts:
 | SH-013 | `skills/contracts/bibliography_boundary_strategy.md` |
 | SH-014 | `skills/contracts/reference_numbering_strategy.md` |
 | SH-015 | `skills/contracts/reference_status_lifecycle_strategy.md` |
+| SH-016 | `skills/contracts/logging_diagnostics_strategy.md` |
 
 ---
 

@@ -71,6 +71,12 @@ Reference lifecycle states must respect:
 skills/contracts/reference_status_lifecycle_strategy.md
 ```
 
+Logging and diagnostics must respect:
+
+```text
+skills/contracts/logging_diagnostics_strategy.md
+```
+
 ## Default module path
 
 When installed in another project, create:

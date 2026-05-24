@@ -112,6 +112,12 @@ Reference lifecycle states must follow:
 skills/contracts/reference_status_lifecycle_strategy.md
 ```
 
+Logging and diagnostics must follow:
+
+```text
+skills/contracts/logging_diagnostics_strategy.md
+```
+
 ## Scientific sources
 
 When enrichment is available, prioritise:

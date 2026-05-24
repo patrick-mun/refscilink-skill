@@ -110,15 +110,23 @@ const VALIDATION_STATUSES = new Set(['pending_validation', 'validated', 'rejecte
 const EXTRACTION_STATUSES = new Set(['extracted', 'partially_extracted', 'incomplete', 'duplicate_suspected', 'manual_review_required']);
 const METADATA_STATUSES = new Set(['not_enriched', 'metadata_found', 'metadata_partial', 'metadata_not_found', 'metadata_to_verify', 'enrichment_failed']);
 const ACCESS_TYPES = new Set(['open_access', 'abstract_only', 'accepted_author_version', 'preprint', 'paywalled', 'unknown']);
+const REVIEW_EXTRACTION_STATUSES = new Set(['partially_extracted', 'incomplete', 'duplicate_suspected', 'manual_review_required']);
+const REVIEW_METADATA_STATUSES = new Set(['metadata_partial', 'metadata_not_found', 'metadata_to_verify', 'enrichment_failed']);
 
 async function main() {
+  const diagnostics = [
+    createDiagnostic('info', 'REFSCILINK_RUN_STARTED', 'Reference extraction started.')
+  ];
   const filePath = await question('Path to the Markdown file containing references: ');
   rl.close();
   if (!filePath.trim()) throw new Error('No Markdown file provided.');
 
   const absolutePath = path.resolve(filePath.trim());
   const markdown = await fs.readFile(absolutePath, 'utf8');
-  const previousPayload = await readExistingReferences();
+  diagnostics.push(createDiagnostic('success', 'REFSCILINK_MARKDOWN_READ', 'Markdown source was read.', {
+    source_markdown: filePath.trim()
+  }));
+  const previousPayload = await readExistingReferences(diagnostics);
   const previousReferences = previousPayload?.references || [];
   const extracted = extractReferences(markdown);
   const numberingPlan = createNumberingPlan(extracted, previousReferences);
@@ -128,6 +136,37 @@ async function main() {
     const merged = plan.previousReference ? mergePreviousReference(reference, plan.previousReference) : reference;
     return normalizeStatusFields(markDuplicateReference(merged, numberingPlan.activeSeenKeys));
   });
+  diagnostics.push(createDiagnostic(references.length ? 'success' : 'review_required', references.length ? 'REFSCILINK_EXTRACT_OK' : 'REFSCILINK_NO_REFERENCES_FOUND', references.length ? `Extracted ${references.length} references from Markdown.` : 'No references were extracted from Markdown.', {
+    reference_count: references.length
+  }));
+  if (numberingPlan.reusedIds.length) {
+    diagnostics.push(createDiagnostic('info', 'REFSCILINK_IDS_REUSED', `${numberingPlan.reusedIds.length} existing reference IDs were reused.`, {
+      ids: numberingPlan.reusedIds
+    }));
+  }
+  if (numberingPlan.newIds.length) {
+    diagnostics.push(createDiagnostic('info', 'REFSCILINK_IDS_CREATED', `${numberingPlan.newIds.length} new reference IDs were assigned.`, {
+      ids: numberingPlan.newIds
+    }));
+  }
+  if (numberingPlan.removedIds.length) {
+    diagnostics.push(createDiagnostic('review_required', 'REFSCILINK_REFERENCES_REMOVED', `${numberingPlan.removedIds.length} previous reference IDs were not found in the current Markdown.`, {
+      ids: numberingPlan.removedIds
+    }));
+  }
+  diagnostics.push(...collectReviewRequiredDiagnostics(references));
+
+  await fs.mkdir(path.dirname(OUTPUT), { recursive: true });
+  if (previousPayload) {
+    const backupPath = await backupExistingReferences();
+    diagnostics.push(createDiagnostic('success', 'REFSCILINK_BACKUP_CREATED', 'Existing references.json was backed up before overwrite.', {
+      path: backupPath
+    }));
+  }
+  diagnostics.push(createDiagnostic('success', 'REFSCILINK_JSON_WRITTEN', 'references.json was written.', {
+    path: path.relative(process.cwd(), OUTPUT),
+    reference_count: references.length
+  }));
 
   const payload = {
     metadata: {
@@ -144,33 +183,41 @@ async function main() {
       previous_reference_count: previousReferences.length,
       reused_reference_ids: numberingPlan.reusedIds,
       new_reference_ids: numberingPlan.newIds,
-      removed_reference_ids: numberingPlan.removedIds
+      removed_reference_ids: numberingPlan.removedIds,
+      diagnostics
     },
     references
   };
 
-  await fs.mkdir(path.dirname(OUTPUT), { recursive: true });
-  if (previousPayload) await backupExistingReferences();
   await fs.writeFile(OUTPUT, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
-  console.log(`OK: ${references.length} references written to ${OUTPUT}`);
-  if (numberingPlan.removedIds.length) {
-    console.log(`Review: ${numberingPlan.removedIds.length} previous reference IDs were not found in the current Markdown: ${numberingPlan.removedIds.join(', ')}`);
-  }
+  emitDiagnostics(diagnostics);
 }
 
 function question(label) {
   return new Promise(resolve => rl.question(label, resolve));
 }
 
-async function readExistingReferences() {
+async function readExistingReferences(diagnostics) {
   try {
     const raw = await fs.readFile(OUTPUT, 'utf8');
     const payload = JSON.parse(raw);
-    if (Array.isArray(payload)) return { metadata: {}, references: payload };
-    if (payload && Array.isArray(payload.references)) return payload;
+    if (Array.isArray(payload)) {
+      diagnostics.push(createDiagnostic('warning', 'REFSCILINK_LEGACY_JSON_READ', 'Legacy root-array references.json was read for compatibility.', {
+        reference_count: payload.length
+      }));
+      return { metadata: {}, references: payload };
+    }
+    if (payload && Array.isArray(payload.references)) {
+      diagnostics.push(createDiagnostic('info', 'REFSCILINK_EXISTING_JSON_READ', 'Existing references.json was read for rerun preservation.', {
+        reference_count: payload.references.length
+      }));
+      return payload;
+    }
   } catch (error) {
     if (error.code !== 'ENOENT') {
-      console.warn(`Warning: existing references.json could not be reused: ${error.message}`);
+      diagnostics.push(createDiagnostic('warning', 'REFSCILINK_EXISTING_JSON_INVALID', 'Existing references.json could not be parsed or reused.', {
+        message: error.message
+      }));
     }
   }
   return null;
@@ -181,6 +228,45 @@ async function backupExistingReferences() {
   const backupPath = path.resolve(`backup/refscilink/reference_bibliographique_${now}/json/references.json`);
   await fs.mkdir(path.dirname(backupPath), { recursive: true });
   await fs.copyFile(OUTPUT, backupPath);
+  return path.relative(process.cwd(), backupPath);
+}
+
+function createDiagnostic(severity, code, message, details = {}) {
+  return { severity, code, message, details };
+}
+
+function emitDiagnostics(diagnostics) {
+  diagnostics.forEach(diagnostic => {
+    const line = `[${diagnostic.severity}] ${diagnostic.code}: ${diagnostic.message}`;
+    if (diagnostic.severity === 'error') {
+      console.error(line);
+      return;
+    }
+    console.log(line);
+  });
+}
+
+function collectReviewRequiredDiagnostics(references) {
+  const extractionStatuses = countBy(references.map(reference => reference.extraction_status).filter(status => REVIEW_EXTRACTION_STATUSES.has(status)));
+  const metadataStatuses = countBy(references.map(reference => reference.metadata_status).filter(status => REVIEW_METADATA_STATUSES.has(status)));
+  const validationStatuses = countBy(references.map(reference => reference.validation_status).filter(status => status !== 'validated'));
+  if (!Object.keys(extractionStatuses).length && !Object.keys(metadataStatuses).length && !Object.keys(validationStatuses).length) {
+    return [];
+  }
+  return [
+    createDiagnostic('review_required', 'REFSCILINK_STATUS_REVIEW_REQUIRED', 'Generated references include states requiring human review.', {
+      extraction_statuses: extractionStatuses,
+      metadata_statuses: metadataStatuses,
+      validation_statuses: validationStatuses
+    })
+  ];
+}
+
+function countBy(values) {
+  return values.reduce((counts, value) => {
+    counts[value] = (counts[value] || 0) + 1;
+    return counts;
+  }, {});
 }
 
 function extractReferences(markdown) {
@@ -609,6 +695,10 @@ function guessTitle(raw) {
 }
 
 main().catch(error => {
-  console.error(`Error: ${error.message}`);
+  emitDiagnostics([
+    createDiagnostic('error', 'REFSCILINK_RUN_FAILED', 'Reference extraction failed.', {
+      message: error.message
+    })
+  ]);
   process.exit(1);
 });

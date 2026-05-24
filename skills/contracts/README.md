@@ -37,6 +37,7 @@ If no dedicated contract exists for a file yet, use the relevant section in `ski
 | SH-013 | Bibliography section boundary strategy | `bibliography_boundary_strategy.md` |
 | SH-014 | Reference numbering and stable ID strategy | `reference_numbering_strategy.md` |
 | SH-015 | Reference status lifecycle strategy | `reference_status_lifecycle_strategy.md` |
+| SH-016 | Logging and diagnostics strategy | `logging_diagnostics_strategy.md` |
 
 ---
 
@@ -58,6 +59,7 @@ If no dedicated contract exists for a file yet, use the relevant section in `ski
 | DOI, PMID, PMCID and URL extraction | `metadata_identifier_extraction_strategy.md` |
 | Reference numbering, stable IDs and rerun matching | `reference_numbering_strategy.md` |
 | Reference status lifecycle, filters and validation states | `reference_status_lifecycle_strategy.md` |
+| Logging, diagnostics and report codes | `logging_diagnostics_strategy.md` |
 | Generated module structure or backup behaviour | `generated_files_contract.md` |
 
 ---

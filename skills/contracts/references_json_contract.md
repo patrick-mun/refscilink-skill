@@ -67,7 +67,8 @@ The `metadata` object must be present and must contain at least these keys:
   "source_markdown": "bibliographie.md",
   "source_markdown_sha256": "",
   "enrichment_mode": "extract_only",
-  "reference_count": 0
+  "reference_count": 0,
+  "diagnostics": []
 }
 ```
 
@@ -84,6 +85,13 @@ The `metadata` object must be present and must contain at least these keys:
 | `source_markdown_sha256` | string | Optional hash of source Markdown content. Use empty string if unavailable. |
 | `enrichment_mode` | string | Installation/enrichment mode used. |
 | `reference_count` | number | Number of entries in `references`. |
+| `diagnostics` | array | Optional machine-readable diagnostics following `logging_diagnostics_strategy.md`. |
+
+If diagnostics are present, they must follow:
+
+```text
+skills/contracts/logging_diagnostics_strategy.md
+```
 
 ---
 

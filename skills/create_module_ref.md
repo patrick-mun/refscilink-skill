@@ -223,6 +223,7 @@ Current normative contracts:
 | DOI, PMID, PMCID and URL extraction | `skills/contracts/metadata_identifier_extraction_strategy.md` |
 | Reference numbering, stable IDs and rerun matching | `skills/contracts/reference_numbering_strategy.md` |
 | Reference status lifecycle, filters and validation states | `skills/contracts/reference_status_lifecycle_strategy.md` |
+| Logging, diagnostics and report codes | `skills/contracts/logging_diagnostics_strategy.md` |
 
 If a required contract file is missing, continue using the corresponding section in this main skill file and report that the dedicated contract has not yet been created.
 
@@ -422,6 +423,14 @@ skills/contracts/reference_status_lifecycle_strategy.md
 ```
 
 The assistant must read that strategy before generating, filtering, displaying or transitioning `validation_status`, `extraction_status`, `metadata_status` or `access_type`.
+
+Logging and diagnostics rules are externalized in:
+
+```text
+skills/contracts/logging_diagnostics_strategy.md
+```
+
+The assistant must read that strategy before reporting installation actions, emitting local-tool diagnostics or writing `metadata.diagnostics`.
 
 ---
 

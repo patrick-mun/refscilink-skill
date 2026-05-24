@@ -153,11 +153,12 @@ Completed and validated:
 | SH-013 | Done | Bibliography section boundary strategy defined. |
 | SH-014 | Done | Reference numbering and stable ID strategy defined. |
 | SH-015 | Done | Reference status lifecycle strategy defined. |
+| SH-016 | Done | Logging and diagnostics strategy defined. |
 
 Next recommended hardening task:
 
 ```text
-SH-016 — Logging and diagnostics
+SH-017 — Dry-run mode
 ```
 
 ---
@@ -281,13 +282,13 @@ For each new correction:
 Recommended next task:
 
 ```text
-SH-016 — Logging and diagnostics
+SH-017 — Dry-run mode
 ```
 
 Expected focus:
 
-- installation log structure;
-- extraction and generation diagnostics;
-- warning and error categories;
-- user-facing report format;
-- machine-readable diagnostics for future tests.
+- simulate installation without file writes;
+- report planned file changes;
+- use diagnostics without mutating project files;
+- identify backups that would be created;
+- make dry-run output machine-checkable.

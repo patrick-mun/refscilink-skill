@@ -163,3 +163,9 @@ Reference lifecycle states are defined in:
 ```text
 skills/contracts/reference_status_lifecycle_strategy.md
 ```
+
+Logging and diagnostics are defined in:
+
+```text
+skills/contracts/logging_diagnostics_strategy.md
+```

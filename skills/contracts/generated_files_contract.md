@@ -49,6 +49,12 @@ Generated JSON files should include metadata when possible:
 }
 ```
 
+Generated diagnostics and report codes must follow:
+
+```text
+skills/contracts/logging_diagnostics_strategy.md
+```
+
 ### Visual adaptation priority
 
 The generated file contract must never prevent adaptation to the user's visual identity.

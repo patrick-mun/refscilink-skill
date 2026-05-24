@@ -190,6 +190,23 @@ refscilink.config.json
 
 The following files are mandatory unless the installation mode explicitly reports why a file could not be created.
 
+### Normative contracts reading rule
+
+Before generating, updating or validating any RefSciLink module file, the assistant must read and apply the relevant normative contracts stored in:
+
+```text
+skills/contracts/
+```
+
+When a dedicated contract exists in `skills/contracts/`, it is the authoritative specification for that generated file and takes priority over summarized guidance in this main skill file.
+
+At minimum:
+
+- read `skills/contracts/references_json_contract.md` before generating or modifying `json/references.json`;
+- read the future dedicated contract file before generating or modifying any other file type once that contract exists.
+
+If a required contract file is missing, continue using the corresponding section in this main skill file and report that the dedicated contract has not yet been created.
+
 | File | Type | Required role |
 |---|---|---|
 | `index_ref.html` | HTML | Bibliography list page |

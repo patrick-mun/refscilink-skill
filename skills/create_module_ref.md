@@ -623,6 +623,20 @@ examples/basic-site/expected_output/expected_tree.md
 examples/basic-site/expected_output/expected_result.md
 ```
 
+For repository-level validation of the official fixture, run:
+
+```text
+npm run test:basic-site
+```
+
+The official test strategy is externalized in:
+
+```text
+skills/contracts/official_tests_strategy.md
+```
+
+The assistant must read that contract before modifying the official test workflow or declaring fixture validation complete.
+
 ---
 
 ## Final report template

@@ -189,3 +189,15 @@ Success validation is specified in:
 ```text
 skills/contracts/success_criteria_strategy.md
 ```
+
+Official fixture tests are specified in:
+
+```text
+skills/contracts/official_tests_strategy.md
+```
+
+Run the official local validation with:
+
+```text
+npm run test:basic-site
+```

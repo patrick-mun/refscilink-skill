@@ -247,3 +247,19 @@ When behaviour changes, update:
 - CLAUDE.md when Claude-specific instructions are affected;
 - .github/copilot-instructions.md when Copilot behaviour is affected;
 - .codex/context.md when Codex context is affected.
+
+## Official validation tests
+
+Before declaring the official example validated, read:
+
+```text
+skills/contracts/official_tests_strategy.md
+```
+
+Then run:
+
+```text
+npm run test:basic-site
+```
+
+The test must remain local-only, deterministic and safe for the repository fixture.

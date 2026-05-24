@@ -208,6 +208,16 @@ These files define:
 - visual integration checks;
 - success criteria.
 
+### Automated official test
+
+From the repository root, run:
+
+```bash
+npm run test:basic-site
+```
+
+This validates the canonical `examples/basic-site/bibliographie.md` fixture, checks required JSON files, verifies `build_references.mjs` syntax, confirms the expected 10 extracted references, and ensures dry-run mode does not write generated files.
+
 ### Validation goal
 
 An installation is considered successful when:

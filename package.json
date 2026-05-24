@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build:refs": "node data/reference_bibliographique/tools/build_references.mjs",
+    "test:basic-site": "node tests/refscilink/validate_basic_site.mjs",
     "serve": "python3 -m http.server 8000"
   },
   "keywords": ["bibliography", "scientific-references", "vanilla-js", "open-access", "markdown", "json"],

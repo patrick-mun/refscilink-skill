@@ -37,13 +37,14 @@ SH-016
 SH-017
 SH-018
 SH-019
+SH-020
 ```
 
 Current task:
 
 ```text
-SH-020
-Official tests using examples/basic-site
+SH-021
+Offline mode
 ```
 
 ---
@@ -147,13 +148,13 @@ Do not confuse roadmap upgrades with hardening tasks.
 Implement:
 
 ```text
-SH-020 — Official tests using examples/basic-site
+SH-021 — Offline mode
 ```
 
 Then continue validation hardening:
 
 ```text
-SH-020 — Official tests using examples/basic-site
+SH-022 — No external API mode
 ```
 
 ---
@@ -176,11 +177,11 @@ Repository:
 refscilink-skill
 
 Current state:
-SH-000 to SH-019 completed and validated.
+SH-000 to SH-020 completed and validated.
 Generated-file contracts are externalized in skills/contracts/.
 
 Current task:
-SH-020 Official tests using examples/basic-site.
+SH-021 Offline mode.
 
 Do not modify completed SH items without justification.
 Keep technical specifications in English.

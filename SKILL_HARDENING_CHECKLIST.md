@@ -42,7 +42,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 | SH-017 | Dry-run mode | Define simulation mode without file modification | Safe testing workflow | High | Oui |
 | SH-018 | Rollback mode | Define restoration strategy after failed installation | Safe recovery mechanism | High | Oui |
 | SH-019 | Success criteria | Define machine-verifiable installation success criteria | Reliable validation process | Critical | Oui |
-| SH-020 | Official tests | Define mandatory test cases using `examples/basic-site` | Reproducible validation workflow | Critical | Non |
+| SH-020 | Official tests | Define mandatory test cases using `examples/basic-site` | Reproducible validation workflow | Critical | Oui |
 | SH-021 | Offline mode | Define behaviour without internet access | Predictable offline execution | High | Non |
 | SH-022 | No external API mode | Define behaviour without enrichment APIs | Stable local operation | High | Non |
 | SH-023 | Deferred enrichment | Define delayed enrichment workflow | Non-blocking installation | Medium | Non |
@@ -548,9 +548,36 @@ The current official example expected extraction count is 10 references.
 
 ---
 
+### SH-020 — Official Tests Using examples/basic-site
+
+Implemented in `skills/contracts/official_tests_strategy.md`, `tests/refscilink/validate_basic_site.mjs` and `package.json`.
+
+The official test workflow defines:
+
+- canonical fixture validation using `examples/basic-site/bibliographie.md`;
+- required generated file existence checks;
+- JSON parsing checks for `references.json`, `theme_refscilink.json`, `schema_references.json` and `refscilink.config.json`;
+- local syntax validation for `build_references.mjs` using `node --check`;
+- structural validation for reference IDs, numbering, statuses and `metadata.reference_count`;
+- expected official extraction count of 10 references;
+- required extraction diagnostic `REFSCILINK_EXTRACT_OK`;
+- dry-run no-mutation checks for generated JSON and backup files;
+- required dry-run diagnostics `REFSCILINK_DRY_RUN_ENABLED`, `REFSCILINK_DRY_RUN_WOULD_WRITE_JSON` and `REFSCILINK_DRY_RUN_NO_WRITE`;
+- machine-readable JSON pass/fail report output.
+
+The official command is:
+
+```text
+npm run test:basic-site
+```
+
+The test must remain local-only, deterministic and safe for the repository fixture.
+
+---
+
 ## Contract externalization note
 
-The normative contracts for completed hardening items SH-001 to SH-019 are now externalized in:
+The normative contracts for completed hardening items SH-001 to SH-020 are now externalized in:
 
 ```text
 skills/contracts/
@@ -587,15 +614,16 @@ Current externalized contracts:
 | SH-017 | `skills/contracts/dry_run_mode_strategy.md` |
 | SH-018 | `skills/contracts/rollback_mode_strategy.md` |
 | SH-019 | `skills/contracts/success_criteria_strategy.md` |
+| SH-020 | `skills/contracts/official_tests_strategy.md` |
 
 ---
 
 ## Recommended implementation order
 
-### Phase 1 — Critical specification lock
+### Phase 2 — Reliability and execution modes
 
-- SH-020
+- SH-021
 
 Goal:
 
-Convert the success criteria into official reproducible tests.
+Define predictable behaviour without internet access.

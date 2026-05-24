@@ -226,3 +226,19 @@ Before finalising modifications:
 - update README when behaviour changes;
 - update the installation skill if workflow changes;
 - avoid introducing unnecessary dependencies.
+
+## Official validation
+
+Official fixture validation is specified in:
+
+```text
+skills/contracts/official_tests_strategy.md
+```
+
+Run:
+
+```text
+npm run test:basic-site
+```
+
+This local test must remain deterministic and must not modify the repository fixture.

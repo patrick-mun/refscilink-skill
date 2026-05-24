@@ -157,22 +157,23 @@ Completed and validated:
 | SH-017 | Done | Dry-run mode strategy defined. |
 | SH-018 | Done | Rollback mode strategy defined. |
 | SH-019 | Done | Machine-verifiable success criteria strategy defined. |
+| SH-020 | Done | Official reproducible tests using `examples/basic-site` implemented. |
 
 Next recommended hardening task:
 
 ```text
-SH-020 — Official tests using examples/basic-site
+SH-021 — Offline mode
 ```
 
 ---
 
 ## Remaining hardening tasks
 
-The next critical validation item is:
+The next hardening item is:
 
 | ID | Topic | Status |
 |---|---|---|
-| SH-020 | Official tests using `examples/basic-site` | Pending |
+| SH-021 | Offline mode | Pending |
 
 Do not modify completed SH items unless a bug or inconsistency is discovered.
 
@@ -285,14 +286,13 @@ For each new correction:
 Recommended next task:
 
 ```text
-SH-020 — Official tests using examples/basic-site
+SH-021 — Offline mode
 ```
 
 Expected focus:
 
-- convert SH-019 criteria into executable test files;
-- formalize expected fixture outputs;
-- validate extraction, dry-run and diagnostics automatically;
-- document how agents should run official tests;
-- prepare future CI-compatible checks;
-- standardize pass/fail reporting format.
+- define behaviour when no internet connection is available;
+- distinguish local extraction from online enrichment;
+- ensure installation and extraction continue without network access;
+- define diagnostics for offline execution;
+- keep scientific metadata marked as requiring review when unavailable.

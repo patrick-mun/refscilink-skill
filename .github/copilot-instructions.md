@@ -187,3 +187,15 @@ Success validation is defined in:
 ```text
 skills/contracts/success_criteria_strategy.md
 ```
+
+Official fixture tests are defined in:
+
+```text
+skills/contracts/official_tests_strategy.md
+```
+
+Run:
+
+```text
+npm run test:basic-site
+```

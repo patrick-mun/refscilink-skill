@@ -302,6 +302,12 @@ Dry-run behaviour must follow:
 skills/contracts/dry_run_mode_strategy.md
 ```
 
+Rollback behaviour must follow:
+
+```text
+skills/contracts/rollback_mode_strategy.md
+```
+
 ---
 
 ## Mandatory `runtime` object

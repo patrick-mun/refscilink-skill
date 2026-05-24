@@ -257,6 +257,7 @@ The current version includes:
 - explicit reference lifecycle states for validation, extraction, metadata and access review;
 - machine-readable diagnostics in generated metadata for extraction and review events;
 - dry-run extraction mode for simulating JSON generation without writing files;
+- rollback recovery contract for safe restore planning after failed operations;
 - DOI detection;
 - metadata lookup through Crossref when a DOI is present;
 - JSON schema for AI-enriched summaries;

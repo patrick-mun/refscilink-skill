@@ -128,8 +128,26 @@ Recommended baseline codes:
 | `REFSCILINK_DRY_RUN_WOULD_WRITE_JSON` | `info` | A JSON file would be written. |
 | `REFSCILINK_DRY_RUN_WOULD_BACKUP` | `info` | A backup would be created. |
 | `REFSCILINK_DRY_RUN_NO_WRITE` | `success` | Dry-run completed without writing files. |
+| `REFSCILINK_ROLLBACK_STARTED` | `info` | Rollback planning or execution started. |
+| `REFSCILINK_ROLLBACK_BACKUP_SELECTED` | `info` | A backup was selected. |
+| `REFSCILINK_ROLLBACK_PLAN_CREATED` | `info` | A rollback plan was created. |
+| `REFSCILINK_ROLLBACK_RESTORE_PLANNED` | `info` | A file restore was planned. |
+| `REFSCILINK_ROLLBACK_RESTORED` | `success` | A file was restored. |
+| `REFSCILINK_ROLLBACK_REMOVAL_PLANNED` | `info` | A created file or empty directory removal was planned. |
+| `REFSCILINK_ROLLBACK_REMOVED` | `success` | A created file or empty directory was removed. |
+| `REFSCILINK_ROLLBACK_CONFLICT` | `review_required` | Rollback conflict requires human review. |
+| `REFSCILINK_ROLLBACK_SKIPPED` | `warning` | Rollback action was skipped. |
+| `REFSCILINK_ROLLBACK_DRY_RUN` | `info` | Rollback is simulated only. |
+| `REFSCILINK_ROLLBACK_COMPLETE` | `success` | Rollback completed. |
+| `REFSCILINK_ROLLBACK_FAILED` | `error` | Rollback failed. |
 
 Additional codes may be added if they remain stable and documented.
+
+Rollback diagnostics must follow:
+
+```text
+skills/contracts/rollback_mode_strategy.md
+```
 
 ---
 

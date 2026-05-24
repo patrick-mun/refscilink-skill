@@ -177,3 +177,9 @@ Dry-run simulation is specified in:
 ```text
 skills/contracts/dry_run_mode_strategy.md
 ```
+
+Rollback planning is specified in:
+
+```text
+skills/contracts/rollback_mode_strategy.md
+```

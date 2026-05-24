@@ -124,6 +124,12 @@ Dry-run simulation must follow:
 skills/contracts/dry_run_mode_strategy.md
 ```
 
+Rollback planning must follow:
+
+```text
+skills/contracts/rollback_mode_strategy.md
+```
+
 ## Scientific sources
 
 When enrichment is available, prioritise:

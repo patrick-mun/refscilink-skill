@@ -175,3 +175,9 @@ Dry-run simulation is defined in:
 ```text
 skills/contracts/dry_run_mode_strategy.md
 ```
+
+Rollback planning is defined in:
+
+```text
+skills/contracts/rollback_mode_strategy.md
+```

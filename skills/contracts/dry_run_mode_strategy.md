@@ -150,6 +150,12 @@ Dry-run does not need rollback because it does not mutate files.
 
 If a tool reports a rollback plan during dry-run, it must label it as simulated only.
 
+Rollback planning must follow:
+
+```text
+skills/contracts/rollback_mode_strategy.md
+```
+
 ---
 
 ## Success criteria

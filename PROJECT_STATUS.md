@@ -155,11 +155,12 @@ Completed and validated:
 | SH-015 | Done | Reference status lifecycle strategy defined. |
 | SH-016 | Done | Logging and diagnostics strategy defined. |
 | SH-017 | Done | Dry-run mode strategy defined. |
+| SH-018 | Done | Rollback mode strategy defined. |
 
 Next recommended hardening task:
 
 ```text
-SH-018 — Rollback mode
+SH-019 — Machine-verifiable success criteria
 ```
 
 ---
@@ -283,13 +284,14 @@ For each new correction:
 Recommended next task:
 
 ```text
-SH-018 — Rollback mode
+SH-019 — Machine-verifiable success criteria
 ```
 
 Expected focus:
 
-- define restoration strategy after failed installation;
-- define backup selection and restore order;
-- protect user files during recovery;
-- report rollback diagnostics;
-- make rollback compatible with dry-run and logs.
+- concrete install validation commands;
+- required file existence checks;
+- JSON schema and parse checks;
+- static page smoke-test expectations;
+- extraction verification using `examples/basic-site`;
+- pass/fail reporting format.

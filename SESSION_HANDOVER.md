@@ -35,13 +35,14 @@ SH-014
 SH-015
 SH-016
 SH-017
+SH-018
 ```
 
 Current task:
 
 ```text
-SH-018
-Rollback mode
+SH-019
+Machine-verifiable success criteria
 ```
 
 ---
@@ -145,7 +146,7 @@ Do not confuse roadmap upgrades with hardening tasks.
 Implement:
 
 ```text
-SH-018 — Rollback mode
+SH-019 — Machine-verifiable success criteria
 ```
 
 Then continue critical validation work:
@@ -174,11 +175,11 @@ Repository:
 refscilink-skill
 
 Current state:
-SH-000 to SH-017 completed and validated.
+SH-000 to SH-018 completed and validated.
 Generated-file contracts are externalized in skills/contracts/.
 
 Current task:
-SH-018 Rollback mode.
+SH-019 Machine-verifiable success criteria.
 
 Do not modify completed SH items without justification.
 Keep technical specifications in English.

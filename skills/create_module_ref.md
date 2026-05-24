@@ -225,6 +225,7 @@ Current normative contracts:
 | Reference status lifecycle, filters and validation states | `skills/contracts/reference_status_lifecycle_strategy.md` |
 | Logging, diagnostics and report codes | `skills/contracts/logging_diagnostics_strategy.md` |
 | Dry-run simulation without file writes | `skills/contracts/dry_run_mode_strategy.md` |
+| Rollback planning and safe restore behaviour | `skills/contracts/rollback_mode_strategy.md` |
 
 If a required contract file is missing, continue using the corresponding section in this main skill file and report that the dedicated contract has not yet been created.
 
@@ -440,6 +441,14 @@ skills/contracts/dry_run_mode_strategy.md
 ```
 
 The assistant must read that strategy before simulating installation, extraction, backups or file writes without mutating the project.
+
+Rollback mode rules are externalized in:
+
+```text
+skills/contracts/rollback_mode_strategy.md
+```
+
+The assistant must read that strategy before planning or executing any recovery, restore or cleanup after a failed RefSciLink operation.
 
 ---
 

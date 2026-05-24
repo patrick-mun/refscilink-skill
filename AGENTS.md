@@ -83,6 +83,12 @@ Dry-run simulation must respect:
 skills/contracts/dry_run_mode_strategy.md
 ```
 
+Rollback planning must respect:
+
+```text
+skills/contracts/rollback_mode_strategy.md
+```
+
 ## Default module path
 
 When installed in another project, create:

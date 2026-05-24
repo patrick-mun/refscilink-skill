@@ -40,7 +40,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 | SH-015 | Reference status system | Define all reference validation and error states | Consistent lifecycle management | High | Oui |
 | SH-016 | Logging | Define installation logs and diagnostics | Easier debugging | Medium | Oui |
 | SH-017 | Dry-run mode | Define simulation mode without file modification | Safe testing workflow | High | Oui |
-| SH-018 | Rollback mode | Define restoration strategy after failed installation | Safe recovery mechanism | High | Non |
+| SH-018 | Rollback mode | Define restoration strategy after failed installation | Safe recovery mechanism | High | Oui |
 | SH-019 | Success criteria | Define machine-verifiable installation success criteria | Reliable validation process | Critical | Non |
 | SH-020 | Official tests | Define mandatory test cases using `examples/basic-site` | Reproducible validation workflow | Critical | Non |
 | SH-021 | Offline mode | Define behaviour without internet access | Predictable offline execution | High | Non |
@@ -507,9 +507,29 @@ The local extraction tool now accepts `--dry-run`, performs extraction and diagn
 
 ---
 
+### SH-018 — Rollback Mode Strategy
+
+Implemented in `skills/contracts/rollback_mode_strategy.md` and used as the normative strategy for safe recovery planning after failed or unwanted RefSciLink operations.
+
+The strategy defines:
+
+- conservative rollback principles protecting user files;
+- activation triggers for explicit rollback requests, failed partial writes and blocking diagnostics;
+- backup selection priority using explicit paths, recorded diagnostics and unambiguous recent backups;
+- allowed rollback actions: `restore_file`, `remove_created_file`, `remove_empty_created_dir`, `skip_conflict` and `manual_review_required`;
+- safety checks before restoration, including target scope and modified-after-backup conflict detection;
+- strict file removal rules preventing blind deletion;
+- dry-run rollback behaviour as simulated-only planning;
+- stable `REFSCILINK_ROLLBACK_*` diagnostics;
+- rollback report requirements and success criteria.
+
+The current implementation intentionally locks the rollback contract before adding destructive automation. Future rollback tools must follow this strategy before restoring or removing files.
+
+---
+
 ## Contract externalization note
 
-The normative contracts for completed hardening items SH-001 to SH-017 are now externalized in:
+The normative contracts for completed hardening items SH-001 to SH-018 are now externalized in:
 
 ```text
 skills/contracts/
@@ -544,6 +564,7 @@ Current externalized contracts:
 | SH-015 | `skills/contracts/reference_status_lifecycle_strategy.md` |
 | SH-016 | `skills/contracts/logging_diagnostics_strategy.md` |
 | SH-017 | `skills/contracts/dry_run_mode_strategy.md` |
+| SH-018 | `skills/contracts/rollback_mode_strategy.md` |
 
 ---
 

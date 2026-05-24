@@ -61,6 +61,12 @@ Dry-run simulation must follow:
 skills/contracts/dry_run_mode_strategy.md
 ```
 
+Rollback planning and restoration must follow:
+
+```text
+skills/contracts/rollback_mode_strategy.md
+```
+
 ### Visual adaptation priority
 
 The generated file contract must never prevent adaptation to the user's visual identity.

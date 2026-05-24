@@ -29,7 +29,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 | SH-004 | JavaScript contract | Define mandatory functions of `reference.js` | Consistent behaviour across installations | Critical | Oui |
 | SH-005 | CSS contract | Define mandatory classes and namespaces in `reference.css` | Consistent styling and isolation | Critical | Oui |
 | SH-006 | JSON contract | Define exact root structure of `references.json` | Identical JSON format across agents | Critical | Oui |
-| SH-007 | JSON contract | Define exact root structure of `theme_refscilink.json` | Identical theme format across agents | Critical | Non |
+| SH-007 | JSON contract | Define exact root structure of `theme_refscilink.json` | Identical theme format across agents | Critical | Oui |
 | SH-008 | Configuration contract | Define complete schema of `refscilink.config.json` | Persistent configuration behaviour | High | Non |
 | SH-009 | Navigation integration | Define exact insertion strategy for the `Références` button | Predictable HTML modification | Critical | Non |
 | SH-010 | Multi-page websites | Define behaviour when several HTML entry points exist | Consistent integration decisions | Medium | Non |
@@ -256,11 +256,64 @@ Generated user-facing summary values may follow the detected host language, but 
 
 ---
 
+### SH-007 — theme_refscilink.json JSON Contract
+
+Implemented in `skills/contracts/theme_refscilink_json_contract.md` and used as the normative contract for generated `data/reference_bibliographique/json/theme_refscilink.json` files.
+
+The skill now defines the mandatory JSON structure for editable visual theme configuration.
+
+Implemented:
+
+- mandatory root object with stable theme fields;
+- mandatory metadata fields including `generated_by`, `version`, `schema_version`, `generated_at`, `language`, `source_project` and `source_entrypoint`;
+- controlled values for `theme_mode`, `spacing_density`, `color_scheme`, detection `status` and detection `confidence`;
+- required color, typography, radius, shadow, spacing and color-scheme fields;
+- `detected_from` rules for listing inspected host files;
+- `css_variables` mapping to namespaced `--refscilink-*` CSS custom properties;
+- `detection` object for status, confidence, strategy, warnings and host visual summary;
+- host visual identity priority rules;
+- human editability and backup expectations;
+- minimal valid JSON example;
+- machine-reviewable success criteria for future theme validation tools.
+
+The theme contract must preserve the host website visual identity before applying RefSciLink fallback values.
+
+---
+
+## Contract externalization note
+
+The normative contracts for completed hardening items SH-001 to SH-007 are now externalized in:
+
+```text
+skills/contracts/
+```
+
+Contract index:
+
+```text
+skills/contracts/README.md
+```
+
+The main skill file `skills/create_module_ref.md` remains the workflow entry point, but dedicated contract files are authoritative for generated file structures and behaviours.
+
+Current externalized contracts:
+
+| ID | Contract |
+|---|---|
+| SH-001 | `skills/contracts/generated_files_contract.md` |
+| SH-002 | `skills/contracts/index_ref_html_contract.md` |
+| SH-003 | `skills/contracts/reference_html_contract.md` |
+| SH-004 | `skills/contracts/reference_js_contract.md` |
+| SH-005 | `skills/contracts/reference_css_contract.md` |
+| SH-006 | `skills/contracts/references_json_contract.md` |
+| SH-007 | `skills/contracts/theme_refscilink_json_contract.md` |
+
+---
+
 ## Recommended implementation order
 
 ### Phase 1 — Critical specification lock
 
-- SH-007
 - SH-009
 - SH-011
 - SH-012

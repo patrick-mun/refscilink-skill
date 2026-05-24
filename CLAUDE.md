@@ -233,3 +233,11 @@ skills/contracts/user_file_protection_strategy.md
 ```
 
 Never overwrite, delete, move, rename or restore protected files without following backup and conflict rules.
+
+GitHub Pages compatibility is specified in:
+
+```text
+skills/contracts/github_pages_compatibility_strategy.md
+```
+
+Use relative browser paths and avoid backend-only assumptions for generated pages.

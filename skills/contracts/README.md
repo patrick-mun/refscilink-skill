@@ -46,6 +46,7 @@ If no dedicated contract exists for a file yet, use the relevant section in `ski
 | SH-022 | No external API mode strategy | `no_external_api_mode_strategy.md` |
 | SH-023 | Deferred enrichment strategy | `deferred_enrichment_strategy.md` |
 | SH-024 | User file protection strategy | `user_file_protection_strategy.md` |
+| SH-025 | GitHub Pages compatibility strategy | `github_pages_compatibility_strategy.md` |
 
 ---
 
@@ -76,6 +77,7 @@ If no dedicated contract exists for a file yet, use the relevant section in `ski
 | Network-available execution without scientific enrichment APIs | `no_external_api_mode_strategy.md` |
 | Deferred metadata enrichment after installation or extraction | `deferred_enrichment_strategy.md` |
 | User file protection, overwrite prevention and conflict handling | `user_file_protection_strategy.md` |
+| Static hosting and GitHub Pages compatibility | `github_pages_compatibility_strategy.md` |
 | Generated module structure or backup behaviour | `generated_files_contract.md` |
 
 ---

@@ -282,3 +282,13 @@ skills/contracts/user_file_protection_strategy.md
 ```
 
 Before mutating files, classify targets, create verified backups for protected files, preserve manual edits and skip conflicts instead of overwriting silently.
+
+## GitHub Pages compatibility
+
+GitHub Pages compatibility is specified in:
+
+```text
+skills/contracts/github_pages_compatibility_strategy.md
+```
+
+Generated browser output must use relative paths by default and work as committed static files under project subpaths.

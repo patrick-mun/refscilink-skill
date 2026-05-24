@@ -153,6 +153,12 @@ Recommended baseline codes:
 | `REFSCILINK_WRITE_SKIPPED_CONFLICT` | `review_required` | Write was skipped because of a conflict. |
 | `REFSCILINK_DELETE_BLOCKED_USER_FILE` | `error` | Deletion was blocked because the target may be a user file. |
 | `REFSCILINK_RESTORE_SKIPPED_NEWER_TARGET` | `review_required` | Restore was skipped because the target changed after backup. |
+| `REFSCILINK_STATIC_HOSTING_COMPATIBLE` | `success` | Generated browser output is static-hosting compatible. |
+| `REFSCILINK_GITHUB_PAGES_SUBPATH_SAFE` | `success` | Paths are safe for GitHub Pages project subpaths. |
+| `REFSCILINK_RELATIVE_PATH_REQUIRED` | `warning` | A relative path is required for static hosting compatibility. |
+| `REFSCILINK_STATIC_JSON_LOAD_CONFIGURED` | `success` | Static JSON loading is configured with relative paths. |
+| `REFSCILINK_STATIC_HOSTING_WARNING` | `warning` | A static hosting compatibility concern was detected. |
+| `REFSCILINK_SITE_ROOT_ASSUMED` | `info` | A likely static site root was assumed. |
 | `REFSCILINK_ROLLBACK_STARTED` | `info` | Rollback planning or execution started. |
 | `REFSCILINK_ROLLBACK_BACKUP_SELECTED` | `info` | A backup was selected. |
 | `REFSCILINK_ROLLBACK_PLAN_CREATED` | `info` | A rollback plan was created. |

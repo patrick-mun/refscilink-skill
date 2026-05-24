@@ -162,11 +162,12 @@ Completed and validated:
 | SH-022 | Done | No external API mode strategy defined for local-only enrichment-safe execution. |
 | SH-023 | Done | Deferred enrichment strategy defined for non-blocking metadata lookup. |
 | SH-024 | Done | User file protection strategy defined as global non-destruction layer. |
+| SH-025 | Done | GitHub Pages compatibility strategy defined for static subpath deployments. |
 
 Next recommended hardening task:
 
 ```text
-SH-025 — GitHub Pages compatibility
+SH-026 — Accessibility
 ```
 
 ---
@@ -177,7 +178,7 @@ The next hardening item is:
 
 | ID | Topic | Status |
 |---|---|---|
-| SH-025 | GitHub Pages compatibility | Pending |
+| SH-026 | Accessibility | Pending |
 
 Do not modify completed SH items unless a bug or inconsistency is discovered.
 
@@ -290,13 +291,13 @@ For each new correction:
 Recommended next task:
 
 ```text
-SH-025 — GitHub Pages compatibility
+SH-026 — Accessibility
 ```
 
 Expected focus:
 
-- define static hosting constraints for generated files;
-- avoid server-only routes, backend assumptions and absolute local paths;
-- ensure relative links work under GitHub Pages project subpaths;
-- define JSON loading expectations for static hosting;
-- keep the module framework-free and deployable as plain files.
+- define semantic HTML and ARIA expectations;
+- require keyboard-accessible controls and visible focus states;
+- define accessible status messages and error states;
+- ensure filters, buttons and validation controls have labels;
+- preserve readability and contrast in generated UI.

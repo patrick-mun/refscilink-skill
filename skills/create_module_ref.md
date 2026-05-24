@@ -310,6 +310,14 @@ Use the config file on future executions instead of asking again, unless the use
 
 ### 1. Inspect project structure
 
+Static hosting and GitHub Pages compatibility rules are externalized in:
+
+```text
+skills/contracts/github_pages_compatibility_strategy.md
+```
+
+The assistant must read that strategy before generating or modifying browser paths, JSON loading paths or GitHub Pages deployment assumptions.
+
 Detect:
 
 - main HTML entry point, usually `index.html`;

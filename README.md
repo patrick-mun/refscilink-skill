@@ -301,6 +301,24 @@ The normative safety contract is defined in:
 skills/contracts/user_file_protection_strategy.md
 ```
 
+## GitHub Pages Compatibility
+
+RefSciLink must work as static HTML/CSS/JS/JSON, including GitHub Pages project sites served under a subpath.
+
+Compatibility rules:
+
+- use relative browser paths by default;
+- avoid filesystem absolute paths and `file://` URLs;
+- avoid root-relative `/data/...` unless explicitly configured;
+- load JSON through static relative URLs;
+- do not require a backend, dynamic route, bundler or `localhost` in production.
+
+The normative strategy is defined in:
+
+```text
+skills/contracts/github_pages_compatibility_strategy.md
+```
+
 The official example must be used whenever a major change is made to:
 
 - bibliography extraction;

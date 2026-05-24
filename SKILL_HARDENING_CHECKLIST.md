@@ -47,7 +47,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 | SH-022 | No external API mode | Define behaviour without enrichment APIs | Stable local operation | High | Oui |
 | SH-023 | Deferred enrichment | Define delayed enrichment workflow | Non-blocking installation | Medium | Oui |
 | SH-024 | User file protection | Define strict non-destruction rules | No accidental data loss | Critical | Oui |
-| SH-025 | GitHub Pages compatibility | Define static hosting constraints | GitHub Pages support guaranteed | High | Non |
+| SH-025 | GitHub Pages compatibility | Define static hosting constraints | GitHub Pages support guaranteed | High | Oui |
 | SH-026 | Accessibility | Define minimum accessibility requirements | Accessible generated interface | Medium | Non |
 | SH-027 | Responsive design | Define minimum responsive behaviour | Mobile compatibility guaranteed | Medium | Non |
 | SH-028 | External links security | Define `noopener`, `noreferrer`, target rules | Safer external navigation | Medium | Non |
@@ -658,9 +658,30 @@ All future write, restore, rollback, cleanup and enrichment tools must obey this
 
 ---
 
+### SH-025 — GitHub Pages Compatibility Strategy
+
+Implemented in `skills/contracts/github_pages_compatibility_strategy.md` and used as the normative strategy for static-hosting and GitHub Pages compatibility.
+
+The GitHub Pages strategy defines:
+
+- plain static file operation as the core principle;
+- mandatory relative-first browser paths for GitHub Pages project subpaths;
+- forbidden production dependencies on backend routes, server-side templating, bundlers, local Node.js runtime or `localhost`;
+- generated page asset paths for CSS, JavaScript and JSON;
+- browser-side JSON loading rules with visible static fetch error handling expectations;
+- runtime constraints separating deployed browser output from local Node.js tools;
+- site-root detection rules for `docs/`, `public/`, `static/`, `dist/` and `build/`;
+- `refscilink.config.json` runtime expectations for static hosting and GitHub Pages compatibility;
+- stable diagnostics including `REFSCILINK_STATIC_HOSTING_COMPATIBLE`, `REFSCILINK_GITHUB_PAGES_SUBPATH_SAFE`, `REFSCILINK_RELATIVE_PATH_REQUIRED`, `REFSCILINK_STATIC_JSON_LOAD_CONFIGURED`, `REFSCILINK_STATIC_HOSTING_WARNING` and `REFSCILINK_SITE_ROOT_ASSUMED`;
+- validation and final report requirements for static deployment readiness.
+
+GitHub Pages compatibility must prefer relative paths over root-relative paths unless the user explicitly configures root deployment.
+
+---
+
 ## Contract externalization note
 
-The normative contracts for completed hardening items SH-001 to SH-024 are now externalized in:
+The normative contracts for completed hardening items SH-001 to SH-025 are now externalized in:
 
 ```text
 skills/contracts/
@@ -702,6 +723,7 @@ Current externalized contracts:
 | SH-022 | `skills/contracts/no_external_api_mode_strategy.md` |
 | SH-023 | `skills/contracts/deferred_enrichment_strategy.md` |
 | SH-024 | `skills/contracts/user_file_protection_strategy.md` |
+| SH-025 | `skills/contracts/github_pages_compatibility_strategy.md` |
 
 ---
 
@@ -709,8 +731,8 @@ Current externalized contracts:
 
 ### Phase 2 — Reliability and execution modes
 
-- SH-025
+- SH-026
 
 Goal:
 
-Define static hosting constraints for GitHub Pages compatibility.
+Define minimum accessibility requirements.

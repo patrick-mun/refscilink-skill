@@ -303,3 +303,13 @@ skills/contracts/user_file_protection_strategy.md
 ```
 
 Protect host user files and manually edited generated files. If backup creation fails or manual edits create a conflict, skip the write and report manual review instead of overwriting silently.
+
+## GitHub Pages compatibility
+
+Before generating browser paths or deployment assumptions, read:
+
+```text
+skills/contracts/github_pages_compatibility_strategy.md
+```
+
+Use relative paths by default and keep generated browser output deployable as static HTML/CSS/JS/JSON without backend routes or `localhost`.

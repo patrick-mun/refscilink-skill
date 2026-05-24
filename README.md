@@ -256,6 +256,7 @@ The current version includes:
 - stable reference IDs across reruns when references are recognized;
 - explicit reference lifecycle states for validation, extraction, metadata and access review;
 - machine-readable diagnostics in generated metadata for extraction and review events;
+- dry-run extraction mode for simulating JSON generation without writing files;
 - DOI detection;
 - metadata lookup through Crossref when a DOI is present;
 - JSON schema for AI-enriched summaries;

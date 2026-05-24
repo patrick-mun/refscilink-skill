@@ -39,7 +39,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 | SH-014 | Reference numbering | Define numbering and ordering strategy | Stable reference identifiers | Medium | Oui |
 | SH-015 | Reference status system | Define all reference validation and error states | Consistent lifecycle management | High | Oui |
 | SH-016 | Logging | Define installation logs and diagnostics | Easier debugging | Medium | Oui |
-| SH-017 | Dry-run mode | Define simulation mode without file modification | Safe testing workflow | High | Non |
+| SH-017 | Dry-run mode | Define simulation mode without file modification | Safe testing workflow | High | Oui |
 | SH-018 | Rollback mode | Define restoration strategy after failed installation | Safe recovery mechanism | High | Non |
 | SH-019 | Success criteria | Define machine-verifiable installation success criteria | Reliable validation process | Critical | Non |
 | SH-020 | Official tests | Define mandatory test cases using `examples/basic-site` | Reproducible validation workflow | Critical | Non |
@@ -489,9 +489,27 @@ The local extraction tool now writes `metadata.diagnostics`, emits matching cons
 
 ---
 
+### SH-017 — Dry-run Mode Strategy
+
+Implemented in `skills/contracts/dry_run_mode_strategy.md` and used as the normative strategy for simulating installation, extraction, backup and write decisions without mutating project files.
+
+The strategy defines:
+
+- dry-run activation by `--dry-run`, config `safety.dry_run: true` or explicit user request;
+- forbidden mutations including writes, backups, directory creation, dependency installation and file deletion;
+- allowed planned actions such as `would_create`, `would_update`, `would_backup`, `would_extract` and `would_write_json`;
+- stable `REFSCILINK_DRY_RUN_*` diagnostics;
+- local extraction tool behaviour in dry-run mode;
+- report requirements for planned writes, backups, reference counts and no-write confirmation;
+- success criteria proving that dry-run decisions run without disk mutation.
+
+The local extraction tool now accepts `--dry-run`, performs extraction and diagnostics, reports planned JSON writes and backups, and exits without writing `references.json` or creating backup files.
+
+---
+
 ## Contract externalization note
 
-The normative contracts for completed hardening items SH-001 to SH-016 are now externalized in:
+The normative contracts for completed hardening items SH-001 to SH-017 are now externalized in:
 
 ```text
 skills/contracts/
@@ -525,6 +543,7 @@ Current externalized contracts:
 | SH-014 | `skills/contracts/reference_numbering_strategy.md` |
 | SH-015 | `skills/contracts/reference_status_lifecycle_strategy.md` |
 | SH-016 | `skills/contracts/logging_diagnostics_strategy.md` |
+| SH-017 | `skills/contracts/dry_run_mode_strategy.md` |
 
 ---
 

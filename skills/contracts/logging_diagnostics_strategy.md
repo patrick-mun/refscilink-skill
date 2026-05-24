@@ -123,6 +123,11 @@ Recommended baseline codes:
 | `REFSCILINK_STATUS_REVIEW_REQUIRED` | `review_required` | Generated references include states requiring human review. |
 | `REFSCILINK_JSON_WRITTEN` | `success` | `references.json` was written. |
 | `REFSCILINK_RUN_FAILED` | `error` | Tool or installation failed. |
+| `REFSCILINK_DRY_RUN_ENABLED` | `info` | Dry-run mode is active. |
+| `REFSCILINK_DRY_RUN_WOULD_CREATE_DIR` | `info` | A directory would be created. |
+| `REFSCILINK_DRY_RUN_WOULD_WRITE_JSON` | `info` | A JSON file would be written. |
+| `REFSCILINK_DRY_RUN_WOULD_BACKUP` | `info` | A backup would be created. |
+| `REFSCILINK_DRY_RUN_NO_WRITE` | `success` | Dry-run completed without writing files. |
 
 Additional codes may be added if they remain stable and documented.
 

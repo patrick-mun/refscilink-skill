@@ -55,6 +55,12 @@ Generated diagnostics and report codes must follow:
 skills/contracts/logging_diagnostics_strategy.md
 ```
 
+Dry-run simulation must follow:
+
+```text
+skills/contracts/dry_run_mode_strategy.md
+```
+
 ### Visual adaptation priority
 
 The generated file contract must never prevent adaptation to the user's visual identity.

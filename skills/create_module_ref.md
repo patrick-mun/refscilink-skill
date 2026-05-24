@@ -224,6 +224,7 @@ Current normative contracts:
 | Reference numbering, stable IDs and rerun matching | `skills/contracts/reference_numbering_strategy.md` |
 | Reference status lifecycle, filters and validation states | `skills/contracts/reference_status_lifecycle_strategy.md` |
 | Logging, diagnostics and report codes | `skills/contracts/logging_diagnostics_strategy.md` |
+| Dry-run simulation without file writes | `skills/contracts/dry_run_mode_strategy.md` |
 
 If a required contract file is missing, continue using the corresponding section in this main skill file and report that the dedicated contract has not yet been created.
 
@@ -431,6 +432,14 @@ skills/contracts/logging_diagnostics_strategy.md
 ```
 
 The assistant must read that strategy before reporting installation actions, emitting local-tool diagnostics or writing `metadata.diagnostics`.
+
+Dry-run mode rules are externalized in:
+
+```text
+skills/contracts/dry_run_mode_strategy.md
+```
+
+The assistant must read that strategy before simulating installation, extraction, backups or file writes without mutating the project.
 
 ---
 

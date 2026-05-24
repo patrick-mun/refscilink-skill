@@ -4,6 +4,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import readline from 'node:readline';
 import { stdin as input, stdout as output } from 'node:process';
+import process from 'node:process';
 
 const ROOT = path.resolve('data/reference_bibliographique');
 const OUTPUT = path.join(ROOT, 'json/references.json');
@@ -114,10 +115,14 @@ const REVIEW_EXTRACTION_STATUSES = new Set(['partially_extracted', 'incomplete',
 const REVIEW_METADATA_STATUSES = new Set(['metadata_partial', 'metadata_not_found', 'metadata_to_verify', 'enrichment_failed']);
 
 async function main() {
+  const options = parseOptions(process.argv.slice(2));
   const diagnostics = [
     createDiagnostic('info', 'REFSCILINK_RUN_STARTED', 'Reference extraction started.')
   ];
-  const filePath = await question('Path to the Markdown file containing references: ');
+  if (options.dryRun) {
+    diagnostics.push(createDiagnostic('info', 'REFSCILINK_DRY_RUN_ENABLED', 'Dry-run mode is active.'));
+  }
+  const filePath = options.markdownFile || await question('Path to the Markdown file containing references: ');
   rl.close();
   if (!filePath.trim()) throw new Error('No Markdown file provided.');
 
@@ -156,17 +161,34 @@ async function main() {
   }
   diagnostics.push(...collectReviewRequiredDiagnostics(references));
 
-  await fs.mkdir(path.dirname(OUTPUT), { recursive: true });
   if (previousPayload) {
-    const backupPath = await backupExistingReferences();
-    diagnostics.push(createDiagnostic('success', 'REFSCILINK_BACKUP_CREATED', 'Existing references.json was backed up before overwrite.', {
-      path: backupPath
+    const backupPath = getBackupPath();
+    if (options.dryRun) {
+      diagnostics.push(createDiagnostic('info', 'REFSCILINK_DRY_RUN_WOULD_BACKUP', 'Dry-run: existing references.json would be backed up before overwrite.', {
+        action: 'would_backup',
+        path: path.relative(process.cwd(), backupPath)
+      }));
+    } else {
+      await fs.mkdir(path.dirname(OUTPUT), { recursive: true });
+      await backupExistingReferences(backupPath);
+      diagnostics.push(createDiagnostic('success', 'REFSCILINK_BACKUP_CREATED', 'Existing references.json was backed up before overwrite.', {
+        path: path.relative(process.cwd(), backupPath)
+      }));
+    }
+  } else if (options.dryRun) {
+    diagnostics.push(createDiagnostic('info', 'REFSCILINK_DRY_RUN_WOULD_CREATE_DIR', 'Dry-run: output directory would be created if missing.', {
+      action: 'would_create',
+      path: path.relative(process.cwd(), path.dirname(OUTPUT))
     }));
   }
-  diagnostics.push(createDiagnostic('success', 'REFSCILINK_JSON_WRITTEN', 'references.json was written.', {
+  diagnostics.push(createDiagnostic(options.dryRun ? 'info' : 'success', options.dryRun ? 'REFSCILINK_DRY_RUN_WOULD_WRITE_JSON' : 'REFSCILINK_JSON_WRITTEN', options.dryRun ? 'Dry-run: references.json would be written.' : 'references.json was written.', {
+    action: options.dryRun ? 'would_write_json' : 'write_json',
     path: path.relative(process.cwd(), OUTPUT),
     reference_count: references.length
   }));
+  if (options.dryRun) {
+    diagnostics.push(createDiagnostic('success', 'REFSCILINK_DRY_RUN_NO_WRITE', 'Dry-run completed without writing files.'));
+  }
 
   const payload = {
     metadata: {
@@ -189,8 +211,32 @@ async function main() {
     references
   };
 
-  await fs.writeFile(OUTPUT, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+  if (!options.dryRun) {
+    await fs.mkdir(path.dirname(OUTPUT), { recursive: true });
+    await fs.writeFile(OUTPUT, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+  }
   emitDiagnostics(diagnostics);
+}
+
+function parseOptions(args) {
+  const options = {
+    dryRun: false,
+    markdownFile: ''
+  };
+  args.forEach(arg => {
+    if (arg === '--dry-run') {
+      options.dryRun = true;
+      return;
+    }
+    if (arg === '--no-dry-run') {
+      options.dryRun = false;
+      return;
+    }
+    if (!arg.startsWith('-') && !options.markdownFile) {
+      options.markdownFile = arg;
+    }
+  });
+  return options;
 }
 
 function question(label) {
@@ -223,12 +269,14 @@ async function readExistingReferences(diagnostics) {
   return null;
 }
 
-async function backupExistingReferences() {
+function getBackupPath() {
   const now = new Date().toISOString().replace(/[-:]/g, '').replace(/\..+/, '').replace('T', '_');
-  const backupPath = path.resolve(`backup/refscilink/reference_bibliographique_${now}/json/references.json`);
+  return path.resolve(`backup/refscilink/reference_bibliographique_${now}/json/references.json`);
+}
+
+async function backupExistingReferences(backupPath) {
   await fs.mkdir(path.dirname(backupPath), { recursive: true });
   await fs.copyFile(OUTPUT, backupPath);
-  return path.relative(process.cwd(), backupPath);
 }
 
 function createDiagnostic(severity, code, message, details = {}) {

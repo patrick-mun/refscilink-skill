@@ -296,6 +296,12 @@ AI-generated summaries must never be marked as validated by default, regardless 
 
 Never overwrite `references.json`, `theme_refscilink.json`, manually edited generated files or host `index.html` without backup.
 
+Dry-run behaviour must follow:
+
+```text
+skills/contracts/dry_run_mode_strategy.md
+```
+
 ---
 
 ## Mandatory `runtime` object

@@ -38,6 +38,7 @@ If no dedicated contract exists for a file yet, use the relevant section in `ski
 | SH-014 | Reference numbering and stable ID strategy | `reference_numbering_strategy.md` |
 | SH-015 | Reference status lifecycle strategy | `reference_status_lifecycle_strategy.md` |
 | SH-016 | Logging and diagnostics strategy | `logging_diagnostics_strategy.md` |
+| SH-017 | Dry-run mode strategy | `dry_run_mode_strategy.md` |
 
 ---
 
@@ -60,6 +61,7 @@ If no dedicated contract exists for a file yet, use the relevant section in `ski
 | Reference numbering, stable IDs and rerun matching | `reference_numbering_strategy.md` |
 | Reference status lifecycle, filters and validation states | `reference_status_lifecycle_strategy.md` |
 | Logging, diagnostics and report codes | `logging_diagnostics_strategy.md` |
+| Dry-run simulation without file writes | `dry_run_mode_strategy.md` |
 | Generated module structure or backup behaviour | `generated_files_contract.md` |
 
 ---

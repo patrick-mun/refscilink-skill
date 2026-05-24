@@ -169,3 +169,9 @@ Logging and diagnostics are defined in:
 ```text
 skills/contracts/logging_diagnostics_strategy.md
 ```
+
+Dry-run simulation is defined in:
+
+```text
+skills/contracts/dry_run_mode_strategy.md
+```

@@ -77,6 +77,12 @@ Logging and diagnostics must respect:
 skills/contracts/logging_diagnostics_strategy.md
 ```
 
+Dry-run simulation must respect:
+
+```text
+skills/contracts/dry_run_mode_strategy.md
+```
+
 ## Default module path
 
 When installed in another project, create:

@@ -34,13 +34,14 @@ SH-013
 SH-014
 SH-015
 SH-016
+SH-017
 ```
 
 Current task:
 
 ```text
-SH-017
-Dry-run mode
+SH-018
+Rollback mode
 ```
 
 ---
@@ -144,7 +145,7 @@ Do not confuse roadmap upgrades with hardening tasks.
 Implement:
 
 ```text
-SH-017 — Dry-run mode
+SH-018 — Rollback mode
 ```
 
 Then continue critical validation work:
@@ -173,11 +174,11 @@ Repository:
 refscilink-skill
 
 Current state:
-SH-000 to SH-016 completed and validated.
+SH-000 to SH-017 completed and validated.
 Generated-file contracts are externalized in skills/contracts/.
 
 Current task:
-SH-017 Dry-run mode.
+SH-018 Rollback mode.
 
 Do not modify completed SH items without justification.
 Keep technical specifications in English.

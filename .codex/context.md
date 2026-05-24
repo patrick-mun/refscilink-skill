@@ -118,6 +118,12 @@ Logging and diagnostics must follow:
 skills/contracts/logging_diagnostics_strategy.md
 ```
 
+Dry-run simulation must follow:
+
+```text
+skills/contracts/dry_run_mode_strategy.md
+```
+
 ## Scientific sources
 
 When enrichment is available, prioritise:

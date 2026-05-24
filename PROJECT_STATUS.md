@@ -154,11 +154,12 @@ Completed and validated:
 | SH-014 | Done | Reference numbering and stable ID strategy defined. |
 | SH-015 | Done | Reference status lifecycle strategy defined. |
 | SH-016 | Done | Logging and diagnostics strategy defined. |
+| SH-017 | Done | Dry-run mode strategy defined. |
 
 Next recommended hardening task:
 
 ```text
-SH-017 — Dry-run mode
+SH-018 — Rollback mode
 ```
 
 ---
@@ -282,13 +283,13 @@ For each new correction:
 Recommended next task:
 
 ```text
-SH-017 — Dry-run mode
+SH-018 — Rollback mode
 ```
 
 Expected focus:
 
-- simulate installation without file writes;
-- report planned file changes;
-- use diagnostics without mutating project files;
-- identify backups that would be created;
-- make dry-run output machine-checkable.
+- define restoration strategy after failed installation;
+- define backup selection and restore order;
+- protect user files during recovery;
+- report rollback diagnostics;
+- make rollback compatible with dry-run and logs.

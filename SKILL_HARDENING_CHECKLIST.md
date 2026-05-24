@@ -34,7 +34,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 | SH-009 | Navigation integration | Define exact insertion strategy for the `Références` button | Predictable HTML modification | Critical | Oui |
 | SH-010 | Multi-page websites | Define behaviour when several HTML entry points exist | Consistent integration decisions | Medium | Oui |
 | SH-011 | Markdown parsing | Define line-by-line parsing strategy | Stable extraction behaviour | Critical | Oui |
-| SH-012 | Metadata extraction | Define DOI / PMID / PMCID / URL detection rules | Consistent metadata extraction | Critical | Non |
+| SH-012 | Metadata extraction | Define DOI / PMID / PMCID / URL detection rules | Consistent metadata extraction | Critical | Oui |
 | SH-013 | Markdown boundaries | Define bibliography section start/stop rules | Avoid over-capturing unrelated content | Critical | Non |
 | SH-014 | Reference numbering | Define numbering and ordering strategy | Stable reference identifiers | Medium | Non |
 | SH-015 | Reference status system | Define all reference validation and error states | Consistent lifecycle management | High | Non |
@@ -384,9 +384,33 @@ The Markdown parsing strategy must extract traceable source blocks without inven
 
 ---
 
+### SH-012 — DOI / PMID / PMCID / URL Extraction Strategy
+
+Implemented in `skills/contracts/metadata_identifier_extraction_strategy.md` and used as the normative strategy for extracting identifiers from reference text.
+
+The skill now defines deterministic identifier detection and normalization behaviour.
+
+Implemented:
+
+- DOI detection from labels, bare DOI strings and DOI URLs;
+- DOI normalization without `https://doi.org/` or `doi:` prefixes;
+- PMID extraction only from explicit PMID labels;
+- PMCID extraction with normalized `PMC` prefix;
+- HTTP/HTTPS URL extraction with trailing punctuation cleanup;
+- PDF URL detection and separation into `pdf_url`;
+- URL precedence rules across `doi`, `url`, `pdf_url` and `source_url`;
+- conflict handling for multiple identifiers of the same type;
+- `metadata_status` and `review_notes` guidance for uncertain extraction;
+- strict no-external-lookup and no-invention rules;
+- examples and machine-reviewable success criteria.
+
+The identifier extraction strategy must extract only identifiers present in source text and must not perform metadata enrichment.
+
+---
+
 ## Contract externalization note
 
-The normative contracts for completed hardening items SH-001 to SH-011 are now externalized in:
+The normative contracts for completed hardening items SH-001 to SH-012 are now externalized in:
 
 ```text
 skills/contracts/
@@ -415,6 +439,7 @@ Current externalized contracts:
 | SH-009 | `skills/contracts/navigation_integration_contract.md` |
 | SH-010 | `skills/contracts/multi_page_websites_contract.md` |
 | SH-011 | `skills/contracts/markdown_parsing_strategy.md` |
+| SH-012 | `skills/contracts/metadata_identifier_extraction_strategy.md` |
 
 ---
 
@@ -422,7 +447,6 @@ Current externalized contracts:
 
 ### Phase 1 — Critical specification lock
 
-- SH-012
 - SH-013
 - SH-019
 

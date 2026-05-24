@@ -2,7 +2,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import readline from 'node:readline/promises';
+import readline from 'node:readline';
 import { stdin as input, stdout as output } from 'node:process';
 
 const ROOT = path.resolve('data/reference_bibliographique');
@@ -12,7 +12,7 @@ const REF_HEADINGS = /^(#{1,6})\s*(références bibliographiques|references bibl
 const rl = readline.createInterface({ input, output });
 
 async function main() {
-  const filePath = await rl.question('Path to the Markdown file containing references: ');
+  const filePath = await question('Path to the Markdown file containing references: ');
   rl.close();
   if (!filePath.trim()) throw new Error('No Markdown file provided.');
 
@@ -39,6 +39,10 @@ async function main() {
   await fs.mkdir(path.dirname(OUTPUT), { recursive: true });
   await fs.writeFile(OUTPUT, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
   console.log(`OK: ${references.length} references written to ${OUTPUT}`);
+}
+
+function question(label) {
+  return new Promise(resolve => rl.question(label, resolve));
 }
 
 function extractReferences(markdown) {
@@ -94,7 +98,7 @@ function extractReferences(markdown) {
 
   return lines
     .map((line, index) => ({ line, index }))
-    .filter(({ line }) => detectDOI(line))
+    .filter(({ line }) => hasIdentifierSignal(line))
     .map(({ line, index }) => ({
       raw_reference: line.trim(),
       line_start: index + 1,
@@ -118,8 +122,14 @@ function toEntry(buffer, lineStart, lineEnd, sectionTitle, sectionLevel, extract
 
 function normalizeReference(entry, number, sourceMarkdown) {
   const raw = entry.raw_reference;
-  const doi = detectDOI(raw);
-  const url = detectURL(raw);
+  const identifiers = extractIdentifiers(raw);
+  const reviewNotes = [];
+  if (identifiers.additional_dois.length) {
+    reviewNotes.push(`Multiple DOI values detected: ${[identifiers.doi, ...identifiers.additional_dois].filter(Boolean).join('; ')}.`);
+  }
+  if (identifiers.additional_urls.length) {
+    reviewNotes.push(`Multiple URLs detected; primary URL selected automatically: ${identifiers.additional_urls.join('; ')}.`);
+  }
   return {
     id: `ref${String(number).padStart(3, '0')}`,
     number,
@@ -132,12 +142,12 @@ function normalizeReference(entry, number, sourceMarkdown) {
     volume: '',
     issue: '',
     pages: '',
-    doi,
-    pmid: detectPMID(raw),
-    pmcid: detectPMCID(raw),
-    url: url || (doi ? `https://doi.org/${doi}` : ''),
-    pdf_url: '',
-    source_url: '',
+    doi: identifiers.doi,
+    pmid: identifiers.pmid,
+    pmcid: identifiers.pmcid,
+    url: identifiers.url,
+    pdf_url: identifiers.pdf_url,
+    source_url: identifiers.source_url,
     access_type: 'unknown',
     theme: 'unclassified',
     keywords: [],
@@ -151,8 +161,8 @@ function normalizeReference(entry, number, sourceMarkdown) {
     validated_by: '',
     validation_date: '',
     extraction_status: entry.extraction_status || (raw.length > 20 ? 'extracted' : 'manual_review_required'),
-    metadata_status: 'not_enriched',
-    review_notes: '',
+    metadata_status: reviewNotes.length ? 'metadata_to_verify' : 'not_enriched',
+    review_notes: reviewNotes.join(' '),
     source_markdown: sourceMarkdown,
     source_location: {
       line_start: entry.line_start,
@@ -165,25 +175,82 @@ function normalizeReference(entry, number, sourceMarkdown) {
   };
 }
 
-function detectDOI(text) {
-  const match = text.match(/10\.\d{4,9}\/[-._;()/:A-Z0-9]+/i);
-  return match ? match[0].replace(/[).,;]+$/, '') : '';
+function hasIdentifierSignal(text) {
+  return Boolean(extractDOIs(text).length || detectPMID(text) || detectPMCID(text) || extractURLs(text).length);
 }
 
-function detectURL(text) {
-  const match = text.match(/https?:\/\/[^\s)]+/i);
-  return match ? match[0].replace(/[).,;]+$/, '') : '';
+function extractIdentifiers(text) {
+  const dois = extractDOIs(text);
+  const urls = extractURLs(text);
+  const doi = dois[0] || '';
+  const pdfUrls = urls.filter(isPDFUrl);
+  const doiUrls = urls.filter(url => extractDOIs(url).length);
+  const nonDoiNonPdfUrls = urls.filter(url => !isPDFUrl(url) && !extractDOIs(url).length);
+  const url = nonDoiNonPdfUrls[0] || (doi ? `https://doi.org/${doi}` : '');
+  const pdfUrl = pdfUrls[0] || '';
+  const sourceUrl = nonDoiNonPdfUrls.slice(1)[0] || doiUrls.find(url => !doi || !url.toLowerCase().includes(doi.toLowerCase())) || '';
+  const selectedUrls = new Set([url, pdfUrl, sourceUrl].filter(Boolean));
+  return {
+    doi,
+    additional_dois: dois.slice(1),
+    pmid: detectPMID(text),
+    pmcid: detectPMCID(text),
+    url,
+    pdf_url: pdfUrl,
+    source_url: sourceUrl,
+    additional_urls: urls.filter(url => !selectedUrls.has(url))
+  };
+}
+
+function extractDOIs(text) {
+  const matches = text.match(/(?:doi\s*:?\s*|https?:\/\/(?:dx\.)?doi\.org\/)?(10\.\d{4,9}\/[-._;()/:A-Z0-9]+)/gi) || [];
+  return unique(matches.map(match => normalizeDOI(match)).filter(Boolean));
+}
+
+function normalizeDOI(value) {
+  return trimIdentifier(value)
+    .replace(/^doi\s*:?\s*/i, '')
+    .replace(/^https?:\/\/(?:dx\.)?doi\.org\//i, '')
+    .trim();
+}
+
+function extractURLs(text) {
+  const matches = text.match(/https?:\/\/[^\s<>"']+/gi) || [];
+  return unique(matches.map(trimIdentifier).filter(Boolean));
+}
+
+function isPDFUrl(url) {
+  return /\.pdf(?:$|[?#])/i.test(url) || /(?:^|\b)(pdf|download)(?:\b|=|\/)/i.test(url);
+}
+
+function trimIdentifier(value) {
+  let normalized = String(value).trim();
+  while (/[.,;:)\]]$/.test(normalized)) normalized = normalized.slice(0, -1);
+  return normalized;
+}
+
+function unique(values) {
+  return [...new Set(values)];
 }
 
 function detectPMID(text) {
-  const match = text.match(/\bPMID\s*:?\s*(\d+)\b/i);
-  return match ? match[1] : '';
+  const match = text.match(/\b(?:PubMed\s+)?PMID\s*:?\s*(\d+)\b|\bpubmed\s*:?\s*(\d+)\b/i);
+  return match ? (match[1] || match[2]) : '';
 }
 
 function detectPMCID(text) {
-  const match = text.match(/\bPMC(?:ID)?\s*:?\s*(PMC\d+|\d+)\b/i);
+  const match = text.match(/\b(?:PubMed\s+Central\s+)?PMCID\s*:?\s*(PMC\s*\d+|\d+)\b|\b(PMC\s*\d+)\b/i);
   if (!match) return '';
-  return match[1].startsWith('PMC') ? match[1] : `PMC${match[1]}`;
+  const value = (match[1] || match[2]).replace(/\s+/g, '');
+  return value.toUpperCase().startsWith('PMC') ? value.toUpperCase() : `PMC${value}`;
+}
+
+function detectDOI(text) {
+  return extractDOIs(text)[0] || '';
+}
+
+function detectURL(text) {
+  return extractURLs(text)[0] || '';
 }
 
 function guessYear(raw) {

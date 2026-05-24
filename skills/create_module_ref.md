@@ -219,6 +219,7 @@ Current normative contracts:
 | Host navigation entry / References button | `skills/contracts/navigation_integration_contract.md` |
 | Multiple HTML entry points / multi-page websites | `skills/contracts/multi_page_websites_contract.md` |
 | Markdown bibliography extraction | `skills/contracts/markdown_parsing_strategy.md` |
+| DOI, PMID, PMCID and URL extraction | `skills/contracts/metadata_identifier_extraction_strategy.md` |
 
 If a required contract file is missing, continue using the corresponding section in this main skill file and report that the dedicated contract has not yet been created.
 
@@ -386,6 +387,14 @@ skills/contracts/markdown_parsing_strategy.md
 ```
 
 The assistant must read that strategy before extracting references from Markdown or modifying the local Markdown extraction tool.
+
+Identifier extraction rules for DOI, PMID, PMCID and URLs are externalized in:
+
+```text
+skills/contracts/metadata_identifier_extraction_strategy.md
+```
+
+The assistant must read that strategy before normalizing identifiers or modifying identifier extraction code.
 
 ---
 

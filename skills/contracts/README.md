@@ -33,6 +33,7 @@ If no dedicated contract exists for a file yet, use the relevant section in `ski
 | SH-009 | Host navigation integration | `navigation_integration_contract.md` |
 | SH-010 | Multi-page website handling | `multi_page_websites_contract.md` |
 | SH-011 | Markdown parsing strategy | `markdown_parsing_strategy.md` |
+| SH-012 | DOI, PMID, PMCID and URL extraction strategy | `metadata_identifier_extraction_strategy.md` |
 
 ---
 
@@ -50,6 +51,7 @@ If no dedicated contract exists for a file yet, use the relevant section in `ski
 | Host navigation entry or References button | `navigation_integration_contract.md` |
 | Multiple HTML entry points or multi-page websites | `multi_page_websites_contract.md` |
 | Markdown bibliography extraction | `markdown_parsing_strategy.md` |
+| DOI, PMID, PMCID and URL extraction | `metadata_identifier_extraction_strategy.md` |
 | Generated module structure or backup behaviour | `generated_files_contract.md` |
 
 ---

@@ -149,11 +149,12 @@ Completed and validated:
 | SH-009 | Done | Navigation integration contract defined. |
 | SH-010 | Done | Multi-page website behaviour contract defined. |
 | SH-011 | Done | Markdown parsing strategy defined. |
+| SH-012 | Done | DOI / PMID / PMCID / URL extraction strategy defined. |
 
 Next recommended hardening task:
 
 ```text
-SH-012 — DOI / PMID / PMCID / URL extraction rules
+SH-013 — Bibliography section boundary rules
 ```
 
 ---
@@ -164,7 +165,6 @@ The next Phase 1 critical items are:
 
 | ID | Topic | Status |
 |---|---|---|
-| SH-012 | DOI / PMID / PMCID / URL extraction rules | Pending |
 | SH-013 | Bibliography section boundary rules | Pending |
 | SH-019 | Machine-verifiable success criteria | Pending |
 
@@ -279,15 +279,14 @@ For each new correction:
 Recommended next task:
 
 ```text
-SH-012 — DOI / PMID / PMCID / URL extraction rules
+SH-013 — Bibliography section boundary rules
 ```
 
 Expected focus:
 
-- DOI normalization;
-- PMID and PMCID detection;
-- URL extraction;
-- identifier precedence and conflict handling;
-- punctuation trimming;
-- source traceability;
-- no metadata invention.
+- precise bibliography section start rules;
+- precise bibliography section stop rules;
+- nested heading behaviour;
+- avoiding over-capture of notes, annexes and TODOs;
+- fallback behaviour when no bibliography heading exists;
+- interaction with Markdown parsing strategy.

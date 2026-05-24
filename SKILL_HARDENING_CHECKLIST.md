@@ -28,7 +28,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 | SH-003 | HTML contract | Define mandatory structure of `reference.html` | All agents generate equivalent detail pages | Critical | Oui |
 | SH-004 | JavaScript contract | Define mandatory functions of `reference.js` | Consistent behaviour across installations | Critical | Oui |
 | SH-005 | CSS contract | Define mandatory classes and namespaces in `reference.css` | Consistent styling and isolation | Critical | Oui |
-| SH-006 | JSON contract | Define exact root structure of `references.json` | Identical JSON format across agents | Critical | Non |
+| SH-006 | JSON contract | Define exact root structure of `references.json` | Identical JSON format across agents | Critical | Oui |
 | SH-007 | JSON contract | Define exact root structure of `theme_refscilink.json` | Identical theme format across agents | Critical | Non |
 | SH-008 | Configuration contract | Define complete schema of `refscilink.config.json` | Persistent configuration behaviour | High | Non |
 | SH-009 | Navigation integration | Define exact insertion strategy for the `Références` button | Predictable HTML modification | Critical | Non |
@@ -229,11 +229,37 @@ The CSS contract must make RefSciLink feel like an extension of the host website
 
 ---
 
+### SH-006 — references.json JSON Contract
+
+Implemented in `skills/contracts/references_json_contract.md` and used as the normative contract for generated `data/reference_bibliographique/json/references.json` files.
+
+The skill now defines the mandatory JSON data structure for bibliographic references.
+
+Implemented:
+
+- mandatory root object with `metadata` and `references`;
+- prohibition of generating legacy root arrays, while allowing `reference.js` to tolerate them for backward compatibility;
+- mandatory metadata fields including `generated_by`, `version`, `schema_version`, `generated_at`, `language`, `source_markdown`, `source_markdown_sha256`, `enrichment_mode` and `reference_count`;
+- stable reference object with bibliographic fields, identifiers, URLs, access status, summaries, validation fields, extraction status, metadata status, review notes, source location and duplicate tracking;
+- string-array representation for `authors`;
+- stable `ref001`, `ref002`, `ref003` ID strategy and appearance-order numbering;
+- controlled values for `access_type`, `validation_status`, `extraction_status` and `metadata_status`;
+- explicit no-`null` policy for unknown strings and arrays;
+- source Markdown location tracking with line numbers and section metadata;
+- duplicate handling without automatic deletion;
+- strict human-validation rules preventing AI summaries from being validated by default;
+- DOI, PMID, PMCID and URL normalization rules;
+- minimal valid JSON example;
+- machine-reviewable success criteria for future `schema_references.json` validation.
+
+Generated user-facing summary values may follow the detected host language, but all JSON keys must remain English and stable.
+
+---
+
 ## Recommended implementation order
 
 ### Phase 1 — Critical specification lock
 
-- SH-006
 - SH-007
 - SH-009
 - SH-011

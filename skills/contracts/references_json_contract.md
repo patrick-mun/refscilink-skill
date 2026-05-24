@@ -212,6 +212,12 @@ Complex author objects may be introduced later in a new schema version if requir
 
 ## Stable IDs and ordering
 
+The detailed normative strategy is externalized in:
+
+```text
+skills/contracts/reference_numbering_strategy.md
+```
+
 IDs and numbers must be generated in Markdown appearance order:
 
 ```text

@@ -35,6 +35,7 @@ If no dedicated contract exists for a file yet, use the relevant section in `ski
 | SH-011 | Markdown parsing strategy | `markdown_parsing_strategy.md` |
 | SH-012 | DOI, PMID, PMCID and URL extraction strategy | `metadata_identifier_extraction_strategy.md` |
 | SH-013 | Bibliography section boundary strategy | `bibliography_boundary_strategy.md` |
+| SH-014 | Reference numbering and stable ID strategy | `reference_numbering_strategy.md` |
 
 ---
 
@@ -54,6 +55,7 @@ If no dedicated contract exists for a file yet, use the relevant section in `ski
 | Markdown bibliography extraction | `markdown_parsing_strategy.md` |
 | Markdown bibliography section boundaries | `bibliography_boundary_strategy.md` |
 | DOI, PMID, PMCID and URL extraction | `metadata_identifier_extraction_strategy.md` |
+| Reference numbering, stable IDs and rerun matching | `reference_numbering_strategy.md` |
 | Generated module structure or backup behaviour | `generated_files_contract.md` |
 
 ---

@@ -36,7 +36,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 | SH-011 | Markdown parsing | Define line-by-line parsing strategy | Stable extraction behaviour | Critical | Oui |
 | SH-012 | Metadata extraction | Define DOI / PMID / PMCID / URL detection rules | Consistent metadata extraction | Critical | Oui |
 | SH-013 | Markdown boundaries | Define bibliography section start/stop rules | Avoid over-capturing unrelated content | Critical | Oui |
-| SH-014 | Reference numbering | Define numbering and ordering strategy | Stable reference identifiers | Medium | Non |
+| SH-014 | Reference numbering | Define numbering and ordering strategy | Stable reference identifiers | Medium | Oui |
 | SH-015 | Reference status system | Define all reference validation and error states | Consistent lifecycle management | High | Non |
 | SH-016 | Logging | Define installation logs and diagnostics | Easier debugging | Medium | Non |
 | SH-017 | Dry-run mode | Define simulation mode without file modification | Safe testing workflow | High | Non |
@@ -429,9 +429,31 @@ The local extraction tool now applies these boundary rules so heading lines are 
 
 ---
 
+### SH-014 — Reference Numbering Strategy
+
+Implemented in `skills/contracts/reference_numbering_strategy.md` and used as the normative strategy for stable reference IDs, human-facing numbers and rerun matching.
+
+The strategy defines:
+
+- `id` as the stable machine identifier used by links and validation state;
+- `number` as the current human-facing Markdown appearance order;
+- `numero` as a legacy key that must not be generated in new output;
+- initial `ref001`, `ref002`, `ref003` assignment rules;
+- rerun matching priority using DOI, PMID, PMCID, URL and raw-reference fingerprints;
+- ID reuse for recognized references;
+- preservation rules for human validation, summaries, themes and enrichment data;
+- new-reference ID assignment above the highest previous `refNNN`;
+- removed-reference reporting and backup expectations;
+- duplicate handling without automatic merge or deletion;
+- machine-reviewable success criteria for stable numbering.
+
+The local extraction tool now reuses previous IDs when references are recognized, updates `number` from the current Markdown order, preserves human validation fields and records reused, new and removed IDs in generation metadata.
+
+---
+
 ## Contract externalization note
 
-The normative contracts for completed hardening items SH-001 to SH-013 are now externalized in:
+The normative contracts for completed hardening items SH-001 to SH-014 are now externalized in:
 
 ```text
 skills/contracts/
@@ -462,6 +484,7 @@ Current externalized contracts:
 | SH-011 | `skills/contracts/markdown_parsing_strategy.md` |
 | SH-012 | `skills/contracts/metadata_identifier_extraction_strategy.md` |
 | SH-013 | `skills/contracts/bibliography_boundary_strategy.md` |
+| SH-014 | `skills/contracts/reference_numbering_strategy.md` |
 
 ---
 

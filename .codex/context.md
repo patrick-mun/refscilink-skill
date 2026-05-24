@@ -100,6 +100,12 @@ Bibliography capture must follow:
 skills/contracts/bibliography_boundary_strategy.md
 ```
 
+Reference IDs and rerun numbering must follow:
+
+```text
+skills/contracts/reference_numbering_strategy.md
+```
+
 ## Scientific sources
 
 When enrichment is available, prioritise:

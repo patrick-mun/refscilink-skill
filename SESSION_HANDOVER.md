@@ -31,13 +31,14 @@ SH-010
 SH-011
 SH-012
 SH-013
+SH-014
 ```
 
 Current task:
 
 ```text
-SH-019
-Machine-verifiable success criteria
+SH-015
+Reference status system
 ```
 
 ---
@@ -141,10 +142,10 @@ Do not confuse roadmap upgrades with hardening tasks.
 Implement:
 
 ```text
-SH-019 — Machine-verifiable success criteria
+SH-015 — Reference status system
 ```
 
-Then continue Phase 1:
+Then continue critical validation work:
 
 ```text
 SH-019 — Machine-verifiable success criteria
@@ -170,11 +171,11 @@ Repository:
 refscilink-skill
 
 Current state:
-SH-000 to SH-013 completed and validated.
+SH-000 to SH-014 completed and validated.
 Generated-file contracts are externalized in skills/contracts/.
 
 Current task:
-SH-019 Machine-verifiable success criteria.
+SH-015 Reference status system.
 
 Do not modify completed SH items without justification.
 Keep technical specifications in English.

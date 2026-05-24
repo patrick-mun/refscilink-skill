@@ -221,6 +221,7 @@ Current normative contracts:
 | Markdown bibliography extraction | `skills/contracts/markdown_parsing_strategy.md` |
 | Markdown bibliography section boundaries | `skills/contracts/bibliography_boundary_strategy.md` |
 | DOI, PMID, PMCID and URL extraction | `skills/contracts/metadata_identifier_extraction_strategy.md` |
+| Reference numbering, stable IDs and rerun matching | `skills/contracts/reference_numbering_strategy.md` |
 
 If a required contract file is missing, continue using the corresponding section in this main skill file and report that the dedicated contract has not yet been created.
 
@@ -404,6 +405,14 @@ skills/contracts/metadata_identifier_extraction_strategy.md
 ```
 
 The assistant must read that strategy before normalizing identifiers or modifying identifier extraction code.
+
+Reference numbering, stable IDs and rerun matching rules are externalized in:
+
+```text
+skills/contracts/reference_numbering_strategy.md
+```
+
+The assistant must read that strategy before generating `id`, assigning `number`, preserving existing references or modifying rerun behaviour.
 
 ---
 

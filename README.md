@@ -253,6 +253,7 @@ The current version includes:
 - automatic Markdown section detection;
 - explicit bibliography section boundary rules to avoid capturing notes, annexes or TODO content;
 - reference extraction;
+- stable reference IDs across reruns when references are recognized;
 - DOI detection;
 - metadata lookup through Crossref when a DOI is present;
 - JSON schema for AI-enriched summaries;

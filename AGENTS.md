@@ -59,6 +59,12 @@ Markdown extraction must respect the bibliography section boundary strategy in:
 skills/contracts/bibliography_boundary_strategy.md
 ```
 
+Reference IDs and rerun numbering must respect:
+
+```text
+skills/contracts/reference_numbering_strategy.md
+```
+
 ## Default module path
 
 When installed in another project, create:

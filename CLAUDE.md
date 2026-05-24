@@ -153,3 +153,9 @@ Markdown bibliography extraction boundaries are specified in:
 ```text
 skills/contracts/bibliography_boundary_strategy.md
 ```
+
+Reference numbering and stable IDs are specified in:
+
+```text
+skills/contracts/reference_numbering_strategy.md
+```

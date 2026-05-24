@@ -151,11 +151,12 @@ Completed and validated:
 | SH-011 | Done | Markdown parsing strategy defined. |
 | SH-012 | Done | DOI / PMID / PMCID / URL extraction strategy defined. |
 | SH-013 | Done | Bibliography section boundary strategy defined. |
+| SH-014 | Done | Reference numbering and stable ID strategy defined. |
 
 Next recommended hardening task:
 
 ```text
-SH-019 — Machine-verifiable success criteria
+SH-015 — Reference status system
 ```
 
 ---
@@ -279,14 +280,13 @@ For each new correction:
 Recommended next task:
 
 ```text
-SH-019 — Machine-verifiable success criteria
+SH-015 — Reference status system
 ```
 
 Expected focus:
 
-- concrete install validation commands;
-- required file existence checks;
-- JSON schema and parse checks;
-- static page smoke-test expectations;
-- extraction verification using `examples/basic-site`;
-- pass/fail reporting format.
+- controlled reference lifecycle states;
+- validation and revision transitions;
+- extraction and metadata status interaction;
+- duplicate and manual-review handling;
+- UI expectations for each status.

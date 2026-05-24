@@ -76,6 +76,36 @@ const BIBLIOGRAPHY_STOP_HEADINGS = new Set([
 ]);
 
 const rl = readline.createInterface({ input, output });
+const PRESERVED_IF_PRESENT_FIELDS = [
+  'title',
+  'authors',
+  'year',
+  'journal',
+  'publisher',
+  'volume',
+  'issue',
+  'pages',
+  'doi',
+  'pmid',
+  'pmcid',
+  'url',
+  'pdf_url',
+  'source_url',
+  'theme',
+  'keywords',
+  'short_summary',
+  'detailed_summary',
+  'key_points',
+  'project_relevance',
+  'limitations',
+  'metadata_status'
+];
+const HUMAN_VALIDATION_FIELDS = [
+  'validated',
+  'validation_status',
+  'validated_by',
+  'validation_date'
+];
 
 async function main() {
   const filePath = await question('Path to the Markdown file containing references: ');
@@ -84,8 +114,16 @@ async function main() {
 
   const absolutePath = path.resolve(filePath.trim());
   const markdown = await fs.readFile(absolutePath, 'utf8');
+  const previousPayload = await readExistingReferences();
+  const previousReferences = previousPayload?.references || [];
   const extracted = extractReferences(markdown);
-  const references = extracted.map((entry, index) => normalizeReference(entry, index + 1, filePath.trim()));
+  const numberingPlan = createNumberingPlan(extracted, previousReferences);
+  const references = extracted.map((entry, index) => {
+    const plan = numberingPlan.entries[index];
+    const reference = normalizeReference(entry, index + 1, filePath.trim(), plan.id);
+    const merged = plan.previousReference ? mergePreviousReference(reference, plan.previousReference) : reference;
+    return markDuplicateReference(merged, numberingPlan.activeSeenKeys);
+  });
 
   const payload = {
     metadata: {
@@ -97,18 +135,48 @@ async function main() {
       source_markdown: filePath.trim(),
       source_markdown_sha256: crypto.createHash('sha256').update(markdown).digest('hex'),
       enrichment_mode: 'extract_only',
-      reference_count: references.length
+      reference_count: references.length,
+      numbering_strategy: 'stable_ids_source_order_numbers',
+      previous_reference_count: previousReferences.length,
+      reused_reference_ids: numberingPlan.reusedIds,
+      new_reference_ids: numberingPlan.newIds,
+      removed_reference_ids: numberingPlan.removedIds
     },
     references
   };
 
   await fs.mkdir(path.dirname(OUTPUT), { recursive: true });
+  if (previousPayload) await backupExistingReferences();
   await fs.writeFile(OUTPUT, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
   console.log(`OK: ${references.length} references written to ${OUTPUT}`);
+  if (numberingPlan.removedIds.length) {
+    console.log(`Review: ${numberingPlan.removedIds.length} previous reference IDs were not found in the current Markdown: ${numberingPlan.removedIds.join(', ')}`);
+  }
 }
 
 function question(label) {
   return new Promise(resolve => rl.question(label, resolve));
+}
+
+async function readExistingReferences() {
+  try {
+    const raw = await fs.readFile(OUTPUT, 'utf8');
+    const payload = JSON.parse(raw);
+    if (Array.isArray(payload)) return { metadata: {}, references: payload };
+    if (payload && Array.isArray(payload.references)) return payload;
+  } catch (error) {
+    if (error.code !== 'ENOENT') {
+      console.warn(`Warning: existing references.json could not be reused: ${error.message}`);
+    }
+  }
+  return null;
+}
+
+async function backupExistingReferences() {
+  const now = new Date().toISOString().replace(/[-:]/g, '').replace(/\..+/, '').replace('T', '_');
+  const backupPath = path.resolve(`backup/refscilink/reference_bibliographique_${now}/json/references.json`);
+  await fs.mkdir(path.dirname(backupPath), { recursive: true });
+  await fs.copyFile(OUTPUT, backupPath);
 }
 
 function extractReferences(markdown) {
@@ -244,7 +312,7 @@ function toEntry(buffer, lineStart, lineEnd, sectionTitle, sectionLevel, extract
   };
 }
 
-function normalizeReference(entry, number, sourceMarkdown) {
+function normalizeReference(entry, number, sourceMarkdown, id = `ref${String(number).padStart(3, '0')}`) {
   const raw = entry.raw_reference;
   const identifiers = extractIdentifiers(raw);
   const reviewNotes = [];
@@ -255,7 +323,7 @@ function normalizeReference(entry, number, sourceMarkdown) {
     reviewNotes.push(`Multiple URLs detected; primary URL selected automatically: ${identifiers.additional_urls.join('; ')}.`);
   }
   return {
-    id: `ref${String(number).padStart(3, '0')}`,
+    id,
     number,
     raw_reference: raw,
     title: guessTitle(raw),
@@ -297,6 +365,138 @@ function normalizeReference(entry, number, sourceMarkdown) {
     duplicate_of: '',
     duplicate_confidence: ''
   };
+}
+
+function createNumberingPlan(extractedEntries, previousReferences) {
+  const previousIndex = buildPreviousReferenceIndex(previousReferences);
+  const usedPreviousIndexes = new Set();
+  const usedIds = new Set(previousReferences.map(reference => reference.id).filter(Boolean));
+  const activeSeenKeys = new Map();
+  let nextIdNumber = findHighestReferenceId(previousReferences) + 1;
+  const entries = extractedEntries.map(entry => {
+    const matched = findPreviousReference(entry, previousIndex, usedPreviousIndexes);
+    if (matched) {
+      usedPreviousIndexes.add(matched.index);
+      return { id: matched.reference.id, previousReference: matched.reference, reused: true };
+    }
+    while (usedIds.has(formatReferenceId(nextIdNumber))) nextIdNumber += 1;
+    const id = formatReferenceId(nextIdNumber);
+    usedIds.add(id);
+    nextIdNumber += 1;
+    return { id, previousReference: null, reused: false };
+  });
+  const reusedIds = entries.filter(entry => entry.reused).map(entry => entry.id);
+  const newIds = entries.filter(entry => !entry.reused).map(entry => entry.id);
+  const activeIds = new Set(entries.map(entry => entry.id));
+  return {
+    entries,
+    reusedIds,
+    newIds,
+    removedIds: previousReferences.map(reference => reference.id).filter(Boolean).filter(id => !activeIds.has(id)),
+    activeSeenKeys
+  };
+}
+
+function buildPreviousReferenceIndex(previousReferences) {
+  const index = new Map();
+  previousReferences.forEach((reference, position) => {
+    getReferenceMatchKeys(reference).forEach(key => {
+      if (!index.has(key)) index.set(key, []);
+      index.get(key).push({ reference, index: position });
+    });
+  });
+  return index;
+}
+
+function findPreviousReference(entry, previousIndex, usedPreviousIndexes) {
+  const keys = getReferenceMatchKeys({ raw_reference: entry.raw_reference });
+  for (const key of keys) {
+    const candidates = previousIndex.get(key) || [];
+    const matched = candidates.find(candidate => !usedPreviousIndexes.has(candidate.index));
+    if (matched) return matched;
+  }
+  return null;
+}
+
+function getReferenceMatchKeys(reference) {
+  const raw = reference.raw_reference || '';
+  const identifiers = extractIdentifiers(raw);
+  return unique([
+    reference.doi || identifiers.doi ? `doi:${normalizeDOI(reference.doi || identifiers.doi).toLowerCase()}` : '',
+    reference.pmid || identifiers.pmid ? `pmid:${reference.pmid || identifiers.pmid}` : '',
+    reference.pmcid || identifiers.pmcid ? `pmcid:${String(reference.pmcid || identifiers.pmcid).toUpperCase()}` : '',
+    reference.url || identifiers.url ? `url:${trimIdentifier(reference.url || identifiers.url).toLowerCase()}` : '',
+    raw ? `raw:${normalizeReferenceFingerprint(raw)}` : ''
+  ].filter(Boolean));
+}
+
+function normalizeReferenceFingerprint(raw) {
+  return raw
+    .replace(/^\s*(?:[-*+]\s+|\d+[.)]\s+|\[[0-9]+\]\s*)/, '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+}
+
+function findHighestReferenceId(references) {
+  return references.reduce((highest, reference) => {
+    const match = String(reference.id || '').match(/^ref(\d+)$/);
+    return match ? Math.max(highest, Number(match[1])) : highest;
+  }, 0);
+}
+
+function formatReferenceId(number) {
+  return `ref${String(number).padStart(3, '0')}`;
+}
+
+function mergePreviousReference(reference, previousReference) {
+  const merged = { ...reference, id: previousReference.id };
+  PRESERVED_IF_PRESENT_FIELDS.forEach(field => {
+    if (hasMeaningfulValue(previousReference[field]) && !hasMeaningfulValue(reference[field])) {
+      merged[field] = previousReference[field];
+    }
+  });
+  if (previousReference.access_type && previousReference.access_type !== 'unknown' && reference.access_type === 'unknown') {
+    merged.access_type = previousReference.access_type;
+  }
+  if (previousReference.metadata_status && previousReference.metadata_status !== 'not_enriched' && reference.metadata_status === 'not_enriched') {
+    merged.metadata_status = previousReference.metadata_status;
+  }
+  HUMAN_VALIDATION_FIELDS.forEach(field => {
+    if (Object.prototype.hasOwnProperty.call(previousReference, field)) {
+      merged[field] = previousReference[field];
+    }
+  });
+  if (hasMeaningfulValue(previousReference.review_notes) && hasMeaningfulValue(reference.review_notes)) {
+    merged.review_notes = `${reference.review_notes} Previous review notes: ${previousReference.review_notes}`;
+  } else if (hasMeaningfulValue(previousReference.review_notes)) {
+    merged.review_notes = previousReference.review_notes;
+  }
+  return merged;
+}
+
+function hasMeaningfulValue(value) {
+  if (Array.isArray(value)) return value.length > 0;
+  if (typeof value === 'string') return value.trim().length > 0;
+  return value !== undefined && value !== null && value !== false;
+}
+
+function markDuplicateReference(reference, activeSeenKeys) {
+  const duplicateKeys = getReferenceMatchKeys(reference).filter(key => !key.startsWith('raw:') || normalizeReferenceFingerprint(reference.raw_reference).length > 20);
+  for (const key of duplicateKeys) {
+    if (!activeSeenKeys.has(key)) continue;
+    const previousId = activeSeenKeys.get(key);
+    return {
+      ...reference,
+      extraction_status: 'duplicate_suspected',
+      duplicate_of: previousId,
+      duplicate_confidence: key.startsWith('raw:') ? 'medium' : 'high'
+    };
+  }
+  duplicateKeys.forEach(key => activeSeenKeys.set(key, reference.id));
+  return reference;
 }
 
 function hasIdentifierSignal(text) {

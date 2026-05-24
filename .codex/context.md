@@ -252,3 +252,13 @@ skills/contracts/offline_mode_strategy.md
 ```
 
 When no internet access is available, keep local extraction and static UI generation working, skip network enrichment and mark metadata for review.
+
+## No external API mode
+
+No-external-API behaviour is specified in:
+
+```text
+skills/contracts/no_external_api_mode_strategy.md
+```
+
+When scientific APIs are disabled or unavailable but local work can continue, skip external lookup, preserve identifiers and leave metadata ready for later enrichment.

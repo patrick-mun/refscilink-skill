@@ -273,3 +273,13 @@ skills/contracts/offline_mode_strategy.md
 ```
 
 Offline mode must keep installation and Markdown extraction working locally, skip scientific metadata enrichment, preserve locally detected identifiers and mark unverified metadata for human review.
+
+## No external API mode
+
+Before running or modifying behaviour where network access may exist but scientific enrichment APIs are forbidden, read:
+
+```text
+skills/contracts/no_external_api_mode_strategy.md
+```
+
+No-external-API mode must keep local extraction working, skip external scientific metadata APIs, preserve locally detected identifiers and prepare references for later enrichment.

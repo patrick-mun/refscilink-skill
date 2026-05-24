@@ -133,6 +133,11 @@ Recommended baseline codes:
 | `REFSCILINK_ENRICHMENT_SKIPPED_OFFLINE` | `warning` | Scientific enrichment was skipped because offline mode is active. |
 | `REFSCILINK_LOCAL_EXTRACTION_ONLY` | `info` | Local extraction continues without online lookup. |
 | `REFSCILINK_METADATA_REVIEW_REQUIRED` | `review_required` | Metadata remains unverified and requires human review. |
+| `REFSCILINK_NO_EXTERNAL_API_MODE_ENABLED` | `info` | No-external-API mode is active. |
+| `REFSCILINK_EXTERNAL_API_SKIPPED` | `warning` | External scientific API lookup was skipped. |
+| `REFSCILINK_METADATA_LOOKUP_DEFERRED` | `info` | Metadata lookup can be resumed later. |
+| `REFSCILINK_LOCAL_METADATA_ONLY` | `info` | Metadata came only from local source text. |
+| `REFSCILINK_API_KEY_MISSING` | `warning` | A scientific API key was unavailable or not configured. |
 | `REFSCILINK_ROLLBACK_STARTED` | `info` | Rollback planning or execution started. |
 | `REFSCILINK_ROLLBACK_BACKUP_SELECTED` | `info` | A backup was selected. |
 | `REFSCILINK_ROLLBACK_PLAN_CREATED` | `info` | A rollback plan was created. |

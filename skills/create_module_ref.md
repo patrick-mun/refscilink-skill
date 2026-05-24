@@ -467,6 +467,14 @@ skills/contracts/offline_mode_strategy.md
 
 The assistant must read that strategy before running, implementing or modifying behaviour when no internet connection is available.
 
+No-external-API mode rules are externalized in:
+
+```text
+skills/contracts/no_external_api_mode_strategy.md
+```
+
+The assistant must read that strategy before running, implementing or modifying behaviour where network access may exist but scientific enrichment APIs must not be used.
+
 ---
 
 ### 6. Scientific lookup and access classification
@@ -483,6 +491,18 @@ Offline execution must follow:
 
 ```text
 skills/contracts/offline_mode_strategy.md
+```
+
+If no-external-API mode is active, skip external scientific API lookup, keep local extraction working and report:
+
+```text
+No-external-API mode active. External scientific metadata lookup skipped.
+```
+
+No-external-API execution must follow:
+
+```text
+skills/contracts/no_external_api_mode_strategy.md
 ```
 
 Search appropriate sources:

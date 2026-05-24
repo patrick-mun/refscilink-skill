@@ -39,13 +39,14 @@ SH-018
 SH-019
 SH-020
 SH-021
+SH-022
 ```
 
 Current task:
 
 ```text
-SH-022
-No external API mode
+SH-023
+Deferred enrichment
 ```
 
 ---
@@ -149,13 +150,13 @@ Do not confuse roadmap upgrades with hardening tasks.
 Implement:
 
 ```text
-SH-022 — No external API mode
+SH-023 — Deferred enrichment
 ```
 
 Then continue validation hardening:
 
 ```text
-SH-023 — Deferred enrichment
+SH-024 — User file protection
 ```
 
 ---
@@ -178,11 +179,11 @@ Repository:
 refscilink-skill
 
 Current state:
-SH-000 to SH-021 completed and validated.
+SH-000 to SH-022 completed and validated.
 Generated-file contracts are externalized in skills/contracts/.
 
 Current task:
-SH-022 No external API mode.
+SH-023 Deferred enrichment.
 
 Do not modify completed SH items without justification.
 Keep technical specifications in English.

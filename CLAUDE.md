@@ -209,3 +209,11 @@ skills/contracts/offline_mode_strategy.md
 ```
 
 Offline mode must continue local extraction and skip network-based enrichment.
+
+No-external-API behaviour is specified in:
+
+```text
+skills/contracts/no_external_api_mode_strategy.md
+```
+
+No-external-API mode must skip scientific metadata APIs while preserving local extraction and future enrichment readiness.

@@ -44,7 +44,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 | SH-019 | Success criteria | Define machine-verifiable installation success criteria | Reliable validation process | Critical | Oui |
 | SH-020 | Official tests | Define mandatory test cases using `examples/basic-site` | Reproducible validation workflow | Critical | Oui |
 | SH-021 | Offline mode | Define behaviour without internet access | Predictable offline execution | High | Oui |
-| SH-022 | No external API mode | Define behaviour without enrichment APIs | Stable local operation | High | Non |
+| SH-022 | No external API mode | Define behaviour without enrichment APIs | Stable local operation | High | Oui |
 | SH-023 | Deferred enrichment | Define delayed enrichment workflow | Non-blocking installation | Medium | Non |
 | SH-024 | User file protection | Define strict non-destruction rules | No accidental data loss | Critical | Non |
 | SH-025 | GitHub Pages compatibility | Define static hosting constraints | GitHub Pages support guaranteed | High | Non |
@@ -595,9 +595,29 @@ Offline execution must preserve local installation and extraction while clearly 
 
 ---
 
+### SH-022 — No External API Mode Strategy
+
+Implemented in `skills/contracts/no_external_api_mode_strategy.md` and used as the normative strategy when network access may exist but scientific enrichment APIs must not be called.
+
+The no-external-API strategy defines:
+
+- mode separation from SH-021 offline mode;
+- activation rules from user request, config, missing API keys, blocked APIs, rate limits, privacy constraints or reproducibility constraints;
+- config requirements for `enrichment.mode: no_external_api`, optional general network access, disabled AI summaries and mandatory human validation;
+- forbidden scientific enrichment services including PubMed, Crossref, Europe PMC, DOI.org metadata APIs, Semantic Scholar, Unpaywall, HAL, bioRxiv, medRxiv, publisher APIs and remote PDF checks;
+- allowed local actions including project analysis, Markdown extraction, identifier detection, local raw-reference parsing, stable IDs, JSON generation, theme detection and static UI generation;
+- `references.json` behaviour for `enrichment_mode: no_external_api`, local identifiers, `not_enriched`, `metadata_to_verify`, `unknown` access status and preserved human validation;
+- stable diagnostics including `REFSCILINK_NO_EXTERNAL_API_MODE_ENABLED`, `REFSCILINK_EXTERNAL_API_SKIPPED`, `REFSCILINK_METADATA_LOOKUP_DEFERRED`, `REFSCILINK_LOCAL_METADATA_ONLY` and `REFSCILINK_API_KEY_MISSING`;
+- final report requirements for skipped external APIs, local extraction counts, identifier counts, metadata review counts and deferred enrichment recommendation;
+- handoff boundary to SH-023 deferred enrichment.
+
+No-external-API mode must keep RefSciLink usable without scientific lookup APIs while preserving enough traceability for later enrichment.
+
+---
+
 ## Contract externalization note
 
-The normative contracts for completed hardening items SH-001 to SH-021 are now externalized in:
+The normative contracts for completed hardening items SH-001 to SH-022 are now externalized in:
 
 ```text
 skills/contracts/
@@ -636,6 +656,7 @@ Current externalized contracts:
 | SH-019 | `skills/contracts/success_criteria_strategy.md` |
 | SH-020 | `skills/contracts/official_tests_strategy.md` |
 | SH-021 | `skills/contracts/offline_mode_strategy.md` |
+| SH-022 | `skills/contracts/no_external_api_mode_strategy.md` |
 
 ---
 
@@ -643,8 +664,8 @@ Current externalized contracts:
 
 ### Phase 2 — Reliability and execution modes
 
-- SH-022
+- SH-023
 
 Goal:
 
-Define stable local operation when external enrichment APIs are unavailable or disabled.
+Define delayed enrichment workflow without blocking installation.

@@ -159,11 +159,12 @@ Completed and validated:
 | SH-019 | Done | Machine-verifiable success criteria strategy defined. |
 | SH-020 | Done | Official reproducible tests using `examples/basic-site` implemented. |
 | SH-021 | Done | Offline mode strategy defined for local-only execution. |
+| SH-022 | Done | No external API mode strategy defined for local-only enrichment-safe execution. |
 
 Next recommended hardening task:
 
 ```text
-SH-022 — No external API mode
+SH-023 — Deferred enrichment
 ```
 
 ---
@@ -174,7 +175,7 @@ The next hardening item is:
 
 | ID | Topic | Status |
 |---|---|---|
-| SH-022 | No external API mode | Pending |
+| SH-023 | Deferred enrichment | Pending |
 
 Do not modify completed SH items unless a bug or inconsistency is discovered.
 
@@ -287,13 +288,13 @@ For each new correction:
 Recommended next task:
 
 ```text
-SH-022 — No external API mode
+SH-023 — Deferred enrichment
 ```
 
 Expected focus:
 
-- define behaviour when internet access exists but enrichment APIs are disabled or unavailable;
-- distinguish no-external-API mode from full offline mode;
-- keep local extraction and generated UI stable without scientific lookup APIs;
-- define diagnostics for skipped external API calls;
-- prepare deferred enrichment without blocking installation.
+- define delayed metadata enrichment after local installation;
+- preserve references, identifiers and review states between extraction and enrichment;
+- define safe re-run behaviour for enrichment-only updates;
+- define diagnostics for pending and completed deferred enrichment;
+- ensure deferred enrichment never auto-validates AI-generated summaries.

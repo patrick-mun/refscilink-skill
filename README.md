@@ -247,6 +247,24 @@ The normative offline behaviour is defined in:
 skills/contracts/offline_mode_strategy.md
 ```
 
+## No External API Mode
+
+RefSciLink can run when external scientific enrichment APIs are disabled, unavailable or intentionally forbidden.
+
+In this mode:
+
+- local Markdown extraction still runs;
+- local DOI, PMID, PMCID and URL detection still runs;
+- scientific lookup through PubMed, Crossref, Europe PMC, DOI.org, Semantic Scholar, Unpaywall or publisher APIs is skipped;
+- metadata remains unverified unless it comes from local source text or a later approved enrichment workflow;
+- deferred enrichment can be recommended without blocking installation.
+
+The normative behaviour is defined in:
+
+```text
+skills/contracts/no_external_api_mode_strategy.md
+```
+
 The official example must be used whenever a major change is made to:
 
 - bibliography extraction;

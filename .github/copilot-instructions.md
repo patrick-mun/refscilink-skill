@@ -145,3 +145,9 @@ When adding features, update:
 - `README.md`;
 - `skills/create_module_ref.md` when the AI-assisted installation workflow changes;
 - `data/reference_bibliographique/tools/schema_references.json` when JSON fields change.
+
+Markdown bibliography extraction boundaries are defined in:
+
+```text
+skills/contracts/bibliography_boundary_strategy.md
+```

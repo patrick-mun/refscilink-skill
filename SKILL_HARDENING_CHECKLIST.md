@@ -35,7 +35,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 | SH-010 | Multi-page websites | Define behaviour when several HTML entry points exist | Consistent integration decisions | Medium | Oui |
 | SH-011 | Markdown parsing | Define line-by-line parsing strategy | Stable extraction behaviour | Critical | Oui |
 | SH-012 | Metadata extraction | Define DOI / PMID / PMCID / URL detection rules | Consistent metadata extraction | Critical | Oui |
-| SH-013 | Markdown boundaries | Define bibliography section start/stop rules | Avoid over-capturing unrelated content | Critical | Non |
+| SH-013 | Markdown boundaries | Define bibliography section start/stop rules | Avoid over-capturing unrelated content | Critical | Oui |
 | SH-014 | Reference numbering | Define numbering and ordering strategy | Stable reference identifiers | Medium | Non |
 | SH-015 | Reference status system | Define all reference validation and error states | Consistent lifecycle management | High | Non |
 | SH-016 | Logging | Define installation logs and diagnostics | Easier debugging | Medium | Non |
@@ -408,9 +408,30 @@ The identifier extraction strategy must extract only identifiers present in sour
 
 ---
 
+### SH-013 — Bibliography Section Boundary Strategy
+
+Implemented in `skills/contracts/bibliography_boundary_strategy.md` and used as the normative strategy for deciding where Markdown bibliography extraction starts, stops and falls back.
+
+The strategy defines:
+
+- accepted bibliography start headings in English and French;
+- heading normalization rules including case, punctuation and accented/unaccented variants;
+- primary stop rules for same-level and higher-level headings;
+- explicit stop headings for annexes, notes, acknowledgements, TODO sections and unrelated resources;
+- allowed bibliography subsections such as articles, books, preprints, datasets, reports and theses;
+- conservative stopping behaviour for unknown nested headings;
+- reference buffer flushing rules at boundaries;
+- no-heading identifier fallback behaviour;
+- `source_location` boundary metadata mapping;
+- anti-overcapture examples and machine-reviewable success criteria.
+
+The local extraction tool now applies these boundary rules so heading lines are not included in `raw_reference` and unrelated notes, annexes or TODO content are not extracted.
+
+---
+
 ## Contract externalization note
 
-The normative contracts for completed hardening items SH-001 to SH-012 are now externalized in:
+The normative contracts for completed hardening items SH-001 to SH-013 are now externalized in:
 
 ```text
 skills/contracts/
@@ -440,6 +461,7 @@ Current externalized contracts:
 | SH-010 | `skills/contracts/multi_page_websites_contract.md` |
 | SH-011 | `skills/contracts/markdown_parsing_strategy.md` |
 | SH-012 | `skills/contracts/metadata_identifier_extraction_strategy.md` |
+| SH-013 | `skills/contracts/bibliography_boundary_strategy.md` |
 
 ---
 
@@ -447,7 +469,6 @@ Current externalized contracts:
 
 ### Phase 1 — Critical specification lock
 
-- SH-013
 - SH-019
 
 Goal:

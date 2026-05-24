@@ -7,7 +7,73 @@ import { stdin as input, stdout as output } from 'node:process';
 
 const ROOT = path.resolve('data/reference_bibliographique');
 const OUTPUT = path.join(ROOT, 'json/references.json');
-const REF_HEADINGS = /^(#{1,6})\s*(références bibliographiques|references bibliographiques|références|references|bibliographie|bibliography|sources|literature cited)\s*$/i;
+const REF_HEADINGS = new Set([
+  'references',
+  'bibliography',
+  'bibliographic references',
+  'cited references',
+  'literature cited',
+  'cited literature',
+  'works cited',
+  'sources',
+  'references bibliographiques',
+  'bibliographie',
+  'sources bibliographiques',
+  'litterature citee',
+  'travaux cites'
+]);
+const BIBLIOGRAPHY_SUBSECTIONS = new Set([
+  'articles',
+  'journal articles',
+  'scientific articles',
+  'books',
+  'book chapters',
+  'chapters',
+  'preprints',
+  'reports',
+  'theses',
+  'dissertations',
+  'datasets',
+  'websites',
+  'web resources',
+  'standards',
+  'guidelines',
+  'patents',
+  'clinical trials',
+  'articles scientifiques',
+  'livres',
+  'chapitres',
+  'prepublications',
+  'rapports',
+  'donnees',
+  'sites web',
+  'ressources web',
+  'normes',
+  'recommandations',
+  'brevets',
+  'essais cliniques'
+]);
+const BIBLIOGRAPHY_STOP_HEADINGS = new Set([
+  'annexe',
+  'annexes',
+  'appendix',
+  'appendices',
+  'notes',
+  'internal notes',
+  'notes internes',
+  'acknowledgements',
+  'acknowledgments',
+  'remerciements',
+  'todo',
+  'to do',
+  'tasks',
+  'a faire',
+  'further reading',
+  'other resources',
+  'autres ressources',
+  'supplementary material',
+  'materiel supplementaire'
+]);
 
 const rl = readline.createInterface({ input, output });
 
@@ -51,27 +117,52 @@ function extractReferences(markdown) {
   let capture = false;
   let currentLevel = 99;
   let sectionTitle = '';
+  let activeSectionTitle = '';
   let sectionLevel = 0;
   let buffer = [];
   let bufferStart = 0;
   let markerFound = false;
 
+  const flushBuffer = (lineEnd, extractionStatus = 'extracted') => {
+    if (!buffer.length) return;
+    blocks.push(toEntry(buffer, bufferStart, lineEnd, activeSectionTitle || sectionTitle, sectionLevel, extractionStatus));
+    buffer = [];
+  };
+
   lines.forEach((line, index) => {
-    const heading = line.match(/^(#{1,6})\s+(.+)$/);
-    if (REF_HEADINGS.test(line.trim())) {
+    const heading = parseMarkdownHeading(line);
+    if (heading && isBibliographyHeading(heading.normalizedTitle)) {
+      flushBuffer(index);
       capture = true;
-      currentLevel = line.match(/^(#{1,6})/)[1].length;
-      sectionTitle = line.replace(/^#{1,6}\s*/, '').trim();
+      currentLevel = heading.level;
+      sectionTitle = heading.title;
+      activeSectionTitle = sectionTitle;
       sectionLevel = currentLevel;
       return;
     }
-    if (capture && heading && heading[1].length <= currentLevel) {
+
+    if (capture && heading) {
+      if (heading.level <= currentLevel || isStopHeading(heading.normalizedTitle)) {
+        flushBuffer(index);
+        capture = false;
+        activeSectionTitle = '';
+        return;
+      }
+      if (isBibliographySubsection(heading.normalizedTitle)) {
+        flushBuffer(index);
+        activeSectionTitle = `${sectionTitle} / ${heading.title}`;
+        return;
+      }
+      flushBuffer(index);
       capture = false;
+      activeSectionTitle = '';
+      return;
     }
+
     if (!capture) return;
     const startsReference = /^\s*(?:[-*+]\s+|\d+[.)]\s+|\[[0-9]+\]\s*)/.test(line);
     if (startsReference && buffer.length) {
-      blocks.push(toEntry(buffer, bufferStart, index, sectionTitle, sectionLevel));
+      flushBuffer(index);
       buffer = [];
     }
     if (startsReference) markerFound = true;
@@ -81,12 +172,12 @@ function extractReferences(markdown) {
       return;
     }
     if (!markerFound && buffer.length) {
-      blocks.push(toEntry(buffer, bufferStart, index, sectionTitle, sectionLevel, 'manual_review_required'));
+      flushBuffer(index, 'manual_review_required');
       buffer = [];
     }
   });
 
-  if (buffer.length) blocks.push(toEntry(buffer, bufferStart, lines.length, sectionTitle, sectionLevel));
+  flushBuffer(lines.length);
   if (blocks.length) {
     return blocks
       .filter(entry => entry.raw_reference.length > 20)
@@ -107,6 +198,39 @@ function extractReferences(markdown) {
       section_level: 0,
       extraction_status: 'manual_review_required'
     }));
+}
+
+function parseMarkdownHeading(line) {
+  const match = line.match(/^\s{0,3}(#{1,6})\s+(.+?)\s*#*\s*$/);
+  if (!match) return null;
+  const title = match[2].trim().replace(/\s+#+$/, '').trim();
+  return {
+    level: match[1].length,
+    title,
+    normalizedTitle: normalizeHeadingTitle(title)
+  };
+}
+
+function normalizeHeadingTitle(title) {
+  return title
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[：:.\-—–]+$/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+}
+
+function isBibliographyHeading(normalizedTitle) {
+  return REF_HEADINGS.has(normalizedTitle);
+}
+
+function isBibliographySubsection(normalizedTitle) {
+  return BIBLIOGRAPHY_SUBSECTIONS.has(normalizedTitle);
+}
+
+function isStopHeading(normalizedTitle) {
+  return BIBLIOGRAPHY_STOP_HEADINGS.has(normalizedTitle);
 }
 
 function toEntry(buffer, lineStart, lineEnd, sectionTitle, sectionLevel, extractionStatus = 'extracted') {

@@ -30,13 +30,14 @@ SH-009
 SH-010
 SH-011
 SH-012
+SH-013
 ```
 
 Current task:
 
 ```text
-SH-013
-Bibliography section boundary rules
+SH-019
+Machine-verifiable success criteria
 ```
 
 ---
@@ -140,7 +141,7 @@ Do not confuse roadmap upgrades with hardening tasks.
 Implement:
 
 ```text
-SH-013 — Bibliography section boundary rules
+SH-019 — Machine-verifiable success criteria
 ```
 
 Then continue Phase 1:
@@ -169,11 +170,11 @@ Repository:
 refscilink-skill
 
 Current state:
-SH-000 to SH-012 completed and validated.
+SH-000 to SH-013 completed and validated.
 Generated-file contracts are externalized in skills/contracts/.
 
 Current task:
-SH-013 Bibliography section boundary rules.
+SH-019 Machine-verifiable success criteria.
 
 Do not modify completed SH items without justification.
 Keep technical specifications in English.

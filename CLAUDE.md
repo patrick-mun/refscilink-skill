@@ -147,3 +147,9 @@ Whenever functionality changes:
 - update skills/create_module_ref.md if installation behaviour changes;
 - update AGENTS.md if project-wide behaviour changes;
 - update CLAUDE.md when Claude-specific guidance changes.
+
+Markdown bibliography extraction boundaries are specified in:
+
+```text
+skills/contracts/bibliography_boundary_strategy.md
+```

@@ -113,6 +113,12 @@ The installation behaviour is defined in:
 skills/create_module_ref.md
 ```
 
+Detailed generated-file contracts and extraction strategies are indexed in:
+
+```text
+skills/contracts/README.md
+```
+
 This file can be adapted, versioned and extended according to project needs.
 
 ## Official Example and Validation Procedure
@@ -245,6 +251,7 @@ data/
 The current version includes:
 
 - automatic Markdown section detection;
+- explicit bibliography section boundary rules to avoid capturing notes, annexes or TODO content;
 - reference extraction;
 - DOI detection;
 - metadata lookup through Crossref when a DOI is present;

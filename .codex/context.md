@@ -94,6 +94,12 @@ References may be incomplete.
 
 Attempt correction before flagging for review.
 
+Bibliography capture must follow:
+
+```text
+skills/contracts/bibliography_boundary_strategy.md
+```
+
 ## Scientific sources
 
 When enrichment is available, prioritise:

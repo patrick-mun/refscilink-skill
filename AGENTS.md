@@ -53,6 +53,12 @@ Expected workflow:
 10. Display references through Vanilla HTML/CSS/JS.
 11. Require human validation for every AI-generated summary.
 
+Markdown extraction must respect the bibliography section boundary strategy in:
+
+```text
+skills/contracts/bibliography_boundary_strategy.md
+```
+
 ## Default module path
 
 When installed in another project, create:

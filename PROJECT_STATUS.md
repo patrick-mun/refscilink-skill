@@ -150,11 +150,12 @@ Completed and validated:
 | SH-010 | Done | Multi-page website behaviour contract defined. |
 | SH-011 | Done | Markdown parsing strategy defined. |
 | SH-012 | Done | DOI / PMID / PMCID / URL extraction strategy defined. |
+| SH-013 | Done | Bibliography section boundary strategy defined. |
 
 Next recommended hardening task:
 
 ```text
-SH-013 — Bibliography section boundary rules
+SH-019 — Machine-verifiable success criteria
 ```
 
 ---
@@ -165,7 +166,6 @@ The next Phase 1 critical items are:
 
 | ID | Topic | Status |
 |---|---|---|
-| SH-013 | Bibliography section boundary rules | Pending |
 | SH-019 | Machine-verifiable success criteria | Pending |
 
 Do not modify completed SH items unless a bug or inconsistency is discovered.
@@ -279,14 +279,14 @@ For each new correction:
 Recommended next task:
 
 ```text
-SH-013 — Bibliography section boundary rules
+SH-019 — Machine-verifiable success criteria
 ```
 
 Expected focus:
 
-- precise bibliography section start rules;
-- precise bibliography section stop rules;
-- nested heading behaviour;
-- avoiding over-capture of notes, annexes and TODOs;
-- fallback behaviour when no bibliography heading exists;
-- interaction with Markdown parsing strategy.
+- concrete install validation commands;
+- required file existence checks;
+- JSON schema and parse checks;
+- static page smoke-test expectations;
+- extraction verification using `examples/basic-site`;
+- pass/fail reporting format.

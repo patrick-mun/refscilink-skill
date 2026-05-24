@@ -138,6 +138,14 @@ Recommended baseline codes:
 | `REFSCILINK_METADATA_LOOKUP_DEFERRED` | `info` | Metadata lookup can be resumed later. |
 | `REFSCILINK_LOCAL_METADATA_ONLY` | `info` | Metadata came only from local source text. |
 | `REFSCILINK_API_KEY_MISSING` | `warning` | A scientific API key was unavailable or not configured. |
+| `REFSCILINK_DEFERRED_ENRICHMENT_PENDING` | `info` | Enrichment is planned for later. |
+| `REFSCILINK_DEFERRED_ENRICHMENT_STARTED` | `info` | Deferred enrichment pass started. |
+| `REFSCILINK_DEFERRED_ENRICHMENT_COMPLETED` | `success` | Deferred enrichment completed. |
+| `REFSCILINK_DEFERRED_ENRICHMENT_PARTIAL` | `warning` | Deferred enrichment completed with partial metadata. |
+| `REFSCILINK_DEFERRED_ENRICHMENT_FAILED` | `error` | Deferred enrichment failed. |
+| `REFSCILINK_ENRICHMENT_REFERENCE_UPDATED` | `info` | A reference was updated during enrichment. |
+| `REFSCILINK_ENRICHMENT_REFERENCE_SKIPPED` | `warning` | A reference was skipped during enrichment. |
+| `REFSCILINK_ENRICHMENT_REVIEW_REQUIRED` | `review_required` | Enriched metadata requires human review. |
 | `REFSCILINK_ROLLBACK_STARTED` | `info` | Rollback planning or execution started. |
 | `REFSCILINK_ROLLBACK_BACKUP_SELECTED` | `info` | A backup was selected. |
 | `REFSCILINK_ROLLBACK_PLAN_CREATED` | `info` | A rollback plan was created. |

@@ -217,3 +217,11 @@ skills/contracts/no_external_api_mode_strategy.md
 ```
 
 No-external-API mode must skip scientific metadata APIs while preserving local extraction and future enrichment readiness.
+
+Deferred enrichment is specified in:
+
+```text
+skills/contracts/deferred_enrichment_strategy.md
+```
+
+Deferred enrichment must preserve stable IDs and human validation data, and must never auto-validate AI-generated summaries.

@@ -44,6 +44,7 @@ If no dedicated contract exists for a file yet, use the relevant section in `ski
 | SH-020 | Official reproducible tests using `examples/basic-site` | `official_tests_strategy.md` |
 | SH-021 | Offline mode strategy | `offline_mode_strategy.md` |
 | SH-022 | No external API mode strategy | `no_external_api_mode_strategy.md` |
+| SH-023 | Deferred enrichment strategy | `deferred_enrichment_strategy.md` |
 
 ---
 
@@ -72,6 +73,7 @@ If no dedicated contract exists for a file yet, use the relevant section in `ski
 | Official reproducible tests using `examples/basic-site` | `official_tests_strategy.md` |
 | Offline execution without internet access | `offline_mode_strategy.md` |
 | Network-available execution without scientific enrichment APIs | `no_external_api_mode_strategy.md` |
+| Deferred metadata enrichment after installation or extraction | `deferred_enrichment_strategy.md` |
 | Generated module structure or backup behaviour | `generated_files_contract.md` |
 
 ---

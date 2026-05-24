@@ -283,3 +283,13 @@ skills/contracts/no_external_api_mode_strategy.md
 ```
 
 No-external-API mode must keep local extraction working, skip external scientific metadata APIs, preserve locally detected identifiers and prepare references for later enrichment.
+
+## Deferred enrichment
+
+Before planning or modifying delayed metadata enrichment, read:
+
+```text
+skills/contracts/deferred_enrichment_strategy.md
+```
+
+Deferred enrichment must never block installation, must preserve stable IDs and human validation fields, and must never auto-validate AI-generated summaries.

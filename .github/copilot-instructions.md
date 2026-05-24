@@ -215,3 +215,11 @@ skills/contracts/no_external_api_mode_strategy.md
 ```
 
 No-external-API mode must skip external scientific lookup while preserving local extraction and later enrichment readiness.
+
+Deferred enrichment is defined in:
+
+```text
+skills/contracts/deferred_enrichment_strategy.md
+```
+
+Deferred enrichment must not block installation and must preserve stable IDs, human validation data and AI-summary review requirements.

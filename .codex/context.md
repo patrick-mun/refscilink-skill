@@ -262,3 +262,13 @@ skills/contracts/no_external_api_mode_strategy.md
 ```
 
 When scientific APIs are disabled or unavailable but local work can continue, skip external lookup, preserve identifiers and leave metadata ready for later enrichment.
+
+## Deferred enrichment
+
+Deferred enrichment is specified in:
+
+```text
+skills/contracts/deferred_enrichment_strategy.md
+```
+
+Install and extract first, enrich later only through a safe rerun that preserves stable IDs, human validation fields and review state.

@@ -475,6 +475,14 @@ skills/contracts/no_external_api_mode_strategy.md
 
 The assistant must read that strategy before running, implementing or modifying behaviour where network access may exist but scientific enrichment APIs must not be used.
 
+Deferred enrichment rules are externalized in:
+
+```text
+skills/contracts/deferred_enrichment_strategy.md
+```
+
+The assistant must read that strategy before planning, reporting or performing delayed metadata enrichment after installation or extraction.
+
 ---
 
 ### 6. Scientific lookup and access classification
@@ -503,6 +511,18 @@ No-external-API execution must follow:
 
 ```text
 skills/contracts/no_external_api_mode_strategy.md
+```
+
+If enrichment is deferred, complete local installation and extraction first, preserve stable IDs and report:
+
+```text
+Deferred enrichment planned. Local installation and extraction completed without blocking.
+```
+
+Deferred enrichment must follow:
+
+```text
+skills/contracts/deferred_enrichment_strategy.md
 ```
 
 Search appropriate sources:

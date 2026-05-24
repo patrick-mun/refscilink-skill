@@ -265,6 +265,24 @@ The normative behaviour is defined in:
 skills/contracts/no_external_api_mode_strategy.md
 ```
 
+## Deferred Enrichment
+
+RefSciLink may install and extract references before scientific metadata enrichment is available.
+
+Deferred enrichment means:
+
+- extraction and static UI generation are completed first;
+- metadata lookup can run later;
+- stable IDs and source traceability are preserved;
+- human validation fields are never overwritten silently;
+- AI-generated summaries remain unvalidated until a human validates them.
+
+The normative workflow is defined in:
+
+```text
+skills/contracts/deferred_enrichment_strategy.md
+```
+
 The official example must be used whenever a major change is made to:
 
 - bibliography extraction;

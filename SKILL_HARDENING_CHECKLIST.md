@@ -45,7 +45,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 | SH-020 | Official tests | Define mandatory test cases using `examples/basic-site` | Reproducible validation workflow | Critical | Oui |
 | SH-021 | Offline mode | Define behaviour without internet access | Predictable offline execution | High | Oui |
 | SH-022 | No external API mode | Define behaviour without enrichment APIs | Stable local operation | High | Oui |
-| SH-023 | Deferred enrichment | Define delayed enrichment workflow | Non-blocking installation | Medium | Non |
+| SH-023 | Deferred enrichment | Define delayed enrichment workflow | Non-blocking installation | Medium | Oui |
 | SH-024 | User file protection | Define strict non-destruction rules | No accidental data loss | Critical | Non |
 | SH-025 | GitHub Pages compatibility | Define static hosting constraints | GitHub Pages support guaranteed | High | Non |
 | SH-026 | Accessibility | Define minimum accessibility requirements | Accessible generated interface | Medium | Non |
@@ -615,9 +615,30 @@ No-external-API mode must keep RefSciLink usable without scientific lookup APIs 
 
 ---
 
+### SH-023 — Deferred Enrichment Strategy
+
+Implemented in `skills/contracts/deferred_enrichment_strategy.md` and used as the normative strategy for delayed scientific metadata enrichment after local installation or extraction.
+
+The deferred enrichment strategy defines:
+
+- non-blocking installation as the core principle;
+- activation rules from user choice, config, unavailable APIs, enrichment-only reruns or deferred metadata lookup from offline/no-external-API modes;
+- config requirements for `enrichment.mode: deferred_enrichment`, future network use, explicit summary generation and mandatory human validation;
+- preconditions for enrichment-only runs, including valid `references.json`, stable IDs, `raw_reference`, source traceability and readable validation fields;
+- allowed enrichment updates for missing metadata, access status, source URLs, review notes, diagnostics and explicitly requested summaries;
+- forbidden changes to IDs, numbering, source traceability, human validation fields and AI-summary validation status;
+- status transitions for `metadata_found`, `metadata_partial`, `metadata_not_found`, `enrichment_failed` and `metadata_to_verify`;
+- conservative rerun rules based on existing IDs and preservation of validated records;
+- stable diagnostics including `REFSCILINK_DEFERRED_ENRICHMENT_PENDING`, `REFSCILINK_DEFERRED_ENRICHMENT_STARTED`, `REFSCILINK_DEFERRED_ENRICHMENT_COMPLETED`, `REFSCILINK_DEFERRED_ENRICHMENT_PARTIAL`, `REFSCILINK_DEFERRED_ENRICHMENT_FAILED`, `REFSCILINK_ENRICHMENT_REFERENCE_UPDATED`, `REFSCILINK_ENRICHMENT_REFERENCE_SKIPPED` and `REFSCILINK_ENRICHMENT_REVIEW_REQUIRED`;
+- final report requirements for targeted, updated, skipped and review-required references.
+
+Deferred enrichment must never auto-validate AI-generated summaries or overwrite human-reviewed data silently.
+
+---
+
 ## Contract externalization note
 
-The normative contracts for completed hardening items SH-001 to SH-022 are now externalized in:
+The normative contracts for completed hardening items SH-001 to SH-023 are now externalized in:
 
 ```text
 skills/contracts/
@@ -657,6 +678,7 @@ Current externalized contracts:
 | SH-020 | `skills/contracts/official_tests_strategy.md` |
 | SH-021 | `skills/contracts/offline_mode_strategy.md` |
 | SH-022 | `skills/contracts/no_external_api_mode_strategy.md` |
+| SH-023 | `skills/contracts/deferred_enrichment_strategy.md` |
 
 ---
 
@@ -664,8 +686,8 @@ Current externalized contracts:
 
 ### Phase 2 — Reliability and execution modes
 
-- SH-023
+- SH-024
 
 Goal:
 
-Define delayed enrichment workflow without blocking installation.
+Define strict non-destruction rules for user files.

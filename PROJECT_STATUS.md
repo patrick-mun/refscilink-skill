@@ -160,11 +160,12 @@ Completed and validated:
 | SH-020 | Done | Official reproducible tests using `examples/basic-site` implemented. |
 | SH-021 | Done | Offline mode strategy defined for local-only execution. |
 | SH-022 | Done | No external API mode strategy defined for local-only enrichment-safe execution. |
+| SH-023 | Done | Deferred enrichment strategy defined for non-blocking metadata lookup. |
 
 Next recommended hardening task:
 
 ```text
-SH-023 — Deferred enrichment
+SH-024 — User file protection
 ```
 
 ---
@@ -175,7 +176,7 @@ The next hardening item is:
 
 | ID | Topic | Status |
 |---|---|---|
-| SH-023 | Deferred enrichment | Pending |
+| SH-024 | User file protection | Pending |
 
 Do not modify completed SH items unless a bug or inconsistency is discovered.
 
@@ -288,13 +289,13 @@ For each new correction:
 Recommended next task:
 
 ```text
-SH-023 — Deferred enrichment
+SH-024 — User file protection
 ```
 
 Expected focus:
 
-- define delayed metadata enrichment after local installation;
-- preserve references, identifiers and review states between extraction and enrichment;
-- define safe re-run behaviour for enrichment-only updates;
-- define diagnostics for pending and completed deferred enrichment;
-- ensure deferred enrichment never auto-validates AI-generated summaries.
+- define strict non-destruction rules for existing user files;
+- separate generated files from host project files;
+- require backups or explicit confirmation before overwrites;
+- define conflict handling for manual edits;
+- prevent accidental deletion during install, update, rollback or enrichment.

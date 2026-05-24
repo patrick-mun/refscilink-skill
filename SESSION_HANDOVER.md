@@ -40,13 +40,14 @@ SH-019
 SH-020
 SH-021
 SH-022
+SH-023
 ```
 
 Current task:
 
 ```text
-SH-023
-Deferred enrichment
+SH-024
+User file protection
 ```
 
 ---
@@ -150,13 +151,13 @@ Do not confuse roadmap upgrades with hardening tasks.
 Implement:
 
 ```text
-SH-023 — Deferred enrichment
+SH-024 — User file protection
 ```
 
 Then continue validation hardening:
 
 ```text
-SH-024 — User file protection
+SH-025 — GitHub Pages compatibility
 ```
 
 ---
@@ -179,11 +180,11 @@ Repository:
 refscilink-skill
 
 Current state:
-SH-000 to SH-022 completed and validated.
+SH-000 to SH-023 completed and validated.
 Generated-file contracts are externalized in skills/contracts/.
 
 Current task:
-SH-023 Deferred enrichment.
+SH-024 User file protection.
 
 Do not modify completed SH items without justification.
 Keep technical specifications in English.

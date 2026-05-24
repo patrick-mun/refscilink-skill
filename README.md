@@ -229,6 +229,24 @@ An installation is considered successful when:
 - navigation integration works;
 - the original website design remains intact.
 
+## Offline Mode
+
+RefSciLink must remain usable without internet access.
+
+When offline mode is active:
+
+- Markdown extraction still runs locally;
+- DOI, PMID, PMCID and URLs found in source text are preserved;
+- scientific metadata lookup is skipped;
+- unverified metadata remains marked for review;
+- the generated static bibliography UI must still work.
+
+The normative offline behaviour is defined in:
+
+```text
+skills/contracts/offline_mode_strategy.md
+```
+
 The official example must be used whenever a major change is made to:
 
 - bibliography extraction;

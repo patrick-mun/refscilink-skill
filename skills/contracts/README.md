@@ -42,6 +42,7 @@ If no dedicated contract exists for a file yet, use the relevant section in `ski
 | SH-018 | Rollback mode strategy | `rollback_mode_strategy.md` |
 | SH-019 | Machine-verifiable success criteria | `success_criteria_strategy.md` |
 | SH-020 | Official reproducible tests using `examples/basic-site` | `official_tests_strategy.md` |
+| SH-021 | Offline mode strategy | `offline_mode_strategy.md` |
 
 ---
 
@@ -68,6 +69,7 @@ If no dedicated contract exists for a file yet, use the relevant section in `ski
 | Rollback planning and safe restore behaviour | `rollback_mode_strategy.md` |
 | Machine-verifiable validation and success criteria | `success_criteria_strategy.md` |
 | Official reproducible tests using `examples/basic-site` | `official_tests_strategy.md` |
+| Offline execution without internet access | `offline_mode_strategy.md` |
 | Generated module structure or backup behaviour | `generated_files_contract.md` |
 
 ---

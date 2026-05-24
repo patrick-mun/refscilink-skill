@@ -201,3 +201,11 @@ Run the official local validation with:
 ```text
 npm run test:basic-site
 ```
+
+Offline behaviour is specified in:
+
+```text
+skills/contracts/offline_mode_strategy.md
+```
+
+Offline mode must continue local extraction and skip network-based enrichment.

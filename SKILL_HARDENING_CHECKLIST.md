@@ -43,7 +43,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 | SH-018 | Rollback mode | Define restoration strategy after failed installation | Safe recovery mechanism | High | Oui |
 | SH-019 | Success criteria | Define machine-verifiable installation success criteria | Reliable validation process | Critical | Oui |
 | SH-020 | Official tests | Define mandatory test cases using `examples/basic-site` | Reproducible validation workflow | Critical | Oui |
-| SH-021 | Offline mode | Define behaviour without internet access | Predictable offline execution | High | Non |
+| SH-021 | Offline mode | Define behaviour without internet access | Predictable offline execution | High | Oui |
 | SH-022 | No external API mode | Define behaviour without enrichment APIs | Stable local operation | High | Non |
 | SH-023 | Deferred enrichment | Define delayed enrichment workflow | Non-blocking installation | Medium | Non |
 | SH-024 | User file protection | Define strict non-destruction rules | No accidental data loss | Critical | Non |
@@ -575,9 +575,29 @@ The test must remain local-only, deterministic and safe for the repository fixtu
 
 ---
 
+### SH-021 — Offline Mode Strategy
+
+Implemented in `skills/contracts/offline_mode_strategy.md` and used as the normative strategy for RefSciLink execution without internet access.
+
+The offline strategy defines:
+
+- offline mode as a supported degraded mode, not a failure;
+- activation rules from explicit user request, config, disabled network or unavailable scientific services;
+- config requirements for `enrichment.mode: offline`, `allow_network: false`, `allow_ai_summaries: false` and mandatory human validation;
+- allowed local actions including project analysis, Markdown extraction, identifier detection, stable IDs, JSON generation, theme detection and static UI generation;
+- forbidden online actions including PubMed, Crossref, Europe PMC, DOI.org, Semantic Scholar, Unpaywall, publisher scraping and remote PDF checks;
+- `references.json` behaviour for local identifiers, unverified metadata, `not_enriched`, `metadata_to_verify`, `unknown` access status and preserved human validation;
+- stable offline diagnostics including `REFSCILINK_OFFLINE_MODE_ENABLED`, `REFSCILINK_NETWORK_UNAVAILABLE`, `REFSCILINK_ENRICHMENT_SKIPPED_OFFLINE`, `REFSCILINK_LOCAL_EXTRACTION_ONLY` and `REFSCILINK_METADATA_REVIEW_REQUIRED`;
+- final report requirements for skipped enrichment, locally extracted references and metadata review counts;
+- boundary with future SH-022 no-external-API mode.
+
+Offline execution must preserve local installation and extraction while clearly marking scientific metadata as unverified when online enrichment is unavailable.
+
+---
+
 ## Contract externalization note
 
-The normative contracts for completed hardening items SH-001 to SH-020 are now externalized in:
+The normative contracts for completed hardening items SH-001 to SH-021 are now externalized in:
 
 ```text
 skills/contracts/
@@ -615,6 +635,7 @@ Current externalized contracts:
 | SH-018 | `skills/contracts/rollback_mode_strategy.md` |
 | SH-019 | `skills/contracts/success_criteria_strategy.md` |
 | SH-020 | `skills/contracts/official_tests_strategy.md` |
+| SH-021 | `skills/contracts/offline_mode_strategy.md` |
 
 ---
 
@@ -622,8 +643,8 @@ Current externalized contracts:
 
 ### Phase 2 — Reliability and execution modes
 
-- SH-021
+- SH-022
 
 Goal:
 
-Define predictable behaviour without internet access.
+Define stable local operation when external enrichment APIs are unavailable or disabled.

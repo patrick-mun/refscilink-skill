@@ -128,6 +128,11 @@ Recommended baseline codes:
 | `REFSCILINK_DRY_RUN_WOULD_WRITE_JSON` | `info` | A JSON file would be written. |
 | `REFSCILINK_DRY_RUN_WOULD_BACKUP` | `info` | A backup would be created. |
 | `REFSCILINK_DRY_RUN_NO_WRITE` | `success` | Dry-run completed without writing files. |
+| `REFSCILINK_OFFLINE_MODE_ENABLED` | `info` | Offline mode is active. |
+| `REFSCILINK_NETWORK_UNAVAILABLE` | `warning` | Network access is unavailable or disabled. |
+| `REFSCILINK_ENRICHMENT_SKIPPED_OFFLINE` | `warning` | Scientific enrichment was skipped because offline mode is active. |
+| `REFSCILINK_LOCAL_EXTRACTION_ONLY` | `info` | Local extraction continues without online lookup. |
+| `REFSCILINK_METADATA_REVIEW_REQUIRED` | `review_required` | Metadata remains unverified and requires human review. |
 | `REFSCILINK_ROLLBACK_STARTED` | `info` | Rollback planning or execution started. |
 | `REFSCILINK_ROLLBACK_BACKUP_SELECTED` | `info` | A backup was selected. |
 | `REFSCILINK_ROLLBACK_PLAN_CREATED` | `info` | A rollback plan was created. |

@@ -459,11 +459,31 @@ skills/contracts/success_criteria_strategy.md
 
 The assistant must read that strategy before declaring an installation, extraction or generated module update successful.
 
+Offline mode rules are externalized in:
+
+```text
+skills/contracts/offline_mode_strategy.md
+```
+
+The assistant must read that strategy before running, implementing or modifying behaviour when no internet connection is available.
+
 ---
 
 ### 6. Scientific lookup and access classification
 
 Only perform this step in Mode 3 or when explicitly requested.
+
+If offline mode is active, skip scientific lookup, keep local extraction working and report:
+
+```text
+Offline mode active. Scientific metadata enrichment skipped.
+```
+
+Offline execution must follow:
+
+```text
+skills/contracts/offline_mode_strategy.md
+```
 
 Search appropriate sources:
 

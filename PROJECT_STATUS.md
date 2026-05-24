@@ -158,11 +158,12 @@ Completed and validated:
 | SH-018 | Done | Rollback mode strategy defined. |
 | SH-019 | Done | Machine-verifiable success criteria strategy defined. |
 | SH-020 | Done | Official reproducible tests using `examples/basic-site` implemented. |
+| SH-021 | Done | Offline mode strategy defined for local-only execution. |
 
 Next recommended hardening task:
 
 ```text
-SH-021 — Offline mode
+SH-022 — No external API mode
 ```
 
 ---
@@ -173,7 +174,7 @@ The next hardening item is:
 
 | ID | Topic | Status |
 |---|---|---|
-| SH-021 | Offline mode | Pending |
+| SH-022 | No external API mode | Pending |
 
 Do not modify completed SH items unless a bug or inconsistency is discovered.
 
@@ -286,13 +287,13 @@ For each new correction:
 Recommended next task:
 
 ```text
-SH-021 — Offline mode
+SH-022 — No external API mode
 ```
 
 Expected focus:
 
-- define behaviour when no internet connection is available;
-- distinguish local extraction from online enrichment;
-- ensure installation and extraction continue without network access;
-- define diagnostics for offline execution;
-- keep scientific metadata marked as requiring review when unavailable.
+- define behaviour when internet access exists but enrichment APIs are disabled or unavailable;
+- distinguish no-external-API mode from full offline mode;
+- keep local extraction and generated UI stable without scientific lookup APIs;
+- define diagnostics for skipped external API calls;
+- prepare deferred enrichment without blocking installation.

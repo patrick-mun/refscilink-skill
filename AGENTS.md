@@ -263,3 +263,13 @@ npm run test:basic-site
 ```
 
 The test must remain local-only, deterministic and safe for the repository fixture.
+
+## Offline mode
+
+Before running or modifying behaviour without internet access, read:
+
+```text
+skills/contracts/offline_mode_strategy.md
+```
+
+Offline mode must keep installation and Markdown extraction working locally, skip scientific metadata enrichment, preserve locally detected identifiers and mark unverified metadata for human review.

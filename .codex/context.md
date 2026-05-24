@@ -242,3 +242,13 @@ npm run test:basic-site
 ```
 
 This local test must remain deterministic and must not modify the repository fixture.
+
+## Offline mode
+
+Offline behaviour is specified in:
+
+```text
+skills/contracts/offline_mode_strategy.md
+```
+
+When no internet access is available, keep local extraction and static UI generation working, skip network enrichment and mark metadata for review.

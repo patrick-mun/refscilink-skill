@@ -199,3 +199,11 @@ Run:
 ```text
 npm run test:basic-site
 ```
+
+Offline behaviour is defined in:
+
+```text
+skills/contracts/offline_mode_strategy.md
+```
+
+Offline mode must keep local extraction working and skip network-based scientific enrichment.

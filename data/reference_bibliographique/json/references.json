@@ -1,25 +1,63 @@
-[
-  {
-    "id": "ref001",
-    "numero": 1,
-    "raw_reference": "Exemple A, Exemple B. Title of a scientific article. Journal. 2026. doi:10.0000/example",
-    "titre": "Title of a scientific article",
-    "auteurs": ["Exemple A", "Exemple B"],
-    "annee": "2026",
-    "journal": "Journal",
-    "doi": "10.0000/example",
-    "pmid": "",
-    "url": "",
-    "pdf_url": "",
-    "theme": "Exemple",
-    "access_type": "unknown",
-    "resume_court": "Exemple de résumé court à remplacer par l'analyse IA.",
-    "resume_detaille": "Exemple de résumé détaillé à remplacer après recherche et validation.",
-    "points_cles": ["Point clé exemple"],
-    "interet_pour_le_projet": "À préciser selon le sujet du site.",
-    "limites": "À vérifier manuellement.",
-    "validated": false,
-    "validation_status": "a_valider",
-    "source_markdown": ""
-  }
-]
+{
+  "metadata": {
+    "generated_by": "RefSciLink Skill",
+    "version": "0.2.0-dev",
+    "schema_version": "1.0.0",
+    "generated_at": "2026-05-24T12:00:00+04:00",
+    "language": "fr",
+    "source_markdown": "bibliographie.md",
+    "source_markdown_sha256": "",
+    "enrichment_mode": "extract_only",
+    "reference_count": 1
+  },
+  "references": [
+    {
+      "id": "ref001",
+      "number": 1,
+      "raw_reference": "Exemple A, Exemple B. Title of a scientific article. Journal. 2026. doi:10.0000/example.",
+      "title": "Title of a scientific article",
+      "authors": [
+        "Exemple A",
+        "Exemple B"
+      ],
+      "year": "2026",
+      "journal": "Journal",
+      "publisher": "",
+      "volume": "",
+      "issue": "",
+      "pages": "",
+      "doi": "10.0000/example",
+      "pmid": "",
+      "pmcid": "",
+      "url": "https://doi.org/10.0000/example",
+      "pdf_url": "",
+      "source_url": "",
+      "access_type": "unknown",
+      "theme": "example",
+      "keywords": [],
+      "short_summary": "Exemple de résumé court à remplacer par une analyse puis une validation humaine.",
+      "detailed_summary": "Exemple de résumé détaillé à remplacer après recherche bibliographique et validation humaine.",
+      "key_points": [
+        "Point clé exemple"
+      ],
+      "project_relevance": "À préciser selon le sujet du site.",
+      "limitations": "À vérifier manuellement.",
+      "validated": false,
+      "validation_status": "pending_validation",
+      "validated_by": "",
+      "validation_date": "",
+      "extraction_status": "extracted",
+      "metadata_status": "not_enriched",
+      "review_notes": "",
+      "source_markdown": "bibliographie.md",
+      "source_location": {
+        "line_start": 0,
+        "line_end": 0,
+        "section_title": "",
+        "section_level": 0
+      },
+      "duplicate_of": "",
+      "duplicate_confidence": ""
+    }
+  ]
+}

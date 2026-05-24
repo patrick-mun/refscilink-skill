@@ -101,7 +101,7 @@ Default validation state:
 ```json
 {
   "validated": false,
-  "validation_status": "a_valider"
+  "validation_status": "pending_validation"
 }
 ```
 
@@ -129,28 +129,37 @@ Each reference should support:
 ```json
 {
   "id": "ref001",
-  "numero": 1,
-  "titre": "",
-  "auteurs": [],
-  "annee": "",
+  "number": 1,
+  "title": "",
+  "authors": [],
+  "year": "",
   "journal": "",
+  "publisher": "",
+  "volume": "",
+  "issue": "",
+  "pages": "",
   "doi": "",
   "pmid": "",
   "pmcid": "",
   "url": "",
   "pdf_url": "",
+  "source_url": "",
   "access_type": "unknown",
-  "theme": "non_classe",
+  "theme": "unclassified",
+  "keywords": [],
   "raw_reference": "",
-  "resume_court": "",
-  "resume_detaille": "",
-  "points_cles": [],
-  "interet_pour_le_projet": "",
-  "limites": "",
+  "short_summary": "",
+  "detailed_summary": "",
+  "key_points": [],
+  "project_relevance": "",
+  "limitations": "",
   "validated": false,
-  "validation_status": "a_valider",
+  "validation_status": "pending_validation",
   "validated_by": "",
   "validation_date": "",
+  "extraction_status": "extracted",
+  "metadata_status": "not_enriched",
+  "review_notes": "",
   "source_markdown": ""
 }
 ```

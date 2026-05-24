@@ -1,54 +1,49 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Références bibliographiques</title>
-  <link rel="stylesheet" href="assets/css/reference.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Référence — Références bibliographiques</title>
+  <link rel="stylesheet" href="./assets/css/reference.css" />
 </head>
 <body>
-  <main class="ref-page">
-    <header class="ref-hero">
-      <p class="eyebrow">Bibliographie scientifique</p>
-      <h1>Références bibliographiques</h1>
-      <p>Liste des sources scientifiques associées à cette présentation, avec accès aux résumés détaillés et au statut de validation.</p>
+  <!-- RefSciLink detail page. One reference is selected through reference.html?id=ref001. -->
+  <main class="refscilink-page" data-refscilink-page="detail">
+    <header class="refscilink-header">
+      <a class="refscilink-back-link" href="./index_ref.html" data-refscilink-back-to-list>Retour aux références</a>
+      <h1 class="refscilink-title" data-refscilink-detail-title>Chargement de la référence…</h1>
     </header>
 
-    <section class="ref-toolbar" aria-label="Filtres bibliographiques">
-      <input id="refSearch" type="search" placeholder="Rechercher un titre, auteur, DOI, thème…">
-      <select id="themeFilter"><option value="all">Tous les thèmes</option></select>
-      <select id="validationFilter">
-        <option value="all">Tous les statuts</option>
-        <option value="valide">Validé</option>
-        <option value="a_valider">Non validé</option>
-        <option value="a_corriger">À corriger</option>
-      </select>
+    <section class="refscilink-state-area" aria-live="polite">
+      <p class="refscilink-loading" data-refscilink-loading>Chargement…</p>
+      <p class="refscilink-not-found" data-refscilink-not-found hidden>Référence introuvable.</p>
+      <p class="refscilink-error" data-refscilink-error role="alert" hidden></p>
     </section>
 
-    <section id="referencesList" class="references-list" aria-live="polite"></section>
+    <!-- JavaScript fills this article using safe text nodes and explicit links. -->
+    <article class="refscilink-detail" data-refscilink-detail hidden>
+      <section class="refscilink-metadata" aria-labelledby="refscilink-metadata-title">
+        <h2 id="refscilink-metadata-title">Métadonnées</h2>
+        <dl class="refscilink-metadata-list" data-refscilink-metadata></dl>
+      </section>
+
+      <section class="refscilink-summary-section" aria-labelledby="refscilink-summary-title">
+        <h2 id="refscilink-summary-title">Résumé</h2>
+        <section data-refscilink-short-summary></section>
+        <section data-refscilink-detailed-summary></section>
+        <section data-refscilink-key-points></section>
+        <section data-refscilink-project-relevance></section>
+        <section data-refscilink-limitations></section>
+      </section>
+
+      <section class="refscilink-actions" aria-label="Actions sur la référence">
+        <a class="refscilink-source-link" href="#" data-refscilink-source-link target="_blank" rel="noopener noreferrer">Voir la source</a>
+        <button type="button" class="refscilink-copy-button" data-refscilink-copy-reference>Copier la référence</button>
+        <button type="button" class="refscilink-validate-button" data-refscilink-validate>Valider le résumé</button>
+      </section>
+    </article>
   </main>
 
-  <template id="referenceCardTemplate">
-    <article class="ref-card">
-      <div class="ref-card-head">
-        <span class="ref-number"></span>
-        <span class="ref-theme"></span>
-        <span class="ref-access"></span>
-        <span class="ref-validation"></span>
-      </div>
-      <h2 class="ref-title"></h2>
-      <p class="ref-meta"></p>
-      <p class="ref-short"></p>
-      <div class="ref-actions">
-        <button class="read-summary">Lire le résumé</button>
-        <a class="view-source" target="_blank" rel="noopener">Voir la source</a>
-        <button class="copy-reference">Copier la référence</button>
-        <button class="validate-reference">Valider le résumé</button>
-      </div>
-      <section class="ref-summary" hidden></section>
-    </article>
-  </template>
-
-  <script src="assets/js/reference.js"></script>
+  <script src="./assets/js/reference.js"></script>
 </body>
 </html>

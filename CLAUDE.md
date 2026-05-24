@@ -108,7 +108,7 @@ Use:
 ```json
 {
   "validated": false,
-  "validation_status": "a_valider"
+  "validation_status": "pending_validation"
 }
 ```
 

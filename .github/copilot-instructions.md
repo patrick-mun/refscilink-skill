@@ -59,7 +59,8 @@ data/reference_bibliographique/
 │   └── js/
 │       └── reference.js
 ├── json/
-│   └── references.json
+│   ├── references.json
+│   └── theme_refscilink.json
 └── tools/
     ├── build_references.mjs
     ├── prompt_recherche_ia.md
@@ -85,7 +86,7 @@ Default validation state:
 ```json
 {
   "validated": false,
-  "validation_status": "a_valider"
+  "validation_status": "pending_validation"
 }
 ```
 

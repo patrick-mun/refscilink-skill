@@ -142,11 +142,17 @@ Completed and validated:
 | SH-002 | Done | `index_ref.html` HTML contract defined. |
 | SH-003 | Done | `reference.html` HTML contract defined. |
 | SH-004 | Done | `assets/js/reference.js` JavaScript contract defined. |
+| SH-005 | Done | `assets/css/reference.css` CSS contract defined. |
+| SH-006 | Done | `references.json` JSON contract defined. |
+| SH-007 | Done | `theme_refscilink.json` JSON contract defined. |
+| SH-008 | Done | `refscilink.config.json` configuration contract defined. |
+| SH-009 | Done | Navigation integration contract defined. |
+| SH-010 | Done | Multi-page website behaviour contract defined. |
 
 Next recommended hardening task:
 
 ```text
-SH-005 — CSS Contract for assets/css/reference.css
+SH-011 — Markdown parsing strategy
 ```
 
 ---
@@ -157,10 +163,6 @@ The next Phase 1 critical items are:
 
 | ID | Topic | Status |
 |---|---|---|
-| SH-005 | CSS contract for `reference.css` | Pending |
-| SH-006 | JSON contract for `references.json` | Pending |
-| SH-007 | JSON contract for `theme_refscilink.json` | Pending |
-| SH-009 | Navigation integration contract | Pending |
 | SH-011 | Markdown parsing strategy | Pending |
 | SH-012 | DOI / PMID / PMCID / URL extraction rules | Pending |
 | SH-013 | Bibliography section boundary rules | Pending |
@@ -277,16 +279,15 @@ For each new correction:
 Recommended next task:
 
 ```text
-SH-005 — CSS Contract for assets/css/reference.css
+SH-011 — Markdown parsing strategy
 ```
 
 Expected focus:
 
-- no global CSS pollution;
-- no inline style dependency;
-- `refscilink-` namespace;
-- theme variables;
-- host visual identity adaptation;
-- responsive layout;
-- accessibility contrast and focus states;
-- comments and maintainable CSS structure.
+- line-by-line Markdown parsing;
+- bibliography heading detection;
+- reference block continuation rules;
+- list, numbered and free-form reference formats;
+- source line tracking for `references.json`;
+- incomplete reference handling;
+- deterministic output across AI agents.

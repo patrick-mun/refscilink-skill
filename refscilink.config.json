@@ -1,0 +1,57 @@
+{
+  "metadata": {
+    "generated_by": "RefSciLink Skill",
+    "version": "0.2.0-dev",
+    "schema_version": "1.0.0",
+    "created_at": "2026-05-24T12:00:00+04:00",
+    "updated_at": "2026-05-24T12:00:00+04:00"
+  },
+  "source": {
+    "markdown_file": "",
+    "markdown_candidates": [],
+    "html_entrypoint": "",
+    "html_entrypoint_candidates": []
+  },
+  "output": {
+    "module_dir": "data/reference_bibliographique",
+    "index_file": "data/reference_bibliographique/index_ref.html",
+    "detail_file": "data/reference_bibliographique/reference.html",
+    "references_json": "data/reference_bibliographique/json/references.json",
+    "theme_json": "data/reference_bibliographique/json/theme_refscilink.json"
+  },
+  "display": {
+    "mode": "page",
+    "navigation_label": "",
+    "navigation_integration": "auto",
+    "navigation_target": "data/reference_bibliographique/index_ref.html"
+  },
+  "theme": {
+    "mode": "auto_override",
+    "config_file": "data/reference_bibliographique/json/theme_refscilink.json",
+    "preserve_host_identity": true
+  },
+  "language": {
+    "mode": "auto",
+    "detected": "fr",
+    "generated_ui": "fr"
+  },
+  "enrichment": {
+    "mode": "extract_only",
+    "allow_network": false,
+    "allow_ai_summaries": false,
+    "require_human_validation": true
+  },
+  "safety": {
+    "backup_before_overwrite": true,
+    "backup_dir": "backup/refscilink",
+    "overwrite_user_files": false,
+    "preserve_manual_edits": true,
+    "dry_run": false
+  },
+  "runtime": {
+    "static_hosting": true,
+    "github_pages_compatible": true,
+    "node_required_for_tools": true,
+    "minimum_node_version": "18"
+  }
+}

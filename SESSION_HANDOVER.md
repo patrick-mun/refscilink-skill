@@ -8,7 +8,7 @@ refscilink-skill
 
 ## Current objective
 
-Finish hardening the `/create_module_ref` skill before advanced feature development and AI integration.
+Finish hardening the `/create_module_ref` skill before advanced feature development and implementation work.
 
 ---
 
@@ -22,14 +22,19 @@ SH-001
 SH-002
 SH-003
 SH-004
+SH-005
+SH-006
+SH-007
+SH-008
+SH-009
+SH-010
 ```
 
 Current task:
 
 ```text
-SH-005
-CSS Contract
-assets/css/reference.css
+SH-011
+Markdown parsing strategy
 ```
 
 ---
@@ -41,9 +46,17 @@ Read these files before making modifications:
 ```text
 README.md
 PROJECT_STATUS.md
+SESSION_HANDOVER.md
 SKILL_HARDENING_CHECKLIST.md
 ROADMAP_UPGRADES.md
 skills/create_module_ref.md
+skills/contracts/README.md
+```
+
+For generated-file behaviour, read the relevant contract in:
+
+```text
+skills/contracts/
 ```
 
 ---
@@ -56,6 +69,15 @@ skills/create_module_ref.md
 Technical specifications: English
 Generated UI: Host website language
 JSON keys: English
+```
+
+### Generated data
+
+```text
+references.json uses metadata + references root object
+Reference fields use English keys such as number, title, authors, short_summary
+Default validation_status is pending_validation
+AI-generated summaries are never validated automatically
 ```
 
 ### CSS
@@ -80,6 +102,7 @@ Use data-refscilink-* hooks
 
 ```text
 Generated code must be meaningfully commented
+Contracts in skills/contracts/ are normative when present
 ```
 
 ### Host website protection
@@ -115,14 +138,15 @@ Do not confuse roadmap upgrades with hardening tasks.
 Implement:
 
 ```text
-SH-005 — CSS Contract
+SH-011 — Markdown parsing strategy
 ```
 
-Then:
+Then continue Phase 1:
 
 ```text
-SH-006 — references.json Contract
-SH-007 — theme_refscilink.json Contract
+SH-012 — DOI / PMID / PMCID / URL extraction rules
+SH-013 — Bibliography section boundary rules
+SH-019 — Machine-verifiable success criteria
 ```
 
 ---
@@ -139,15 +163,17 @@ Read:
 4. SKILL_HARDENING_CHECKLIST.md
 5. ROADMAP_UPGRADES.md
 6. skills/create_module_ref.md
+7. skills/contracts/README.md
 
 Repository:
 refscilink-skill
 
 Current state:
-SH-000 to SH-004 completed and validated.
+SH-000 to SH-010 completed and validated.
+Generated-file contracts are externalized in skills/contracts/.
 
 Current task:
-SH-005 CSS Contract.
+SH-011 Markdown parsing strategy.
 
 Do not modify completed SH items without justification.
 Keep technical specifications in English.

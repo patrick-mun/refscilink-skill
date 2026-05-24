@@ -260,7 +260,7 @@ The current version includes:
 
 ```json
 "validated": false,
-"validation_status": "a_valider"
+"validation_status": "pending_validation"
 ```
 
 AI-generated summaries are never validated automatically.

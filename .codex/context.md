@@ -127,11 +127,11 @@ Each reference should support:
 
 ```json
 {
-  "resume_court": "",
-  "resume_detaille": "",
-  "points_cles": [],
-  "interet_pour_le_projet": "",
-  "limites": ""
+  "short_summary": "",
+  "detailed_summary": "",
+  "key_points": [],
+  "project_relevance": "",
+  "limitations": ""
 }
 ```
 
@@ -144,7 +144,7 @@ Default:
 ```json
 {
   "validated": false,
-  "validation_status": "a_valider"
+  "validation_status": "pending_validation"
 }
 ```
 

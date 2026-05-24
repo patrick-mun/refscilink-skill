@@ -28,13 +28,14 @@ SH-007
 SH-008
 SH-009
 SH-010
+SH-011
 ```
 
 Current task:
 
 ```text
-SH-011
-Markdown parsing strategy
+SH-012
+DOI / PMID / PMCID / URL extraction rules
 ```
 
 ---
@@ -138,13 +139,12 @@ Do not confuse roadmap upgrades with hardening tasks.
 Implement:
 
 ```text
-SH-011 — Markdown parsing strategy
+SH-012 — DOI / PMID / PMCID / URL extraction rules
 ```
 
 Then continue Phase 1:
 
 ```text
-SH-012 — DOI / PMID / PMCID / URL extraction rules
 SH-013 — Bibliography section boundary rules
 SH-019 — Machine-verifiable success criteria
 ```
@@ -169,11 +169,11 @@ Repository:
 refscilink-skill
 
 Current state:
-SH-000 to SH-010 completed and validated.
+SH-000 to SH-011 completed and validated.
 Generated-file contracts are externalized in skills/contracts/.
 
 Current task:
-SH-011 Markdown parsing strategy.
+SH-012 DOI / PMID / PMCID / URL extraction rules.
 
 Do not modify completed SH items without justification.
 Keep technical specifications in English.

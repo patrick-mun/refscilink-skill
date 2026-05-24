@@ -50,6 +50,7 @@ function extractReferences(markdown) {
   let sectionLevel = 0;
   let buffer = [];
   let bufferStart = 0;
+  let markerFound = false;
 
   lines.forEach((line, index) => {
     const heading = line.match(/^(#{1,6})\s+(.+)$/);
@@ -69,14 +70,27 @@ function extractReferences(markdown) {
       blocks.push(toEntry(buffer, bufferStart, index, sectionTitle, sectionLevel));
       buffer = [];
     }
+    if (startsReference) markerFound = true;
     if (line.trim()) {
       if (!buffer.length) bufferStart = index + 1;
       buffer.push(line);
+      return;
+    }
+    if (!markerFound && buffer.length) {
+      blocks.push(toEntry(buffer, bufferStart, index, sectionTitle, sectionLevel, 'manual_review_required'));
+      buffer = [];
     }
   });
 
   if (buffer.length) blocks.push(toEntry(buffer, bufferStart, lines.length, sectionTitle, sectionLevel));
-  if (blocks.length) return blocks.filter(entry => entry.raw_reference.length > 20);
+  if (blocks.length) {
+    return blocks
+      .filter(entry => entry.raw_reference.length > 20)
+      .map(entry => ({
+        ...entry,
+        extraction_status: entry.extraction_status || (markerFound ? 'extracted' : 'manual_review_required')
+      }));
+  }
 
   return lines
     .map((line, index) => ({ line, index }))
@@ -86,17 +100,19 @@ function extractReferences(markdown) {
       line_start: index + 1,
       line_end: index + 1,
       section_title: '',
-      section_level: 0
+      section_level: 0,
+      extraction_status: 'manual_review_required'
     }));
 }
 
-function toEntry(buffer, lineStart, lineEnd, sectionTitle, sectionLevel) {
+function toEntry(buffer, lineStart, lineEnd, sectionTitle, sectionLevel, extractionStatus = 'extracted') {
   return {
     raw_reference: buffer.join(' ').replace(/^\s*(?:[-*+]\s+|\d+[.)]\s+|\[[0-9]+\]\s*)/, '').trim(),
     line_start: lineStart,
     line_end: lineEnd,
     section_title: sectionTitle,
-    section_level: sectionLevel
+    section_level: sectionLevel,
+    extraction_status: extractionStatus
   };
 }
 
@@ -134,7 +150,7 @@ function normalizeReference(entry, number, sourceMarkdown) {
     validation_status: 'pending_validation',
     validated_by: '',
     validation_date: '',
-    extraction_status: raw.length > 20 ? 'extracted' : 'manual_review_required',
+    extraction_status: entry.extraction_status || (raw.length > 20 ? 'extracted' : 'manual_review_required'),
     metadata_status: 'not_enriched',
     review_notes: '',
     source_markdown: sourceMarkdown,

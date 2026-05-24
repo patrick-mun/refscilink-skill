@@ -32,6 +32,7 @@ If no dedicated contract exists for a file yet, use the relevant section in `ski
 | SH-008 | Project-level persistent configuration | `refscilink_config_contract.md` |
 | SH-009 | Host navigation integration | `navigation_integration_contract.md` |
 | SH-010 | Multi-page website handling | `multi_page_websites_contract.md` |
+| SH-011 | Markdown parsing strategy | `markdown_parsing_strategy.md` |
 
 ---
 
@@ -48,6 +49,7 @@ If no dedicated contract exists for a file yet, use the relevant section in `ski
 | `refscilink.config.json` | `refscilink_config_contract.md` |
 | Host navigation entry or References button | `navigation_integration_contract.md` |
 | Multiple HTML entry points or multi-page websites | `multi_page_websites_contract.md` |
+| Markdown bibliography extraction | `markdown_parsing_strategy.md` |
 | Generated module structure or backup behaviour | `generated_files_contract.md` |
 
 ---

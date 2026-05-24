@@ -148,11 +148,12 @@ Completed and validated:
 | SH-008 | Done | `refscilink.config.json` configuration contract defined. |
 | SH-009 | Done | Navigation integration contract defined. |
 | SH-010 | Done | Multi-page website behaviour contract defined. |
+| SH-011 | Done | Markdown parsing strategy defined. |
 
 Next recommended hardening task:
 
 ```text
-SH-011 — Markdown parsing strategy
+SH-012 — DOI / PMID / PMCID / URL extraction rules
 ```
 
 ---
@@ -163,7 +164,6 @@ The next Phase 1 critical items are:
 
 | ID | Topic | Status |
 |---|---|---|
-| SH-011 | Markdown parsing strategy | Pending |
 | SH-012 | DOI / PMID / PMCID / URL extraction rules | Pending |
 | SH-013 | Bibliography section boundary rules | Pending |
 | SH-019 | Machine-verifiable success criteria | Pending |
@@ -279,15 +279,15 @@ For each new correction:
 Recommended next task:
 
 ```text
-SH-011 — Markdown parsing strategy
+SH-012 — DOI / PMID / PMCID / URL extraction rules
 ```
 
 Expected focus:
 
-- line-by-line Markdown parsing;
-- bibliography heading detection;
-- reference block continuation rules;
-- list, numbered and free-form reference formats;
-- source line tracking for `references.json`;
-- incomplete reference handling;
-- deterministic output across AI agents.
+- DOI normalization;
+- PMID and PMCID detection;
+- URL extraction;
+- identifier precedence and conflict handling;
+- punctuation trimming;
+- source traceability;
+- no metadata invention.

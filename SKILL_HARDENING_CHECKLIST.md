@@ -33,7 +33,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 | SH-008 | Configuration contract | Define complete schema of `refscilink.config.json` | Persistent configuration behaviour | High | Oui |
 | SH-009 | Navigation integration | Define exact insertion strategy for the `Références` button | Predictable HTML modification | Critical | Oui |
 | SH-010 | Multi-page websites | Define behaviour when several HTML entry points exist | Consistent integration decisions | Medium | Oui |
-| SH-011 | Markdown parsing | Define line-by-line parsing strategy | Stable extraction behaviour | Critical | Non |
+| SH-011 | Markdown parsing | Define line-by-line parsing strategy | Stable extraction behaviour | Critical | Oui |
 | SH-012 | Metadata extraction | Define DOI / PMID / PMCID / URL detection rules | Consistent metadata extraction | Critical | Non |
 | SH-013 | Markdown boundaries | Define bibliography section start/stop rules | Avoid over-capturing unrelated content | Critical | Non |
 | SH-014 | Reference numbering | Define numbering and ordering strategy | Stable reference identifiers | Medium | Non |
@@ -358,9 +358,35 @@ The multi-page contract must prevent accidental edits to the wrong HTML file whi
 
 ---
 
+### SH-011 — Markdown Parsing Strategy
+
+Implemented in `skills/contracts/markdown_parsing_strategy.md` and used as the normative strategy for extracting bibliographic reference blocks from Markdown files.
+
+The skill now defines deterministic line-by-line Markdown reference extraction behaviour.
+
+Implemented:
+
+- UTF-8 input and 1-based line model requirements;
+- bibliography heading detection for French and English headings;
+- section stop rules using same-or-higher-level Markdown headings;
+- supported reference starts for bullet lists, numbered lists and bracketed references;
+- multi-line continuation rules with `raw_reference` joining and source line tracking;
+- blank-line handling inside bibliography sections;
+- free-form paragraph fallback when no list markers are present;
+- DOI / PMID / PMCID / URL fallback scan when no bibliography section is detected;
+- extraction output shape for `raw_reference`, line numbers, section metadata and extraction status;
+- controlled extraction status recommendations aligned with `references_json_contract.md`;
+- stable ordering and future `ref001`, `ref002`, `ref003` ID strategy;
+- non-invention rules for metadata and summaries;
+- Markdown examples and machine-reviewable success criteria.
+
+The Markdown parsing strategy must extract traceable source blocks without inventing bibliographic metadata.
+
+---
+
 ## Contract externalization note
 
-The normative contracts for completed hardening items SH-001 to SH-010 are now externalized in:
+The normative contracts for completed hardening items SH-001 to SH-011 are now externalized in:
 
 ```text
 skills/contracts/
@@ -388,6 +414,7 @@ Current externalized contracts:
 | SH-008 | `skills/contracts/refscilink_config_contract.md` |
 | SH-009 | `skills/contracts/navigation_integration_contract.md` |
 | SH-010 | `skills/contracts/multi_page_websites_contract.md` |
+| SH-011 | `skills/contracts/markdown_parsing_strategy.md` |
 
 ---
 
@@ -395,7 +422,6 @@ Current externalized contracts:
 
 ### Phase 1 — Critical specification lock
 
-- SH-011
 - SH-012
 - SH-013
 - SH-019

@@ -218,6 +218,7 @@ Current normative contracts:
 | `refscilink.config.json` | `skills/contracts/refscilink_config_contract.md` |
 | Host navigation entry / References button | `skills/contracts/navigation_integration_contract.md` |
 | Multiple HTML entry points / multi-page websites | `skills/contracts/multi_page_websites_contract.md` |
+| Markdown bibliography extraction | `skills/contracts/markdown_parsing_strategy.md` |
 
 If a required contract file is missing, continue using the corresponding section in this main skill file and report that the dedicated contract has not yet been created.
 
@@ -378,33 +379,13 @@ The assistant must read that contract before adding, updating, skipping or repor
 
 ### 5. Extract references from Markdown
 
-Search for sections titled like:
+The normative Markdown parsing strategy is externalized in:
 
-- `References`
-- `Bibliography`
-- `Sources`
-- `Bibliographic references`
-- `Literature cited`
-- `Références`
-- `Références bibliographiques`
-- `Bibliographie`
-- `Sources`
+```text
+skills/contracts/markdown_parsing_strategy.md
+```
 
-The Markdown file may contain unrelated content.
-
-Extract when possible:
-
-- title;
-- authors;
-- year;
-- journal or publisher;
-- DOI;
-- PMID;
-- PMCID;
-- URL;
-- raw reference string.
-
-If a reference is incomplete, attempt correction first. If correction fails, mark it as requiring manual review.
+The assistant must read that strategy before extracting references from Markdown or modifying the local Markdown extraction tool.
 
 ---
 

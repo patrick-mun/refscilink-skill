@@ -46,7 +46,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 | SH-021 | Offline mode | Define behaviour without internet access | Predictable offline execution | High | Oui |
 | SH-022 | No external API mode | Define behaviour without enrichment APIs | Stable local operation | High | Oui |
 | SH-023 | Deferred enrichment | Define delayed enrichment workflow | Non-blocking installation | Medium | Oui |
-| SH-024 | User file protection | Define strict non-destruction rules | No accidental data loss | Critical | Non |
+| SH-024 | User file protection | Define strict non-destruction rules | No accidental data loss | Critical | Oui |
 | SH-025 | GitHub Pages compatibility | Define static hosting constraints | GitHub Pages support guaranteed | High | Non |
 | SH-026 | Accessibility | Define minimum accessibility requirements | Accessible generated interface | Medium | Non |
 | SH-027 | Responsive design | Define minimum responsive behaviour | Mobile compatibility guaranteed | Medium | Non |
@@ -636,9 +636,31 @@ Deferred enrichment must never auto-validate AI-generated summaries or overwrite
 
 ---
 
+### SH-024 — User File Protection Strategy
+
+Implemented in `skills/contracts/user_file_protection_strategy.md` and used as the global safety layer for all RefSciLink operations that write, restore, remove, enrich or update files.
+
+The user file protection strategy defines:
+
+- file categories for host user files, RefSciLink generated files, editable JSON files, backups and temporary files;
+- the core rule that user files are more important than completing automation;
+- mandatory reading rules before writing, overwriting, deleting, moving, renaming or restoring files;
+- required backup rules before modifying protected existing files;
+- manual edit detection through existing files, changed content, missing markers, unknown JSON keys, validation fields, summaries, review notes and post-backup timestamps;
+- conflict outcomes limited to `skip`, `manual_review_required` or `ask_confirmation`;
+- deletion rules allowing removal only for confirmed RefSciLink-created files or empty created directories;
+- JSON preservation rules for unknown keys, human validation fields, summaries, review notes, themes, keywords and validation consistency;
+- rollback interaction rules preventing restore over newer targets without explicit confirmation;
+- stable diagnostics including `REFSCILINK_USER_FILE_PROTECTED`, `REFSCILINK_BACKUP_REQUIRED`, `REFSCILINK_BACKUP_FAILED_WRITE_SKIPPED`, `REFSCILINK_MANUAL_EDIT_DETECTED`, `REFSCILINK_WRITE_SKIPPED_CONFLICT`, `REFSCILINK_DELETE_BLOCKED_USER_FILE` and `REFSCILINK_RESTORE_SKIPPED_NEWER_TARGET`;
+- final report requirements for created, updated, skipped, backed up and protected files.
+
+All future write, restore, rollback, cleanup and enrichment tools must obey this strategy before mutating project files.
+
+---
+
 ## Contract externalization note
 
-The normative contracts for completed hardening items SH-001 to SH-023 are now externalized in:
+The normative contracts for completed hardening items SH-001 to SH-024 are now externalized in:
 
 ```text
 skills/contracts/
@@ -679,6 +701,7 @@ Current externalized contracts:
 | SH-021 | `skills/contracts/offline_mode_strategy.md` |
 | SH-022 | `skills/contracts/no_external_api_mode_strategy.md` |
 | SH-023 | `skills/contracts/deferred_enrichment_strategy.md` |
+| SH-024 | `skills/contracts/user_file_protection_strategy.md` |
 
 ---
 
@@ -686,8 +709,8 @@ Current externalized contracts:
 
 ### Phase 2 — Reliability and execution modes
 
-- SH-024
+- SH-025
 
 Goal:
 
-Define strict non-destruction rules for user files.
+Define static hosting constraints for GitHub Pages compatibility.

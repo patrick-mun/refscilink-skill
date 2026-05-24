@@ -293,3 +293,13 @@ skills/contracts/deferred_enrichment_strategy.md
 ```
 
 Deferred enrichment must never block installation, must preserve stable IDs and human validation fields, and must never auto-validate AI-generated summaries.
+
+## User file protection
+
+Before writing, overwriting, deleting, moving, renaming or restoring files, read:
+
+```text
+skills/contracts/user_file_protection_strategy.md
+```
+
+Protect host user files and manually edited generated files. If backup creation fails or manual edits create a conflict, skip the write and report manual review instead of overwriting silently.

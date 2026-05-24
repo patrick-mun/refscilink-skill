@@ -272,3 +272,13 @@ skills/contracts/deferred_enrichment_strategy.md
 ```
 
 Install and extract first, enrich later only through a safe rerun that preserves stable IDs, human validation fields and review state.
+
+## User file protection
+
+User file protection is specified in:
+
+```text
+skills/contracts/user_file_protection_strategy.md
+```
+
+Before mutating files, classify targets, create verified backups for protected files, preserve manual edits and skip conflicts instead of overwriting silently.

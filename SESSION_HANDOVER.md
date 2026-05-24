@@ -41,13 +41,14 @@ SH-020
 SH-021
 SH-022
 SH-023
+SH-024
 ```
 
 Current task:
 
 ```text
-SH-024
-User file protection
+SH-025
+GitHub Pages compatibility
 ```
 
 ---
@@ -151,13 +152,13 @@ Do not confuse roadmap upgrades with hardening tasks.
 Implement:
 
 ```text
-SH-024 — User file protection
+SH-025 — GitHub Pages compatibility
 ```
 
 Then continue validation hardening:
 
 ```text
-SH-025 — GitHub Pages compatibility
+SH-026 — Accessibility
 ```
 
 ---
@@ -180,11 +181,11 @@ Repository:
 refscilink-skill
 
 Current state:
-SH-000 to SH-023 completed and validated.
+SH-000 to SH-024 completed and validated.
 Generated-file contracts are externalized in skills/contracts/.
 
 Current task:
-SH-024 User file protection.
+SH-025 GitHub Pages compatibility.
 
 Do not modify completed SH items without justification.
 Keep technical specifications in English.

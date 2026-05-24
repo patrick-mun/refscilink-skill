@@ -223,3 +223,11 @@ skills/contracts/deferred_enrichment_strategy.md
 ```
 
 Deferred enrichment must not block installation and must preserve stable IDs, human validation data and AI-summary review requirements.
+
+User file protection is defined in:
+
+```text
+skills/contracts/user_file_protection_strategy.md
+```
+
+Do not overwrite, delete, move, rename or restore protected files without verified backup and conflict handling.

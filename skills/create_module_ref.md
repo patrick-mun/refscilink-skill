@@ -253,6 +253,14 @@ Minimal functional module means:
 
 The skill must be safely rerunnable.
 
+User file protection rules are externalized in:
+
+```text
+skills/contracts/user_file_protection_strategy.md
+```
+
+The assistant must read that strategy before writing, overwriting, deleting, moving, renaming or restoring any file.
+
 If `data/reference_bibliographique/` already exists:
 
 1. Detect existing files.

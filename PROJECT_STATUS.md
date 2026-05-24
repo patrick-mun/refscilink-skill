@@ -161,11 +161,12 @@ Completed and validated:
 | SH-021 | Done | Offline mode strategy defined for local-only execution. |
 | SH-022 | Done | No external API mode strategy defined for local-only enrichment-safe execution. |
 | SH-023 | Done | Deferred enrichment strategy defined for non-blocking metadata lookup. |
+| SH-024 | Done | User file protection strategy defined as global non-destruction layer. |
 
 Next recommended hardening task:
 
 ```text
-SH-024 — User file protection
+SH-025 — GitHub Pages compatibility
 ```
 
 ---
@@ -176,7 +177,7 @@ The next hardening item is:
 
 | ID | Topic | Status |
 |---|---|---|
-| SH-024 | User file protection | Pending |
+| SH-025 | GitHub Pages compatibility | Pending |
 
 Do not modify completed SH items unless a bug or inconsistency is discovered.
 
@@ -289,13 +290,13 @@ For each new correction:
 Recommended next task:
 
 ```text
-SH-024 — User file protection
+SH-025 — GitHub Pages compatibility
 ```
 
 Expected focus:
 
-- define strict non-destruction rules for existing user files;
-- separate generated files from host project files;
-- require backups or explicit confirmation before overwrites;
-- define conflict handling for manual edits;
-- prevent accidental deletion during install, update, rollback or enrichment.
+- define static hosting constraints for generated files;
+- avoid server-only routes, backend assumptions and absolute local paths;
+- ensure relative links work under GitHub Pages project subpaths;
+- define JSON loading expectations for static hosting;
+- keep the module framework-free and deployable as plain files.

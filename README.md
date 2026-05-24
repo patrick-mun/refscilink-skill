@@ -283,6 +283,24 @@ The normative workflow is defined in:
 skills/contracts/deferred_enrichment_strategy.md
 ```
 
+## User File Protection
+
+RefSciLink must protect host project files and manually edited generated files.
+
+Before overwriting, restoring or removing files, RefSciLink must:
+
+- classify whether the file is a host user file, generated file, editable JSON file, backup or temporary file;
+- create and verify a backup before modifying protected existing files;
+- preserve manual edits, unknown JSON keys, validation fields, summaries and review notes;
+- skip or request manual review instead of overwriting conflicts silently;
+- never delete user files automatically.
+
+The normative safety contract is defined in:
+
+```text
+skills/contracts/user_file_protection_strategy.md
+```
+
 The official example must be used whenever a major change is made to:
 
 - bibliography extraction;

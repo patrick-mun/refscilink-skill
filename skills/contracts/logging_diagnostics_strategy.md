@@ -146,6 +146,13 @@ Recommended baseline codes:
 | `REFSCILINK_ENRICHMENT_REFERENCE_UPDATED` | `info` | A reference was updated during enrichment. |
 | `REFSCILINK_ENRICHMENT_REFERENCE_SKIPPED` | `warning` | A reference was skipped during enrichment. |
 | `REFSCILINK_ENRICHMENT_REVIEW_REQUIRED` | `review_required` | Enriched metadata requires human review. |
+| `REFSCILINK_USER_FILE_PROTECTED` | `info` | A user or manually edited file was preserved. |
+| `REFSCILINK_BACKUP_REQUIRED` | `info` | A backup is required before writing. |
+| `REFSCILINK_BACKUP_FAILED_WRITE_SKIPPED` | `error` | Backup failed, so the write was skipped. |
+| `REFSCILINK_MANUAL_EDIT_DETECTED` | `review_required` | Manual or potentially manual edits were detected. |
+| `REFSCILINK_WRITE_SKIPPED_CONFLICT` | `review_required` | Write was skipped because of a conflict. |
+| `REFSCILINK_DELETE_BLOCKED_USER_FILE` | `error` | Deletion was blocked because the target may be a user file. |
+| `REFSCILINK_RESTORE_SKIPPED_NEWER_TARGET` | `review_required` | Restore was skipped because the target changed after backup. |
 | `REFSCILINK_ROLLBACK_STARTED` | `info` | Rollback planning or execution started. |
 | `REFSCILINK_ROLLBACK_BACKUP_SELECTED` | `info` | A backup was selected. |
 | `REFSCILINK_ROLLBACK_PLAN_CREATED` | `info` | A rollback plan was created. |

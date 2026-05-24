@@ -27,7 +27,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 | SH-002 | HTML contract | Define mandatory structure of `index_ref.html` | All agents generate equivalent bibliography index pages | Critical | Oui |
 | SH-003 | HTML contract | Define mandatory structure of `reference.html` | All agents generate equivalent detail pages | Critical | Oui |
 | SH-004 | JavaScript contract | Define mandatory functions of `reference.js` | Consistent behaviour across installations | Critical | Oui |
-| SH-005 | CSS contract | Define mandatory classes and namespaces in `reference.css` | Consistent styling and isolation | Critical | Non |
+| SH-005 | CSS contract | Define mandatory classes and namespaces in `reference.css` | Consistent styling and isolation | Critical | Oui |
 | SH-006 | JSON contract | Define exact root structure of `references.json` | Identical JSON format across agents | Critical | Non |
 | SH-007 | JSON contract | Define exact root structure of `theme_refscilink.json` | Identical theme format across agents | Critical | Non |
 | SH-008 | Configuration contract | Define complete schema of `refscilink.config.json` | Persistent configuration behaviour | High | Non |
@@ -201,11 +201,38 @@ The JavaScript contract must keep behaviour in `assets/js/reference.js`, avoid i
 
 ---
 
+### SH-005 — reference.css CSS Contract
+
+Implemented in `skills/create_module_ref.md`.
+
+The skill now defines the mandatory contract for the generated CSS integration layer.
+
+Implemented:
+
+- strict `refscilink-` namespacing and selector isolation;
+- prohibition of global host-class overrides such as `.btn`, `.card`, `.container`, `.nav`, `.navbar` and similar common names;
+- no global reset of `body`, `html`, `*`, `a` or `button` unless narrowly scoped and explicitly justified;
+- mandatory `reference.css` file header and maintainable section organization;
+- scoped RefSciLink CSS custom properties on `.refscilink-page`;
+- host design adaptation rules for typography, colors, surfaces, borders, radii, shadows, spacing density and dark/light mode tendency;
+- fallback scientific visual style when no host identity is detectable;
+- mandatory class coverage for pages, headers, controls, reference cards, detail pages, metadata, buttons, badges and states;
+- responsive layout requirements including mobile support down to approximately 320px;
+- visible focus states and reduced-motion support;
+- loading, empty, not-found, error, validation and metadata-review state styling;
+- side-panel compatibility classes when the selected display mode includes a panel;
+- dark-mode and high-contrast compatibility scoped to the module;
+- explicit separation between CSS styling, HTML structure and JavaScript behaviour;
+- minimal machine-reviewable CSS success criteria.
+
+The CSS contract must make RefSciLink feel like an extension of the host website. It must adapt to the user's visual identity and artistic charter rather than imposing a fixed RefSciLink aesthetic.
+
+---
+
 ## Recommended implementation order
 
 ### Phase 1 — Critical specification lock
 
-- SH-005
 - SH-006
 - SH-007
 - SH-009

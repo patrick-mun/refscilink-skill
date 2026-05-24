@@ -156,22 +156,23 @@ Completed and validated:
 | SH-016 | Done | Logging and diagnostics strategy defined. |
 | SH-017 | Done | Dry-run mode strategy defined. |
 | SH-018 | Done | Rollback mode strategy defined. |
+| SH-019 | Done | Machine-verifiable success criteria strategy defined. |
 
 Next recommended hardening task:
 
 ```text
-SH-019 — Machine-verifiable success criteria
+SH-020 — Official tests using examples/basic-site
 ```
 
 ---
 
 ## Remaining hardening tasks
 
-The next Phase 1 critical items are:
+The next critical validation item is:
 
 | ID | Topic | Status |
 |---|---|---|
-| SH-019 | Machine-verifiable success criteria | Pending |
+| SH-020 | Official tests using `examples/basic-site` | Pending |
 
 Do not modify completed SH items unless a bug or inconsistency is discovered.
 
@@ -284,14 +285,14 @@ For each new correction:
 Recommended next task:
 
 ```text
-SH-019 — Machine-verifiable success criteria
+SH-020 — Official tests using examples/basic-site
 ```
 
 Expected focus:
 
-- concrete install validation commands;
-- required file existence checks;
-- JSON schema and parse checks;
-- static page smoke-test expectations;
-- extraction verification using `examples/basic-site`;
-- pass/fail reporting format.
+- convert SH-019 criteria into executable test files;
+- formalize expected fixture outputs;
+- validate extraction, dry-run and diagnostics automatically;
+- document how agents should run official tests;
+- prepare future CI-compatible checks;
+- standardize pass/fail reporting format.

@@ -511,6 +511,12 @@ The skill must not generate legacy root arrays.
 
 ## Minimal success criteria
 
+Machine-verifiable validation must follow:
+
+```text
+skills/contracts/success_criteria_strategy.md
+```
+
 A generated `references.json` is acceptable only if:
 
 - the root is an object with `metadata` and `references`;

@@ -258,6 +258,7 @@ The current version includes:
 - machine-readable diagnostics in generated metadata for extraction and review events;
 - dry-run extraction mode for simulating JSON generation without writing files;
 - rollback recovery contract for safe restore planning after failed operations;
+- machine-verifiable success criteria for validating generated modules;
 - DOI detection;
 - metadata lookup through Crossref when a DOI is present;
 - JSON schema for AI-enriched summaries;

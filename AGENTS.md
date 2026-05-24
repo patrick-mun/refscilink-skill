@@ -89,6 +89,12 @@ Rollback planning must respect:
 skills/contracts/rollback_mode_strategy.md
 ```
 
+Success validation must respect:
+
+```text
+skills/contracts/success_criteria_strategy.md
+```
+
 ## Default module path
 
 When installed in another project, create:

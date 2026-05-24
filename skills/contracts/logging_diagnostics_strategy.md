@@ -149,6 +149,12 @@ Rollback diagnostics must follow:
 skills/contracts/rollback_mode_strategy.md
 ```
 
+Validation success reporting must follow:
+
+```text
+skills/contracts/success_criteria_strategy.md
+```
+
 ---
 
 ## Events to report

@@ -40,6 +40,7 @@ If no dedicated contract exists for a file yet, use the relevant section in `ski
 | SH-016 | Logging and diagnostics strategy | `logging_diagnostics_strategy.md` |
 | SH-017 | Dry-run mode strategy | `dry_run_mode_strategy.md` |
 | SH-018 | Rollback mode strategy | `rollback_mode_strategy.md` |
+| SH-019 | Machine-verifiable success criteria | `success_criteria_strategy.md` |
 
 ---
 
@@ -64,6 +65,7 @@ If no dedicated contract exists for a file yet, use the relevant section in `ski
 | Logging, diagnostics and report codes | `logging_diagnostics_strategy.md` |
 | Dry-run simulation without file writes | `dry_run_mode_strategy.md` |
 | Rollback planning and safe restore behaviour | `rollback_mode_strategy.md` |
+| Machine-verifiable validation and success criteria | `success_criteria_strategy.md` |
 | Generated module structure or backup behaviour | `generated_files_contract.md` |
 
 ---

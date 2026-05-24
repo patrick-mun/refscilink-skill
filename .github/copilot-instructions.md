@@ -181,3 +181,9 @@ Rollback planning is defined in:
 ```text
 skills/contracts/rollback_mode_strategy.md
 ```
+
+Success validation is defined in:
+
+```text
+skills/contracts/success_criteria_strategy.md
+```

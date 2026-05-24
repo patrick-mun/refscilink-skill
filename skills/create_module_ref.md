@@ -226,6 +226,7 @@ Current normative contracts:
 | Logging, diagnostics and report codes | `skills/contracts/logging_diagnostics_strategy.md` |
 | Dry-run simulation without file writes | `skills/contracts/dry_run_mode_strategy.md` |
 | Rollback planning and safe restore behaviour | `skills/contracts/rollback_mode_strategy.md` |
+| Machine-verifiable validation and success criteria | `skills/contracts/success_criteria_strategy.md` |
 
 If a required contract file is missing, continue using the corresponding section in this main skill file and report that the dedicated contract has not yet been created.
 
@@ -449,6 +450,14 @@ skills/contracts/rollback_mode_strategy.md
 ```
 
 The assistant must read that strategy before planning or executing any recovery, restore or cleanup after a failed RefSciLink operation.
+
+Machine-verifiable success criteria are externalized in:
+
+```text
+skills/contracts/success_criteria_strategy.md
+```
+
+The assistant must read that strategy before declaring an installation, extraction or generated module update successful.
 
 ---
 

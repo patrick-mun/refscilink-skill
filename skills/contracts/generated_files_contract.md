@@ -67,6 +67,12 @@ Rollback planning and restoration must follow:
 skills/contracts/rollback_mode_strategy.md
 ```
 
+Machine-verifiable success criteria must follow:
+
+```text
+skills/contracts/success_criteria_strategy.md
+```
+
 ### Visual adaptation priority
 
 The generated file contract must never prevent adaptation to the user's visual identity.

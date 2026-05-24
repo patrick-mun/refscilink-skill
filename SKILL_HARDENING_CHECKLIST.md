@@ -41,7 +41,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 | SH-016 | Logging | Define installation logs and diagnostics | Easier debugging | Medium | Oui |
 | SH-017 | Dry-run mode | Define simulation mode without file modification | Safe testing workflow | High | Oui |
 | SH-018 | Rollback mode | Define restoration strategy after failed installation | Safe recovery mechanism | High | Oui |
-| SH-019 | Success criteria | Define machine-verifiable installation success criteria | Reliable validation process | Critical | Non |
+| SH-019 | Success criteria | Define machine-verifiable installation success criteria | Reliable validation process | Critical | Oui |
 | SH-020 | Official tests | Define mandatory test cases using `examples/basic-site` | Reproducible validation workflow | Critical | Non |
 | SH-021 | Offline mode | Define behaviour without internet access | Predictable offline execution | High | Non |
 | SH-022 | No external API mode | Define behaviour without enrichment APIs | Stable local operation | High | Non |
@@ -527,9 +527,30 @@ The current implementation intentionally locks the rollback contract before addi
 
 ---
 
+### SH-019 — Machine-verifiable Success Criteria Strategy
+
+Implemented in `skills/contracts/success_criteria_strategy.md` and used as the normative strategy for validating RefSciLink installations, extractions and generated module updates.
+
+The strategy defines:
+
+- validation result statuses: `pass`, `fail`, `warning` and `manual_review_required`;
+- mandatory generated file checks;
+- JSON parse and structure checks for `references.json`, `theme_refscilink.json`, `schema_references.json` and `refscilink.config.json`;
+- `references.json` checks for `metadata`, `references`, unique IDs, unique numbers, controlled statuses and diagnostics;
+- static page checks for relative CSS/JS/JSON linkage and stable hooks;
+- local tool syntax checks using `node --check`;
+- official extraction validation using `examples/basic-site/bibliographie.md`;
+- dry-run no-mutation validation;
+- backup/overwrite validation;
+- standard machine-checkable validation report shape.
+
+The current official example expected extraction count is 10 references.
+
+---
+
 ## Contract externalization note
 
-The normative contracts for completed hardening items SH-001 to SH-018 are now externalized in:
+The normative contracts for completed hardening items SH-001 to SH-019 are now externalized in:
 
 ```text
 skills/contracts/
@@ -565,6 +586,7 @@ Current externalized contracts:
 | SH-016 | `skills/contracts/logging_diagnostics_strategy.md` |
 | SH-017 | `skills/contracts/dry_run_mode_strategy.md` |
 | SH-018 | `skills/contracts/rollback_mode_strategy.md` |
+| SH-019 | `skills/contracts/success_criteria_strategy.md` |
 
 ---
 
@@ -572,8 +594,8 @@ Current externalized contracts:
 
 ### Phase 1 — Critical specification lock
 
-- SH-019
+- SH-020
 
 Goal:
 
-Remove all major implementation ambiguities.
+Convert the success criteria into official reproducible tests.

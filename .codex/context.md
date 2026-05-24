@@ -130,6 +130,12 @@ Rollback planning must follow:
 skills/contracts/rollback_mode_strategy.md
 ```
 
+Success validation must follow:
+
+```text
+skills/contracts/success_criteria_strategy.md
+```
+
 ## Scientific sources
 
 When enrichment is available, prioritise:

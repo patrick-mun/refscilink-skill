@@ -30,8 +30,8 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 | SH-005 | CSS contract | Define mandatory classes and namespaces in `reference.css` | Consistent styling and isolation | Critical | Oui |
 | SH-006 | JSON contract | Define exact root structure of `references.json` | Identical JSON format across agents | Critical | Oui |
 | SH-007 | JSON contract | Define exact root structure of `theme_refscilink.json` | Identical theme format across agents | Critical | Oui |
-| SH-008 | Configuration contract | Define complete schema of `refscilink.config.json` | Persistent configuration behaviour | High | Non |
-| SH-009 | Navigation integration | Define exact insertion strategy for the `Références` button | Predictable HTML modification | Critical | Non |
+| SH-008 | Configuration contract | Define complete schema of `refscilink.config.json` | Persistent configuration behaviour | High | Oui |
+| SH-009 | Navigation integration | Define exact insertion strategy for the `Références` button | Predictable HTML modification | Critical | Oui |
 | SH-010 | Multi-page websites | Define behaviour when several HTML entry points exist | Consistent integration decisions | Medium | Non |
 | SH-011 | Markdown parsing | Define line-by-line parsing strategy | Stable extraction behaviour | Critical | Non |
 | SH-012 | Metadata extraction | Define DOI / PMID / PMCID / URL detection rules | Consistent metadata extraction | Critical | Non |
@@ -280,9 +280,60 @@ The theme contract must preserve the host website visual identity before applyin
 
 ---
 
+### SH-008 — refscilink.config.json Configuration Contract
+
+Implemented in `skills/contracts/refscilink_config_contract.md` and used as the normative contract for generated project-level `refscilink.config.json` files.
+
+The skill now defines the persistent configuration structure used to make `/create_module_ref` safely rerunnable.
+
+Implemented:
+
+- mandatory root object with `metadata`, `source`, `output`, `display`, `theme`, `language`, `enrichment`, `safety` and `runtime`;
+- mandatory metadata fields including `generated_by`, `version`, `schema_version`, `created_at` and `updated_at`;
+- project-relative source and output path rules;
+- controlled values for display mode, navigation integration, theme mode and enrichment mode;
+- language configuration rules preserving English internal keys and host-language UI generation;
+- enrichment flags for network use, AI summaries and mandatory human validation;
+- safety rules for backups, dry-run mode, manual edit preservation and non-overwrite defaults;
+- static-hosting and GitHub Pages runtime compatibility fields;
+- idempotence and rerun behaviour using existing config values before asking the user again;
+- legacy flat-key compatibility and migration expectations;
+- minimal valid JSON example;
+- machine-reviewable success criteria for future config validation tools.
+
+The configuration contract must preserve user choices and host-project constraints while keeping RefSciLink static-hosting compatible.
+
+---
+
+### SH-009 — Navigation Integration Contract
+
+Implemented in `skills/contracts/navigation_integration_contract.md` and used as the normative contract for adding a localized RefSciLink navigation entry to the selected host HTML entry point.
+
+The skill now defines the exact insertion strategy for the `Références` / `References` navigation entry.
+
+Implemented:
+
+- controlled integration modes: `auto`, `navbar`, `floating_button`, `manual` and `skip`;
+- alignment with `refscilink.config.json` display and navigation settings;
+- HTML entry point selection priority and ambiguity handling;
+- navigation container detection strategy for semantic `<nav>`, `role="navigation"`, navbar/menu classes and header link groups;
+- duplicate detection rules for existing RefSciLink links;
+- navbar insertion rules preserving order, classes, accessibility and formatting;
+- safe floating-button fallback without inline CSS or JavaScript;
+- manual and skip mode behaviours;
+- host file backup and minimal-change requirements before modifying `index.html` or another entry point;
+- style rules that reuse host navigation classes when safe and otherwise use namespaced RefSciLink classes;
+- accessibility, mobile-menu, multi-page and generated-navigation constraints;
+- before/after HTML examples;
+- final report fields and machine-reviewable success criteria.
+
+The navigation integration contract must add predictable access to the bibliography module without breaking or redesigning the host website navigation.
+
+---
+
 ## Contract externalization note
 
-The normative contracts for completed hardening items SH-001 to SH-007 are now externalized in:
+The normative contracts for completed hardening items SH-001 to SH-009 are now externalized in:
 
 ```text
 skills/contracts/
@@ -307,6 +358,8 @@ Current externalized contracts:
 | SH-005 | `skills/contracts/reference_css_contract.md` |
 | SH-006 | `skills/contracts/references_json_contract.md` |
 | SH-007 | `skills/contracts/theme_refscilink_json_contract.md` |
+| SH-008 | `skills/contracts/refscilink_config_contract.md` |
+| SH-009 | `skills/contracts/navigation_integration_contract.md` |
 
 ---
 
@@ -314,7 +367,6 @@ Current externalized contracts:
 
 ### Phase 1 — Critical specification lock
 
-- SH-009
 - SH-011
 - SH-012
 - SH-013

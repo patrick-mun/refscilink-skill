@@ -29,6 +29,8 @@ If no dedicated contract exists for a file yet, use the relevant section in `ski
 | SH-005 | Visual integration and CSS isolation | `reference_css_contract.md` |
 | SH-006 | Structured bibliography data | `references_json_contract.md` |
 | SH-007 | Editable theme configuration | `theme_refscilink_json_contract.md` |
+| SH-008 | Project-level persistent configuration | `refscilink_config_contract.md` |
+| SH-009 | Host navigation integration | `navigation_integration_contract.md` |
 
 ---
 
@@ -42,6 +44,8 @@ If no dedicated contract exists for a file yet, use the relevant section in `ski
 | `data/reference_bibliographique/assets/css/reference.css` | `reference_css_contract.md` |
 | `data/reference_bibliographique/json/references.json` | `references_json_contract.md` |
 | `data/reference_bibliographique/json/theme_refscilink.json` | `theme_refscilink_json_contract.md` |
+| `refscilink.config.json` | `refscilink_config_contract.md` |
+| Host navigation entry or References button | `navigation_integration_contract.md` |
 | Generated module structure or backup behaviour | `generated_files_contract.md` |
 
 ---

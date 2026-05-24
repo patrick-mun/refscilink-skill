@@ -215,6 +215,8 @@ Current normative contracts:
 | `assets/css/reference.css` | `skills/contracts/reference_css_contract.md` |
 | `json/references.json` | `skills/contracts/references_json_contract.md` |
 | `json/theme_refscilink.json` | `skills/contracts/theme_refscilink_json_contract.md` |
+| `refscilink.config.json` | `skills/contracts/refscilink_config_contract.md` |
+| Host navigation entry / References button | `skills/contracts/navigation_integration_contract.md` |
 
 If a required contract file is missing, continue using the corresponding section in this main skill file and report that the dedicated contract has not yet been created.
 
@@ -274,21 +276,13 @@ Create or update:
 refscilink.config.json
 ```
 
-Recommended structure:
+The normative contract for generated project-level configuration is externalized in:
 
-```json
-{
-  "source_markdown": "bibliographie.md",
-  "output_dir": "data/reference_bibliographique",
-  "display_mode": "page",
-  "theme_mode": "auto_override",
-  "language": "auto",
-  "detected_language": "fr",
-  "enrichment_mode": "extract_only",
-  "created_by": "RefSciLink Skill",
-  "version": "0.2.0-dev"
-}
+```text
+skills/contracts/refscilink_config_contract.md
 ```
+
+The assistant must read that contract before generating, updating or validating `refscilink.config.json`.
 
 Use the config file on future executions instead of asking again, unless the user explicitly wants to change settings.
 
@@ -365,32 +359,13 @@ The module must include:
 
 ### 4. Add a localized References button
 
-Default French label:
+The normative contract for host navigation integration is externalized in:
 
 ```text
-Références
+skills/contracts/navigation_integration_contract.md
 ```
 
-Default English label:
-
-```text
-References
-```
-
-Default link:
-
-```html
-<a href="data/reference_bibliographique/index_ref.html" class="refscilink-button">References</a>
-```
-
-Rules:
-
-- use the detected host language for the visible label;
-- prefer existing navigation style;
-- preserve navigation order;
-- do not duplicate the button;
-- if no navigation is found, add a safe floating button;
-- do not force a new visual style on the main site.
+The assistant must read that contract before adding, updating, skipping or reporting the localized References navigation entry.
 
 ---
 

@@ -217,6 +217,7 @@ Current normative contracts:
 | `json/theme_refscilink.json` | `skills/contracts/theme_refscilink_json_contract.md` |
 | `refscilink.config.json` | `skills/contracts/refscilink_config_contract.md` |
 | Host navigation entry / References button | `skills/contracts/navigation_integration_contract.md` |
+| Multiple HTML entry points / multi-page websites | `skills/contracts/multi_page_websites_contract.md` |
 
 If a required contract file is missing, continue using the corresponding section in this main skill file and report that the dedicated contract has not yet been created.
 
@@ -306,6 +307,12 @@ Detect:
 If no `index.html` is found, do not fail completely. Create the module and report that navigation integration could not be performed.
 
 If several `index.html` files are found, ask which one should receive the localized References button.
+
+For multi-page websites or multiple plausible HTML entry points, apply:
+
+```text
+skills/contracts/multi_page_websites_contract.md
+```
 
 ---
 

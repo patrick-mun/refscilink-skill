@@ -32,7 +32,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 | SH-007 | JSON contract | Define exact root structure of `theme_refscilink.json` | Identical theme format across agents | Critical | Oui |
 | SH-008 | Configuration contract | Define complete schema of `refscilink.config.json` | Persistent configuration behaviour | High | Oui |
 | SH-009 | Navigation integration | Define exact insertion strategy for the `Références` button | Predictable HTML modification | Critical | Oui |
-| SH-010 | Multi-page websites | Define behaviour when several HTML entry points exist | Consistent integration decisions | Medium | Non |
+| SH-010 | Multi-page websites | Define behaviour when several HTML entry points exist | Consistent integration decisions | Medium | Oui |
 | SH-011 | Markdown parsing | Define line-by-line parsing strategy | Stable extraction behaviour | Critical | Non |
 | SH-012 | Metadata extraction | Define DOI / PMID / PMCID / URL detection rules | Consistent metadata extraction | Critical | Non |
 | SH-013 | Markdown boundaries | Define bibliography section start/stop rules | Avoid over-capturing unrelated content | Critical | Non |
@@ -331,9 +331,36 @@ The navigation integration contract must add predictable access to the bibliogra
 
 ---
 
+### SH-010 — Multi-page Websites Contract
+
+Implemented in `skills/contracts/multi_page_websites_contract.md` and used as the normative contract when a host project contains several HTML entry points or multiple website pages.
+
+The skill now defines consistent behaviour for multi-page website inspection and integration.
+
+Implemented:
+
+- HTML page discovery rules for root pages, nested pages and likely static source folders;
+- ignore rules for RefSciLink generated pages, backups, dependencies and build artifacts;
+- entry point classification as primary entry point, secondary page, template source, generated output, RefSciLink generated page or ambiguous page;
+- entry point selection priority using user choice, config, root `index.html`, source template and user clarification;
+- modification scopes: `single_entrypoint`, `selected_pages`, `all_user_facing_pages`, `template_only` and `none`;
+- rule that only one selected entry point is modified by default;
+- explicit user confirmation requirement before modifying multiple pages;
+- navigation integration rules delegated to `navigation_integration_contract.md`;
+- relative link calculation rules for root and nested HTML pages;
+- config tracking recommendations for candidates, selected pages, modified pages and skipped pages;
+- backup requirements for every modified host HTML page;
+- ambiguity handling for multiple entry points, generated output and framework/template navigation;
+- special layout guidance for GitHub Pages, `docs/`, `public/`, `static/`, `dist/` and `build/`;
+- examples and machine-reviewable success criteria.
+
+The multi-page contract must prevent accidental edits to the wrong HTML file while keeping RefSciLink links correct from every modified page.
+
+---
+
 ## Contract externalization note
 
-The normative contracts for completed hardening items SH-001 to SH-009 are now externalized in:
+The normative contracts for completed hardening items SH-001 to SH-010 are now externalized in:
 
 ```text
 skills/contracts/
@@ -360,6 +387,7 @@ Current externalized contracts:
 | SH-007 | `skills/contracts/theme_refscilink_json_contract.md` |
 | SH-008 | `skills/contracts/refscilink_config_contract.md` |
 | SH-009 | `skills/contracts/navigation_integration_contract.md` |
+| SH-010 | `skills/contracts/multi_page_websites_contract.md` |
 
 ---
 

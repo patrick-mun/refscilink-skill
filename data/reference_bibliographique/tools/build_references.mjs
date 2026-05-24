@@ -106,6 +106,10 @@ const HUMAN_VALIDATION_FIELDS = [
   'validated_by',
   'validation_date'
 ];
+const VALIDATION_STATUSES = new Set(['pending_validation', 'validated', 'rejected', 'needs_revision']);
+const EXTRACTION_STATUSES = new Set(['extracted', 'partially_extracted', 'incomplete', 'duplicate_suspected', 'manual_review_required']);
+const METADATA_STATUSES = new Set(['not_enriched', 'metadata_found', 'metadata_partial', 'metadata_not_found', 'metadata_to_verify', 'enrichment_failed']);
+const ACCESS_TYPES = new Set(['open_access', 'abstract_only', 'accepted_author_version', 'preprint', 'paywalled', 'unknown']);
 
 async function main() {
   const filePath = await question('Path to the Markdown file containing references: ');
@@ -122,7 +126,7 @@ async function main() {
     const plan = numberingPlan.entries[index];
     const reference = normalizeReference(entry, index + 1, filePath.trim(), plan.id);
     const merged = plan.previousReference ? mergePreviousReference(reference, plan.previousReference) : reference;
-    return markDuplicateReference(merged, numberingPlan.activeSeenKeys);
+    return normalizeStatusFields(markDuplicateReference(merged, numberingPlan.activeSeenKeys));
   });
 
   const payload = {
@@ -475,6 +479,23 @@ function mergePreviousReference(reference, previousReference) {
     merged.review_notes = previousReference.review_notes;
   }
   return merged;
+}
+
+function normalizeStatusFields(reference) {
+  const validationStatus = VALIDATION_STATUSES.has(reference.validation_status) ? reference.validation_status : 'pending_validation';
+  const extractionStatus = EXTRACTION_STATUSES.has(reference.extraction_status) ? reference.extraction_status : 'manual_review_required';
+  const metadataStatus = METADATA_STATUSES.has(reference.metadata_status) ? reference.metadata_status : 'metadata_to_verify';
+  const accessType = ACCESS_TYPES.has(reference.access_type) ? reference.access_type : 'unknown';
+  return {
+    ...reference,
+    validated: validationStatus === 'validated',
+    validation_status: validationStatus,
+    validated_by: validationStatus === 'validated' ? reference.validated_by || 'human' : '',
+    validation_date: validationStatus === 'validated' ? reference.validation_date || new Date().toISOString() : '',
+    extraction_status: extractionStatus,
+    metadata_status: metadataStatus,
+    access_type: accessType
+  };
 }
 
 function hasMeaningfulValue(value) {

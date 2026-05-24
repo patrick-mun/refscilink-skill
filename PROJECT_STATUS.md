@@ -152,11 +152,12 @@ Completed and validated:
 | SH-012 | Done | DOI / PMID / PMCID / URL extraction strategy defined. |
 | SH-013 | Done | Bibliography section boundary strategy defined. |
 | SH-014 | Done | Reference numbering and stable ID strategy defined. |
+| SH-015 | Done | Reference status lifecycle strategy defined. |
 
 Next recommended hardening task:
 
 ```text
-SH-015 — Reference status system
+SH-016 — Logging and diagnostics
 ```
 
 ---
@@ -280,13 +281,13 @@ For each new correction:
 Recommended next task:
 
 ```text
-SH-015 — Reference status system
+SH-016 — Logging and diagnostics
 ```
 
 Expected focus:
 
-- controlled reference lifecycle states;
-- validation and revision transitions;
-- extraction and metadata status interaction;
-- duplicate and manual-review handling;
-- UI expectations for each status.
+- installation log structure;
+- extraction and generation diagnostics;
+- warning and error categories;
+- user-facing report format;
+- machine-readable diagnostics for future tests.

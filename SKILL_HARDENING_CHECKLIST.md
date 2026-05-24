@@ -37,7 +37,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 | SH-012 | Metadata extraction | Define DOI / PMID / PMCID / URL detection rules | Consistent metadata extraction | Critical | Oui |
 | SH-013 | Markdown boundaries | Define bibliography section start/stop rules | Avoid over-capturing unrelated content | Critical | Oui |
 | SH-014 | Reference numbering | Define numbering and ordering strategy | Stable reference identifiers | Medium | Oui |
-| SH-015 | Reference status system | Define all reference validation and error states | Consistent lifecycle management | High | Non |
+| SH-015 | Reference status system | Define all reference validation and error states | Consistent lifecycle management | High | Oui |
 | SH-016 | Logging | Define installation logs and diagnostics | Easier debugging | Medium | Non |
 | SH-017 | Dry-run mode | Define simulation mode without file modification | Safe testing workflow | High | Non |
 | SH-018 | Rollback mode | Define restoration strategy after failed installation | Safe recovery mechanism | High | Non |
@@ -451,9 +451,29 @@ The local extraction tool now reuses previous IDs when references are recognized
 
 ---
 
+### SH-015 — Reference Status Lifecycle Strategy
+
+Implemented in `skills/contracts/reference_status_lifecycle_strategy.md` and used as the normative strategy for reference lifecycle states across extraction, metadata enrichment, access classification, human validation and UI display.
+
+The strategy defines:
+
+- independent status families for `validation_status`, `extraction_status`, `metadata_status` and `access_type`;
+- consistency rules between `validated` and `validation_status`;
+- allowed validation transitions including validation, revision, rejection and reopening;
+- meaning, trigger, expected action and UI severity for each controlled value;
+- blocking versus non-blocking review states;
+- duplicate handling without automatic merge or deletion;
+- localStorage validation field names aligned with `references.json`;
+- UI requirements for status labels, filters and visible warnings;
+- machine-reviewable success criteria for enum membership and boolean/status consistency.
+
+The local extraction tool now normalizes generated status fields to allowed enum values and keeps `validated` consistent with `validation_status`.
+
+---
+
 ## Contract externalization note
 
-The normative contracts for completed hardening items SH-001 to SH-014 are now externalized in:
+The normative contracts for completed hardening items SH-001 to SH-015 are now externalized in:
 
 ```text
 skills/contracts/
@@ -485,6 +505,7 @@ Current externalized contracts:
 | SH-012 | `skills/contracts/metadata_identifier_extraction_strategy.md` |
 | SH-013 | `skills/contracts/bibliography_boundary_strategy.md` |
 | SH-014 | `skills/contracts/reference_numbering_strategy.md` |
+| SH-015 | `skills/contracts/reference_status_lifecycle_strategy.md` |
 
 ---
 

@@ -237,6 +237,12 @@ Rules:
 
 ## Controlled values
 
+The detailed lifecycle strategy for `validation_status`, `extraction_status`, `metadata_status` and `access_type` is externalized in:
+
+```text
+skills/contracts/reference_status_lifecycle_strategy.md
+```
+
 ### `access_type`
 
 Allowed values:
@@ -349,6 +355,12 @@ Human review must decide whether the duplicate should be merged, removed or pres
 ---
 
 ## Human validation rules
+
+For allowed validation transitions and UI expectations, apply:
+
+```text
+skills/contracts/reference_status_lifecycle_strategy.md
+```
 
 AI-generated summaries must never be considered human-validated.
 

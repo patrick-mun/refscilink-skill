@@ -65,6 +65,12 @@ Reference IDs and rerun numbering must respect:
 skills/contracts/reference_numbering_strategy.md
 ```
 
+Reference lifecycle states must respect:
+
+```text
+skills/contracts/reference_status_lifecycle_strategy.md
+```
+
 ## Default module path
 
 When installed in another project, create:

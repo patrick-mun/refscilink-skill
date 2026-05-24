@@ -32,13 +32,14 @@ SH-011
 SH-012
 SH-013
 SH-014
+SH-015
 ```
 
 Current task:
 
 ```text
-SH-015
-Reference status system
+SH-016
+Logging and diagnostics
 ```
 
 ---
@@ -142,7 +143,7 @@ Do not confuse roadmap upgrades with hardening tasks.
 Implement:
 
 ```text
-SH-015 — Reference status system
+SH-016 — Logging and diagnostics
 ```
 
 Then continue critical validation work:
@@ -171,11 +172,11 @@ Repository:
 refscilink-skill
 
 Current state:
-SH-000 to SH-014 completed and validated.
+SH-000 to SH-015 completed and validated.
 Generated-file contracts are externalized in skills/contracts/.
 
 Current task:
-SH-015 Reference status system.
+SH-016 Logging and diagnostics.
 
 Do not modify completed SH items without justification.
 Keep technical specifications in English.

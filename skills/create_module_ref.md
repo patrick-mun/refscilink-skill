@@ -222,6 +222,7 @@ Current normative contracts:
 | Markdown bibliography section boundaries | `skills/contracts/bibliography_boundary_strategy.md` |
 | DOI, PMID, PMCID and URL extraction | `skills/contracts/metadata_identifier_extraction_strategy.md` |
 | Reference numbering, stable IDs and rerun matching | `skills/contracts/reference_numbering_strategy.md` |
+| Reference status lifecycle, filters and validation states | `skills/contracts/reference_status_lifecycle_strategy.md` |
 
 If a required contract file is missing, continue using the corresponding section in this main skill file and report that the dedicated contract has not yet been created.
 
@@ -413,6 +414,14 @@ skills/contracts/reference_numbering_strategy.md
 ```
 
 The assistant must read that strategy before generating `id`, assigning `number`, preserving existing references or modifying rerun behaviour.
+
+Reference status lifecycle rules are externalized in:
+
+```text
+skills/contracts/reference_status_lifecycle_strategy.md
+```
+
+The assistant must read that strategy before generating, filtering, displaying or transitioning `validation_status`, `extraction_status`, `metadata_status` or `access_type`.
 
 ---
 

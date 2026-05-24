@@ -148,6 +148,12 @@ Each rendered reference card must support displaying:
 - DOI, PMID and PMCID when available;
 - `Read summary` / localized equivalent;
 - `View source` / localized equivalent;
+
+Validation, extraction, metadata and access labels must follow the lifecycle defined in:
+
+```text
+skills/contracts/reference_status_lifecycle_strategy.md
+```
 - `Copy reference` / localized equivalent;
 - `Validate summary` / localized equivalent.
 

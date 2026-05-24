@@ -106,6 +106,12 @@ Reference IDs and rerun numbering must follow:
 skills/contracts/reference_numbering_strategy.md
 ```
 
+Reference lifecycle states must follow:
+
+```text
+skills/contracts/reference_status_lifecycle_strategy.md
+```
+
 ## Scientific sources
 
 When enrichment is available, prioritise:

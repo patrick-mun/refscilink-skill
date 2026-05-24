@@ -254,6 +254,7 @@ The current version includes:
 - explicit bibliography section boundary rules to avoid capturing notes, annexes or TODO content;
 - reference extraction;
 - stable reference IDs across reruns when references are recognized;
+- explicit reference lifecycle states for validation, extraction, metadata and access review;
 - DOI detection;
 - metadata lookup through Crossref when a DOI is present;
 - JSON schema for AI-enriched summaries;

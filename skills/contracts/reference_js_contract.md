@@ -259,12 +259,19 @@ Recommended stored structure:
   "ref001": {
     "validated": true,
     "validation_status": "validated",
-    "validated_at": "ISO-8601 timestamp"
+    "validated_by": "human",
+    "validation_date": "ISO-8601 timestamp"
   }
 }
 ```
 
 The script must gracefully handle unavailable or blocked `localStorage`.
+
+Validation state, extraction state, metadata state and access-type display must follow:
+
+```text
+skills/contracts/reference_status_lifecycle_strategy.md
+```
 
 Persistent JSON validation is not required in the browser-only module and should be handled later by a Node.js or backend tool.
 

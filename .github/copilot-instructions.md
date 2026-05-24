@@ -157,3 +157,9 @@ Reference numbering and stable IDs are defined in:
 ```text
 skills/contracts/reference_numbering_strategy.md
 ```
+
+Reference lifecycle states are defined in:
+
+```text
+skills/contracts/reference_status_lifecycle_strategy.md
+```

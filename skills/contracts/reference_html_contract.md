@@ -147,6 +147,12 @@ data-refscilink-error
 - limitations;
 - raw reference when useful.
 
+Validation, extraction, metadata and access labels must follow the lifecycle defined in:
+
+```text
+skills/contracts/reference_status_lifecycle_strategy.md
+```
+
 ### Required actions
 
 The page must support:

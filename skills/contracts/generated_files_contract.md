@@ -44,9 +44,16 @@ Generated JSON files should include metadata when possible:
 ```json
 {
   "generated_by": "RefSciLink Skill",
-  "version": "0.2.0-dev",
+  "module_version": "0.2.0-dev",
+  "schema_version": "1.0.0",
   "generated_at": "ISO-8601 timestamp"
 }
+```
+
+Module versioning, schema versioning and legacy `version` compatibility must follow:
+
+```text
+skills/contracts/module_versioning_strategy.md
 ```
 
 Generated diagnostics and report codes must follow:

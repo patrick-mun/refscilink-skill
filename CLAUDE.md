@@ -265,3 +265,11 @@ skills/contracts/external_links_security_strategy.md
 ```
 
 External links must use safe URL schemes and `rel="noopener noreferrer"` when opened in a new tab.
+
+Module versioning is specified in:
+
+```text
+skills/contracts/module_versioning_strategy.md
+```
+
+Generated JSON metadata must distinguish `module_version` from `schema_version`, tolerate legacy `version` fields and preserve validated scientific content during migration.

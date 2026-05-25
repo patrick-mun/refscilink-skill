@@ -343,3 +343,13 @@ skills/contracts/external_links_security_strategy.md
 ```
 
 External links opened in a new tab must use `rel="noopener noreferrer"` and unsafe URL schemes must be blocked or ignored.
+
+## Module versioning
+
+Before generating, updating, validating or migrating RefSciLink metadata, read:
+
+```text
+skills/contracts/module_versioning_strategy.md
+```
+
+Generated JSON metadata must distinguish `module_version` from `schema_version`, tolerate legacy `version` fields and preserve scientific validation data during migration.

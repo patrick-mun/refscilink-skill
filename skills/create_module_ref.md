@@ -393,6 +393,14 @@ skills/contracts/external_links_security_strategy.md
 
 The assistant must read that strategy before generating or modifying source, DOI, PDF, publisher or other external link behaviour.
 
+Module versioning rules are externalized in:
+
+```text
+skills/contracts/module_versioning_strategy.md
+```
+
+The assistant must read that strategy before generating, updating, validating or migrating RefSciLink module and schema version metadata.
+
 Create all required module files under:
 
 ```text

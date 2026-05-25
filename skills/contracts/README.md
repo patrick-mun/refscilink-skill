@@ -50,6 +50,7 @@ If no dedicated contract exists for a file yet, use the relevant section in `ski
 | SH-026 | Accessibility strategy | `accessibility_strategy.md` |
 | SH-027 | Responsive design strategy | `responsive_design_strategy.md` |
 | SH-028 | External links security strategy | `external_links_security_strategy.md` |
+| SH-029 | Module versioning strategy | `module_versioning_strategy.md` |
 
 ---
 
@@ -84,6 +85,7 @@ If no dedicated contract exists for a file yet, use the relevant section in `ski
 | Semantic HTML, ARIA, keyboard and focus accessibility | `accessibility_strategy.md` |
 | Mobile, tablet and narrow viewport responsive behaviour | `responsive_design_strategy.md` |
 | External links, safe URL schemes and `noopener noreferrer` rules | `external_links_security_strategy.md` |
+| Generated module version metadata, schema versions and migration compatibility | `module_versioning_strategy.md` |
 | Generated module structure or backup behaviour | `generated_files_contract.md` |
 
 ---

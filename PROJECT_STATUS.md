@@ -166,11 +166,12 @@ Completed and validated:
 | SH-026 | Done | Accessibility strategy defined for semantic, keyboard-friendly generated UI. |
 | SH-027 | Done | Responsive design strategy defined for mobile and tablet usability. |
 | SH-028 | Done | External links security strategy defined for safe scientific source navigation. |
+| SH-029 | Done | Module versioning strategy defined for generated module and schema metadata. |
 
 Next recommended hardening task:
 
 ```text
-SH-029 — Module versioning
+SH-030 — Validation checklist
 ```
 
 ---
@@ -181,7 +182,7 @@ The next hardening item is:
 
 | ID | Topic | Status |
 |---|---|---|
-| SH-029 | Module versioning | Pending |
+| SH-030 | Validation checklist | Pending |
 
 Do not modify completed SH items unless a bug or inconsistency is discovered.
 
@@ -294,13 +295,13 @@ For each new correction:
 Recommended next task:
 
 ```text
-SH-029 — Module versioning
+SH-030 — Validation checklist
 ```
 
 Expected focus:
 
-- define generated module version metadata;
-- align module version with schema and generated file metadata;
-- define where version appears in JSON/config/files;
-- define update compatibility and migration notes;
-- prepare future validation checklist and upgrade workflows.
+- define a machine-readable post-install validation checklist;
+- align checklist checks with official tests and success criteria;
+- identify required files, JSON metadata and static UI checks;
+- define pass, warning, fail and review-required outcomes;
+- prepare final pre-test hardening closure before full module testing.

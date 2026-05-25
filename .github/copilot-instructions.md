@@ -263,3 +263,11 @@ skills/contracts/external_links_security_strategy.md
 ```
 
 External source, DOI, PDF and publisher links must block unsafe URL schemes and use `noopener noreferrer` with new tabs.
+
+Module versioning is defined in:
+
+```text
+skills/contracts/module_versioning_strategy.md
+```
+
+Generated JSON metadata must distinguish `module_version` from `schema_version`, tolerate legacy `version` fields and preserve scientific validation content during migration.

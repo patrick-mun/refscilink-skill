@@ -176,6 +176,12 @@ Recommended baseline codes:
 | `REFSCILINK_EXTERNAL_LINK_BLOCKED_UNSAFE_URL` | `warning` | An unsafe or invalid external URL was blocked. |
 | `REFSCILINK_EXTERNAL_LINK_REVIEW_REQUIRED` | `review_required` | External link safety requires manual review. |
 | `REFSCILINK_EXTERNAL_LINK_INTERNAL_TARGET_SKIPPED` | `info` | Internal link was kept in the same tab. |
+| `REFSCILINK_VERSION_METADATA_OK` | `success` | Required version metadata is present. |
+| `REFSCILINK_MODULE_VERSION_SET` | `success` | `module_version` is present and non-empty. |
+| `REFSCILINK_SCHEMA_VERSION_SET` | `success` | `schema_version` is present and non-empty. |
+| `REFSCILINK_LEGACY_VERSION_FIELD_DETECTED` | `info` | Legacy `version` field was detected and tolerated. |
+| `REFSCILINK_VERSION_MIGRATION_RECOMMENDED` | `review_required` | Version metadata can be migrated safely with user approval. |
+| `REFSCILINK_VERSION_METADATA_MISSING` | `warning` | Required version metadata is missing. |
 | `REFSCILINK_ROLLBACK_STARTED` | `info` | Rollback planning or execution started. |
 | `REFSCILINK_ROLLBACK_BACKUP_SELECTED` | `info` | A backup was selected. |
 | `REFSCILINK_ROLLBACK_PLAN_CREATED` | `info` | A rollback plan was created. |

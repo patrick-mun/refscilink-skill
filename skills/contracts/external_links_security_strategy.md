@@ -205,4 +205,4 @@ SH-028 is complete when:
 - `skills/create_module_ref.md` requires reading this contract before external link behaviour changes;
 - diagnostic codes are added to `logging_diagnostics_strategy.md`;
 - external link target, rel and URL-scheme rules are centralized here;
-- tracking files mark SH-028 as validated and point to SH-029 as the next task.
+- tracking files mark SH-028 as validated and point to the next pending hardening task.

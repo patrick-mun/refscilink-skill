@@ -51,7 +51,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 | SH-026 | Accessibility | Define minimum accessibility requirements | Accessible generated interface | Medium | Oui |
 | SH-027 | Responsive design | Define minimum responsive behaviour | Mobile compatibility guaranteed | Medium | Oui |
 | SH-028 | External links security | Define `noopener`, `noreferrer`, target rules | Safer external navigation | Medium | Oui |
-| SH-029 | Module versioning | Define generated module version metadata | Easier maintenance and upgrades | Medium | Non |
+| SH-029 | Module versioning | Define generated module version metadata | Easier maintenance and upgrades | Medium | Oui |
 | SH-030 | Validation checklist | Define machine-readable post-install checklist | Automated verification possible | High | Non |
 
 ---
@@ -239,7 +239,7 @@ Implemented:
 
 - mandatory root object with `metadata` and `references`;
 - prohibition of generating legacy root arrays, while allowing `reference.js` to tolerate them for backward compatibility;
-- mandatory metadata fields including `generated_by`, `version`, `schema_version`, `generated_at`, `language`, `source_markdown`, `source_markdown_sha256`, `enrichment_mode` and `reference_count`;
+- mandatory metadata fields including `generated_by`, `module_version`, `schema_version`, `generated_at`, `updated_at`, `language`, `source_markdown`, `source_markdown_sha256`, `enrichment_mode` and `reference_count`;
 - stable reference object with bibliographic fields, identifiers, URLs, access status, summaries, validation fields, extraction status, metadata status, review notes, source location and duplicate tracking;
 - string-array representation for `authors`;
 - stable `ref001`, `ref002`, `ref003` ID strategy and appearance-order numbering;
@@ -265,7 +265,7 @@ The skill now defines the mandatory JSON structure for editable visual theme con
 Implemented:
 
 - mandatory root object with stable theme fields;
-- mandatory metadata fields including `generated_by`, `version`, `schema_version`, `generated_at`, `language`, `source_project` and `source_entrypoint`;
+- mandatory metadata fields including `generated_by`, `module_version`, `schema_version`, `generated_at`, `updated_at`, `language`, `source_project` and `source_entrypoint`;
 - controlled values for `theme_mode`, `spacing_density`, `color_scheme`, detection `status` and detection `confidence`;
 - required color, typography, radius, shadow, spacing and color-scheme fields;
 - `detected_from` rules for listing inspected host files;
@@ -289,7 +289,7 @@ The skill now defines the persistent configuration structure used to make `/crea
 Implemented:
 
 - mandatory root object with `metadata`, `source`, `output`, `display`, `theme`, `language`, `enrichment`, `safety` and `runtime`;
-- mandatory metadata fields including `generated_by`, `version`, `schema_version`, `created_at` and `updated_at`;
+- mandatory metadata fields including `generated_by`, `module_version`, `schema_version`, `created_at` and `updated_at`;
 - project-relative source and output path rules;
 - controlled values for display mode, navigation integration, theme mode and enrichment mode;
 - language configuration rules preserving English internal keys and host-language UI generation;
@@ -741,9 +741,26 @@ External link rendering must never inject untrusted URLs through `innerHTML`.
 
 ---
 
+### SH-029 — Module Versioning Strategy
+
+Implemented in `skills/contracts/module_versioning_strategy.md` and used as the normative strategy for generated module and schema version metadata.
+
+The module versioning strategy defines:
+
+- separate meanings for `module_version`, `schema_version`, `contract_version`, `generated_by`, `generated_at`, `created_at` and `updated_at`;
+- generated metadata requirements for `refscilink.config.json`, `references.json` and `theme_refscilink.json`;
+- legacy `version` compatibility for older generated files;
+- safe migration rules that preserve scientific validation data, summaries and theme overrides;
+- stable diagnostics including `REFSCILINK_VERSION_METADATA_OK`, `REFSCILINK_MODULE_VERSION_SET`, `REFSCILINK_SCHEMA_VERSION_SET`, `REFSCILINK_LEGACY_VERSION_FIELD_DETECTED`, `REFSCILINK_VERSION_MIGRATION_RECOMMENDED` and `REFSCILINK_VERSION_METADATA_MISSING`;
+- final report requirements for module version, schema versions and migration status.
+
+Version metadata migration must never be used as a reason to renumber references, regenerate scientific metadata or mark AI-generated summaries as validated.
+
+---
+
 ## Contract externalization note
 
-The normative contracts for completed hardening items SH-001 to SH-028 are now externalized in:
+The normative contracts for completed hardening items SH-001 to SH-029 are now externalized in:
 
 ```text
 skills/contracts/
@@ -789,6 +806,7 @@ Current externalized contracts:
 | SH-026 | `skills/contracts/accessibility_strategy.md` |
 | SH-027 | `skills/contracts/responsive_design_strategy.md` |
 | SH-028 | `skills/contracts/external_links_security_strategy.md` |
+| SH-029 | `skills/contracts/module_versioning_strategy.md` |
 
 ---
 
@@ -796,8 +814,8 @@ Current externalized contracts:
 
 ### Phase 2 — Reliability and execution modes
 
-- SH-029
+- SH-030
 
 Goal:
 
-Define generated module version metadata.
+Define machine-readable post-install validation checklist.

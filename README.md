@@ -376,6 +376,24 @@ The normative external-link strategy is defined in:
 skills/contracts/external_links_security_strategy.md
 ```
 
+## Module Versioning
+
+RefSciLink generated JSON must distinguish module version from schema version.
+
+Minimum expectations:
+
+- new generated metadata uses `module_version` for RefSciLink module behaviour;
+- each generated JSON file keeps its own `schema_version`;
+- `generated_at`, `created_at` and `updated_at` timestamps are ISO-8601 strings;
+- older `version` fields are tolerated as legacy aliases;
+- metadata migration must never erase scientific validation data, summaries or theme overrides.
+
+The normative module versioning strategy is defined in:
+
+```text
+skills/contracts/module_versioning_strategy.md
+```
+
 The official example must be used whenever a major change is made to:
 
 - bibliography extraction;
@@ -416,6 +434,7 @@ The current version includes:
 - dry-run extraction mode for simulating JSON generation without writing files;
 - rollback recovery contract for safe restore planning after failed operations;
 - machine-verifiable success criteria for validating generated modules;
+- explicit module and schema version metadata for generated JSON;
 - DOI detection;
 - metadata lookup through Crossref when a DOI is present;
 - JSON schema for AI-enriched summaries;

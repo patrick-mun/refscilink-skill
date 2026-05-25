@@ -60,9 +60,10 @@ The `metadata` object must be present and must contain at least these keys:
 ```json
 {
   "generated_by": "RefSciLink Skill",
-  "version": "0.2.0-dev",
+  "module_version": "0.2.0-dev",
   "schema_version": "1.0.0",
   "generated_at": "ISO-8601 timestamp",
+  "updated_at": "ISO-8601 timestamp",
   "language": "fr",
   "source_markdown": "bibliographie.md",
   "source_markdown_sha256": "",
@@ -77,9 +78,10 @@ The `metadata` object must be present and must contain at least these keys:
 | Key | Type | Rule |
 |---|---:|---|
 | `generated_by` | string | Must identify RefSciLink as the generator. |
-| `version` | string | RefSciLink module or skill version. |
+| `module_version` | string | RefSciLink generated module version. |
 | `schema_version` | string | Contract version for `references.json`. |
 | `generated_at` | string | ISO-8601 timestamp. |
+| `updated_at` | string | ISO-8601 timestamp for last intentional update. |
 | `language` | string | Detected host website language or configured language. |
 | `source_markdown` | string | Markdown file analysed for references. |
 | `source_markdown_sha256` | string | Optional hash of source Markdown content. Use empty string if unavailable. |
@@ -91,6 +93,12 @@ If diagnostics are present, they must follow:
 
 ```text
 skills/contracts/logging_diagnostics_strategy.md
+```
+
+Module versioning and legacy `version` compatibility must follow:
+
+```text
+skills/contracts/module_versioning_strategy.md
 ```
 
 ---
@@ -450,9 +458,10 @@ The skill must not generate legacy root arrays.
 {
   "metadata": {
     "generated_by": "RefSciLink Skill",
-    "version": "0.2.0-dev",
+    "module_version": "0.2.0-dev",
     "schema_version": "1.0.0",
     "generated_at": "2026-05-24T12:00:00+04:00",
+    "updated_at": "2026-05-24T12:00:00+04:00",
     "language": "fr",
     "source_markdown": "bibliographie.md",
     "source_markdown_sha256": "",

@@ -73,9 +73,10 @@ The `metadata` object must be present and must contain at least these keys:
 ```json
 {
   "generated_by": "RefSciLink Skill",
-  "version": "0.2.0-dev",
+  "module_version": "0.2.0-dev",
   "schema_version": "1.0.0",
   "generated_at": "ISO-8601 timestamp",
+  "updated_at": "ISO-8601 timestamp",
   "language": "fr",
   "source_project": "",
   "source_entrypoint": "index.html"
@@ -87,14 +88,21 @@ The `metadata` object must be present and must contain at least these keys:
 | Key | Type | Rule |
 |---|---:|---|
 | `generated_by` | string | Must identify RefSciLink as the generator. |
-| `version` | string | RefSciLink module or skill version. |
+| `module_version` | string | RefSciLink generated module version. |
 | `schema_version` | string | Contract version for `theme_refscilink.json`. |
 | `generated_at` | string | ISO-8601 timestamp. |
+| `updated_at` | string | ISO-8601 timestamp for last intentional update. |
 | `language` | string | Detected host website language or configured language. |
 | `source_project` | string | Optional project name or root folder. Use empty string if unknown. |
 | `source_entrypoint` | string | HTML entry point used for theme detection. |
 
 ---
+
+Module versioning and legacy `version` compatibility must follow:
+
+```text
+skills/contracts/module_versioning_strategy.md
+```
 
 ## Required root fields
 
@@ -328,9 +336,10 @@ Rules:
 {
   "metadata": {
     "generated_by": "RefSciLink Skill",
-    "version": "0.2.0-dev",
+    "module_version": "0.2.0-dev",
     "schema_version": "1.0.0",
     "generated_at": "2026-05-24T12:00:00+04:00",
+    "updated_at": "2026-05-24T12:00:00+04:00",
     "language": "fr",
     "source_project": "basic-site",
     "source_entrypoint": "index.html"
@@ -392,7 +401,7 @@ Rules:
 A generated `theme_refscilink.json` is acceptable only if:
 
 - the root is an object, not an array;
-- `metadata` is present and includes `generated_by`, `version`, `schema_version` and `generated_at`;
+- `metadata` is present and includes `generated_by`, `module_version`, `schema_version`, `generated_at` and `updated_at`;
 - `theme_mode` uses an allowed value;
 - `detected_from` is an array;
 - required color, typography, radius, shadow, spacing and color-scheme fields are present;

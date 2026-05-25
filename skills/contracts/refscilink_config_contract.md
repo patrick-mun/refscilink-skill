@@ -60,7 +60,7 @@ The `metadata` object must be present and must contain at least these keys:
 ```json
 {
   "generated_by": "RefSciLink Skill",
-  "version": "0.2.0-dev",
+  "module_version": "0.2.0-dev",
   "schema_version": "1.0.0",
   "created_at": "ISO-8601 timestamp",
   "updated_at": "ISO-8601 timestamp"
@@ -72,12 +72,18 @@ The `metadata` object must be present and must contain at least these keys:
 | Key | Type | Rule |
 |---|---:|---|
 | `generated_by` | string | Must identify RefSciLink as the generator. |
-| `version` | string | RefSciLink module or skill version. |
+| `module_version` | string | RefSciLink generated module version. |
 | `schema_version` | string | Contract version for `refscilink.config.json`. |
 | `created_at` | string | ISO-8601 timestamp from first config creation. |
 | `updated_at` | string | ISO-8601 timestamp from last config update. |
 
 ---
+
+Module versioning and legacy `version` compatibility must follow:
+
+```text
+skills/contracts/module_versioning_strategy.md
+```
 
 ## Mandatory `source` object
 
@@ -402,7 +408,7 @@ The assistant may read this shape, but new writes should migrate to the official
 {
   "metadata": {
     "generated_by": "RefSciLink Skill",
-    "version": "0.2.0-dev",
+    "module_version": "0.2.0-dev",
     "schema_version": "1.0.0",
     "created_at": "2026-05-24T12:00:00+04:00",
     "updated_at": "2026-05-24T12:00:00+04:00"
@@ -470,7 +476,7 @@ A generated `refscilink.config.json` is acceptable only if:
 
 - the root is an object, not an array;
 - mandatory objects `metadata`, `source`, `output`, `display`, `theme`, `language`, `enrichment`, `safety` and `runtime` are present;
-- `metadata` includes `generated_by`, `version`, `schema_version`, `created_at` and `updated_at`;
+- `metadata` includes `generated_by`, `module_version`, `schema_version`, `created_at` and `updated_at`;
 - controlled values match the allowed lists;
 - paths are project-relative by default;
 - no unknown values are represented as `null`;

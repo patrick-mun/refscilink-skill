@@ -14,18 +14,18 @@
 .refscilink-page {
   --refscilink-color-primary: #007B83;
   --refscilink-color-secondary: #00A6B2;
-  --refscilink-color-background: #f7fafb;
-  --refscilink-color-surface: #ffffff;
+  --refscilink-color-background: #F7FAFB;
+  --refscilink-color-surface: #FFFFFF;
   --refscilink-color-text: #102027;
-  --refscilink-color-muted: #607d8b;
-  --refscilink-color-border: #d8e3e7;
+  --refscilink-color-muted: #607D8B;
+  --refscilink-color-border: #D8E3E7;
   --refscilink-color-error: #b00020;
   --refscilink-color-success: #176b3a;
   --refscilink-font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --refscilink-radius: 12px;
+  --refscilink-radius: 18px;
   --refscilink-radius-card: 18px;
   --refscilink-radius-button: 999px;
-  --refscilink-shadow-card: 0 12px 30px rgba(0, 0, 0, 0.08);
+  --refscilink-shadow-card: 0 16px 40px rgba(0, 65, 70, 0.12);
   --refscilink-spacing-xs: 0.35rem;
   --refscilink-spacing-sm: 0.65rem;
   --refscilink-spacing-md: 1rem;

@@ -237,6 +237,20 @@ Fallback CSS variables:
 --ref-muted: #607d8b;
 ```
 
+Automatic theme detection is implemented by:
+
+```text
+tools/theme_detector.mjs
+```
+
+The detector reads the selected HTML entry point and linked CSS files, extracts host colors, typography, radius, button shape and shadows, and writes:
+
+```text
+data/reference_bibliographique/json/theme_refscilink.json
+```
+
+It must remain dependency-free, local-only and safe for static projects.
+
 ## Documentation checklist
 
 When behaviour changes, update:

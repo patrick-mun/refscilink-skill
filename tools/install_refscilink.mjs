@@ -3,6 +3,7 @@ import fs from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { detectTheme, writeThemeFile } from './theme_detector.mjs';
 
 const repoRoot = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
 const moduleSourceDir = path.join(repoRoot, 'data/reference_bibliographique');
@@ -31,6 +32,7 @@ async function main() {
   const navigationTarget = `${moduleDir}/index_ref.html`;
 
   await installModuleFiles({ targetRoot, moduleDir, dryRun: options.dryRun, diagnostics });
+  await generateTheme({ targetRoot, htmlEntry, moduleDir, dryRun: options.dryRun, diagnostics });
   await writeConfig({ targetRoot, htmlEntry, markdownFile, moduleDir, language, navigationTarget, dryRun: options.dryRun, diagnostics });
   await integrateNavigation({ targetRoot, htmlEntry, navigationTarget, label, dryRun: options.dryRun, diagnostics });
 
@@ -232,6 +234,14 @@ async function writeConfig({ targetRoot, htmlEntry, markdownFile, moduleDir, lan
   diagnostics.push(diagnostic('success', 'REFSCILINK_CONFIG_WRITTEN', 'refscilink.config.json was written.', {
     path: targetRelative
   }));
+}
+
+async function generateTheme({ targetRoot, htmlEntry, moduleDir, dryRun, diagnostics }) {
+  const outputRelative = `${moduleDir}/json/theme_refscilink.json`;
+  const detection = await detectTheme({ targetRoot, htmlEntry, outputRelative });
+  diagnostics.push(...detection.diagnostics);
+  const writeResult = await writeThemeFile({ targetRoot, outputRelative, theme: detection.theme, dryRun });
+  diagnostics.push(...writeResult.diagnostics);
 }
 
 async function readJsonIfValid(file) {

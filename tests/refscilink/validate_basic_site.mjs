@@ -10,6 +10,7 @@ const repoRoot = path.resolve(fileURLToPath(new URL('../..', import.meta.url)));
 const buildTool = path.join(repoRoot, 'data/reference_bibliographique/tools/build_references.mjs');
 const installTool = path.join(repoRoot, 'tools/install_refscilink.mjs');
 const serveTool = path.join(repoRoot, 'tools/serve_static.mjs');
+const themeTool = path.join(repoRoot, 'tools/theme_detector.mjs');
 const exampleMarkdown = path.join(repoRoot, 'examples/basic-site/bibliographie.md');
 const exampleIndex = path.join(repoRoot, 'examples/basic-site/index.html');
 const exampleStyle = path.join(repoRoot, 'examples/basic-site/style.css');
@@ -36,7 +37,9 @@ async function main() {
   await checkBuildToolSyntax();
   await checkInstallToolSyntax();
   await checkServeToolSyntax();
+  await checkThemeToolSyntax();
   await checkRootReferencesStructure();
+  await checkThemeDetection();
   await checkGeneratedMetadata();
   await checkExternalLinkSafety();
   await checkOfficialExtraction();
@@ -86,6 +89,7 @@ async function checkReadmeQuickStart() {
     'npm run test:basic-site',
     'npm run install:module',
     'npm run build:refs',
+    'npm run theme:detect',
     'npm run serve'
   ];
   const missing = requiredText.filter(text => !readme.includes(text));
@@ -95,10 +99,11 @@ async function checkReadmeQuickStart() {
 async function checkPackageScripts() {
   const pkg = JSON.parse(await fs.readFile(path.join(repoRoot, 'package.json'), 'utf8'));
   const scripts = pkg.scripts || {};
-  const required = ['build:refs', 'install:module', 'serve', 'demo'];
-  record('npm.scripts.required', required.every(name => typeof scripts[name] === 'string' && scripts[name].length > 0) ? 'pass' : 'fail', 'package.json exposes build:refs, install:module, serve and demo scripts.');
+  const required = ['build:refs', 'install:module', 'theme:detect', 'serve', 'demo'];
+  record('npm.scripts.required', required.every(name => typeof scripts[name] === 'string' && scripts[name].length > 0) ? 'pass' : 'fail', 'package.json exposes build:refs, install:module, theme:detect, serve and demo scripts.');
   record('npm.scripts.local_only', !Object.values(scripts).some(script => script.includes('npx serve')) ? 'pass' : 'fail', 'npm serve/demo scripts use local Node tooling instead of npx serve.');
   record('npm.scripts.install_module', scripts['install:module']?.includes('tools/install_refscilink.mjs') ? 'pass' : 'fail', 'install:module calls the local installer.');
+  record('npm.scripts.theme_detect', scripts['theme:detect']?.includes('tools/theme_detector.mjs') ? 'pass' : 'fail', 'theme:detect calls the local theme detector.');
 }
 
 async function checkNpmScriptExecution() {
@@ -113,6 +118,9 @@ async function checkNpmScriptExecution() {
   await fs.copyFile(exampleMarkdown, path.join(tempDir, 'bibliographie.md'));
   const installResult = await run('npm', ['run', 'install:module', '--', '--target', tempDir, '--markdown', 'bibliographie.md', '--html', 'index.html'], repoRoot);
   record('npm.script.install_module', installResult.code === 0 && existsSync(path.join(tempDir, 'data/reference_bibliographique/index_ref.html')) ? 'pass' : 'fail', installResult.code === 0 ? 'npm run install:module installs into a temporary site.' : installResult.stderr || installResult.stdout);
+
+  const themeResult = await run('npm', ['run', 'theme:detect', '--', '--check'], repoRoot);
+  record('npm.script.theme_detect', themeResult.code === 0 && themeResult.stdout.includes('REFSCILINK_THEME_DETECTED') ? 'pass' : 'fail', themeResult.code === 0 ? 'npm run theme:detect detects the official example theme in check mode.' : themeResult.stderr || themeResult.stdout);
 
   const serveResult = await run('npm', ['run', 'serve', '--', '--check'], repoRoot);
   record('npm.script.serve', serveResult.code === 0 ? 'pass' : 'fail', serveResult.code === 0 ? 'npm run serve passes static server check mode.' : serveResult.stderr || serveResult.stdout);
@@ -133,7 +141,8 @@ async function checkRequiredFiles() {
     'data/reference_bibliographique/tools/prompt_recherche_ia.md',
     'data/reference_bibliographique/tools/schema_references.json',
     'refscilink.config.json',
-    'tools/install_refscilink.mjs'
+    'tools/install_refscilink.mjs',
+    'tools/theme_detector.mjs'
   ];
   const missing = requiredFiles.filter(file => !existsSync(path.join(repoRoot, file)));
   record('files.required', missing.length ? 'fail' : 'pass', missing.length ? `Missing files: ${missing.join(', ')}` : 'All mandatory files exist.');
@@ -208,9 +217,32 @@ async function checkServeToolSyntax() {
   record('tool.syntax.serve_static', result.code === 0 ? 'pass' : 'fail', result.code === 0 ? 'serve_static.mjs syntax is valid.' : result.stderr || result.stdout);
 }
 
+async function checkThemeToolSyntax() {
+  const result = await run('node', ['--check', themeTool], repoRoot);
+  record('tool.syntax.theme_detector', result.code === 0 ? 'pass' : 'fail', result.code === 0 ? 'theme_detector.mjs syntax is valid.' : result.stderr || result.stdout);
+}
+
 async function checkRootReferencesStructure() {
   const payload = JSON.parse(await fs.readFile(path.join(repoRoot, 'data/reference_bibliographique/json/references.json'), 'utf8'));
   validateReferencesPayload(payload, 'json.references.root');
+}
+
+async function checkThemeDetection() {
+  const theme = JSON.parse(await fs.readFile(path.join(repoRoot, 'data/reference_bibliographique/json/theme_refscilink.json'), 'utf8'));
+  const detected = theme.detection?.status === 'detected'
+    && theme.detection?.confidence === 'high'
+    && theme.detected_from?.includes('examples/basic-site/style.css');
+  record('theme.detect.official_example', detected ? 'pass' : 'fail', detected ? 'Official theme JSON is generated from the basic-site CSS with high confidence.' : 'Official theme JSON must be detected from examples/basic-site/style.css.');
+
+  const expectedValues = theme.primary === '#007B83'
+    && theme.secondary === '#00A6B2'
+    && theme.radius === '18px'
+    && theme.button_radius === '999px'
+    && theme.shadow === '0 16px 40px rgba(0, 65, 70, 0.12)';
+  record('theme.detect.values', expectedValues ? 'pass' : 'fail', 'Detected theme captures colors, radius, button radius and shadow from the host site.');
+
+  const result = await run('node', [themeTool, '--target', '.', '--html', 'examples/basic-site/index.html', '--output', 'data/reference_bibliographique/json/theme_refscilink.json', '--check'], repoRoot);
+  record('theme.detect.check_mode', result.code === 0 && result.stdout.includes('REFSCILINK_THEME_DETECTED') ? 'pass' : 'fail', result.code === 0 ? 'Theme detector check mode detects host styles without writing.' : result.stderr || result.stdout);
 }
 
 async function checkGeneratedMetadata() {
@@ -303,6 +335,12 @@ async function checkLocalInstaller() {
     && installedConfig.display?.navigation_target === 'data/reference_bibliographique/index_ref.html'
     && installedConfig.language?.generated_ui === 'fr';
   record('installer.config.created', configOk ? 'pass' : 'fail', 'Installer writes reusable project-relative config.');
+
+  const installedTheme = JSON.parse(await fs.readFile(path.join(tempDir, 'data/reference_bibliographique/json/theme_refscilink.json'), 'utf8'));
+  const installedThemeDetected = installedTheme.detection?.status === 'detected'
+    && installedTheme.detection?.confidence === 'high'
+    && installedTheme.detected_from?.includes('style.css');
+  record('installer.theme.detected', installedThemeDetected ? 'pass' : 'fail', 'Installer regenerates theme_refscilink.json from the host stylesheet.');
 
   const secondRun = await run('node', [installTool, '--target', tempDir, '--markdown', 'bibliographie.md', '--html', 'index.html'], repoRoot);
   const rerunIndex = await fs.readFile(path.join(tempDir, 'index.html'), 'utf8');

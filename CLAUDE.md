@@ -129,6 +129,14 @@ Provide:
 
 Adapt to the host site's visual identity.
 
+Automatic theme detection uses:
+
+```text
+tools/theme_detector.mjs
+```
+
+The detector reads the selected HTML entry point and linked CSS files, then writes `data/reference_bibliographique/json/theme_refscilink.json` with detected colors, typography, radius, button shape and shadows.
+
 Fallback palette:
 
 ```css

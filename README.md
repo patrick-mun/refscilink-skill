@@ -64,6 +64,12 @@ To rebuild the official example references from Markdown:
 npm run build:refs
 ```
 
+To regenerate the official example theme from the host HTML/CSS:
+
+```bash
+npm run theme:detect
+```
+
 For a root-level static preview instead of the assembled demo:
 
 ```bash
@@ -241,11 +247,12 @@ Common local commands are:
 ```bash
 npm run build:refs
 npm run install:module -- --target examples/basic-site --markdown bibliographie.md --html index.html
+npm run theme:detect
 npm run serve
 npm run demo
 ```
 
-`npm run serve` starts a local static server for the repository root. `npm run demo` assembles a temporary `examples/basic-site` copy with the RefSciLink module and serves that complete demo without external dependencies.
+`npm run theme:detect` reads the host HTML/CSS and regenerates `data/reference_bibliographique/json/theme_refscilink.json` with detected colors, typography, radius, shadows and button shape. `npm run serve` starts a local static server for the repository root. `npm run demo` assembles a temporary `examples/basic-site` copy with the RefSciLink module and serves that complete demo without external dependencies.
 
 ### Expected generated structure
 
@@ -289,7 +296,7 @@ From the repository root, run:
 npm run test:basic-site
 ```
 
-This validates the canonical `examples/basic-site/bibliographie.md` fixture, checks required JSON files, verifies `refscilink.config.json` source/output/display/theme/language settings, verifies `build_references.mjs`, `install_refscilink.mjs` and `serve_static.mjs` syntax, tests the local installer and npm scripts on temporary sites, confirms generated version metadata, checks the localized navigation entry and French generated pages, verifies stable `ref001` to `ref010` fresh-install IDs and detail links, checks external-link safety guards, confirms the expected 10 extracted references, and ensures dry-run mode does not write generated files.
+This validates the canonical `examples/basic-site/bibliographie.md` fixture, checks required JSON files, verifies `refscilink.config.json` source/output/display/theme/language settings, verifies `build_references.mjs`, `install_refscilink.mjs`, `theme_detector.mjs` and `serve_static.mjs` syntax, tests the local installer and npm scripts on temporary sites, confirms generated version metadata, checks automatic theme detection from the host CSS, checks the localized navigation entry and French generated pages, verifies stable `ref001` to `ref010` fresh-install IDs and detail links, checks external-link safety guards, confirms the expected 10 extracted references, and ensures dry-run mode does not write generated files.
 
 ### Validation goal
 

@@ -207,6 +207,14 @@ Bibliography pages should support:
 
 Integrate visually with the host project.
 
+Automatic theme detection is handled locally by:
+
+```text
+tools/theme_detector.mjs
+```
+
+It reads the selected HTML entry point and linked CSS files, then writes `data/reference_bibliographique/json/theme_refscilink.json` with detected colors, typography, radius, button shape and shadows.
+
 Fallback palette:
 
 ```css

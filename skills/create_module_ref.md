@@ -718,6 +718,27 @@ Visual safety and CSS integration rules are defined in:
 skills/contracts/reference_css_contract.md
 ```
 
+The local implementation provides:
+
+```text
+tools/theme_detector.mjs
+```
+
+When installing with Theme Mode `Auto + Override`, run the detector against the selected HTML entry point and linked stylesheets. The detector must:
+
+- remain local-only and dependency-free;
+- read host CSS variables and common selectors;
+- extract primary and secondary colors, background, surface, text, muted text, border, typography, radius, button radius and shadows when available;
+- write `data/reference_bibliographique/json/theme_refscilink.json`;
+- preserve host visual identity before RefSciLink fallback values;
+- report fallback mode when not enough style signals are found.
+
+Repository validation exposes the detector through:
+
+```bash
+npm run theme:detect
+```
+
 ## Error handling
 
 ### No Markdown file found

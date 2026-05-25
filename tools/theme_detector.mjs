@@ -225,7 +225,7 @@ function buildTheme({ variables, selectors, html, detectedFrom, targetRoot, html
   const theme = {
     metadata: {
       generated_by: 'RefSciLink Theme Detector',
-      module_version: '0.2.0-dev',
+      module_version: '0.4.0-dev',
       schema_version: '1.0.0',
       generated_at: now,
       updated_at: now,

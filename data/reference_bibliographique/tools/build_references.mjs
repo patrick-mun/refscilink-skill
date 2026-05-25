@@ -194,7 +194,7 @@ async function main() {
   const payload = {
     metadata: {
       generated_by: 'RefSciLink Skill',
-      module_version: '0.2.0-dev',
+      module_version: '0.4.0-dev',
       schema_version: '1.0.0',
       generated_at: generatedAt,
       updated_at: generatedAt,

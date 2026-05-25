@@ -52,7 +52,7 @@ Use these meanings consistently:
 
 | Field | Meaning | Example |
 |---|---|---|
-| `module_version` | Version of the generated RefSciLink module behaviour and file set. | `0.2.0-dev` |
+| `module_version` | Version of the generated RefSciLink module behaviour and file set. | `0.4.0-dev` |
 | `schema_version` | Version of the JSON structure for the current file. | `1.0.0` |
 | `contract_version` | Version of the normative contract used when a report or validation file is generated. | `1.0.0` |
 | `generated_by` | Tool or skill identity that generated the file. | `RefSciLink Skill` |
@@ -73,7 +73,7 @@ Generated config metadata must include:
 ```json
 {
   "generated_by": "RefSciLink Skill",
-  "module_version": "0.2.0-dev",
+  "module_version": "0.4.0-dev",
   "schema_version": "1.0.0",
   "created_at": "ISO-8601 timestamp",
   "updated_at": "ISO-8601 timestamp"
@@ -95,7 +95,7 @@ Generated bibliography data metadata must include:
 ```json
 {
   "generated_by": "RefSciLink Skill",
-  "module_version": "0.2.0-dev",
+  "module_version": "0.4.0-dev",
   "schema_version": "1.0.0",
   "generated_at": "ISO-8601 timestamp",
   "updated_at": "ISO-8601 timestamp"
@@ -116,7 +116,7 @@ Generated theme metadata must include:
 ```json
 {
   "generated_by": "RefSciLink Skill",
-  "module_version": "0.2.0-dev",
+  "module_version": "0.4.0-dev",
   "schema_version": "1.0.0",
   "generated_at": "ISO-8601 timestamp",
   "updated_at": "ISO-8601 timestamp"

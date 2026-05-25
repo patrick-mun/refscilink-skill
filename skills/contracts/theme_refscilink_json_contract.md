@@ -74,7 +74,7 @@ The `metadata` object must be present and must contain at least these keys:
 ```json
 {
   "generated_by": "RefSciLink Skill",
-  "module_version": "0.2.0-dev",
+  "module_version": "0.4.0-dev",
   "schema_version": "1.0.0",
   "generated_at": "ISO-8601 timestamp",
   "updated_at": "ISO-8601 timestamp",
@@ -362,7 +362,7 @@ Rules:
 {
   "metadata": {
     "generated_by": "RefSciLink Skill",
-    "module_version": "0.2.0-dev",
+    "module_version": "0.4.0-dev",
     "schema_version": "1.0.0",
     "generated_at": "2026-05-24T12:00:00+04:00",
     "updated_at": "2026-05-24T12:00:00+04:00",

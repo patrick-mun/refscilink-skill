@@ -1,10 +1,10 @@
 {
   "metadata": {
     "generated_by": "RefSciLink Theme Detector",
-    "module_version": "0.2.0-dev",
+    "module_version": "0.4.0-dev",
     "schema_version": "1.0.0",
     "generated_at": "2026-05-25T11:41:17.110Z",
-    "updated_at": "2026-05-25T11:41:17.110Z",
+    "updated_at": "2026-05-25T16:23:45Z",
     "language": "fr",
     "source_project": "refscilink-skill",
     "source_entrypoint": "examples/basic-site/index.html"

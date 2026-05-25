@@ -65,7 +65,8 @@ Last completed test sequence:
 - npm run test:validate passed with 14 checks.
 - Temporary static-site HTTP checks passed for main pages, CSS, JS and JSON.
 - Fresh-install simulation extracted 10 references from examples/basic-site/bibliographie.md.
-- Fresh generated references.json includes module_version 0.2.0-dev, schema_version 1.0.0 and sequential ref001..ref010 IDs.
+- Current development version is 0.4.0-dev, with generated JSON schema_version 1.0.0.
+- Fresh generated references.json includes module_version 0.4.0-dev, schema_version 1.0.0 and sequential ref001..ref010 IDs.
 - Browser visual inspection was completed: home navigation contains Références, the list page renders 10 French references, card #1 links to reference.html?id=ref001, and the ref001 detail page renders French metadata/actions.
 - Roadmap items 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 and 11 are validated.
 ```

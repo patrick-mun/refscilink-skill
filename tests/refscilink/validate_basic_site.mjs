@@ -291,7 +291,7 @@ async function checkThemeManualOverrides() {
   const existingTheme = {
     metadata: {
       generated_by: 'RefSciLink Theme Detector',
-      module_version: '0.2.0-dev',
+      module_version: '0.4.0-dev',
       schema_version: '1.0.0',
       generated_at: '2026-05-24T12:00:00.000Z',
       updated_at: '2026-05-24T12:00:00.000Z'
@@ -324,13 +324,13 @@ async function checkGeneratedMetadata() {
   for (const [file, creationTimestamp] of metadataFiles) {
     const payload = JSON.parse(await fs.readFile(path.join(repoRoot, file), 'utf8'));
     const metadata = payload.metadata || {};
-    const hasModuleVersion = typeof metadata.module_version === 'string' && metadata.module_version.length > 0;
+    const hasModuleVersion = metadata.module_version === '0.4.0-dev';
     const hasSchemaVersion = typeof metadata.schema_version === 'string' && metadata.schema_version.length > 0;
     const hasCreationTimestamp = typeof metadata[creationTimestamp] === 'string' && metadata[creationTimestamp].length > 0;
     const hasUpdatedAt = file.endsWith('references.json') || file.endsWith('theme_refscilink.json')
       ? typeof metadata.updated_at === 'string' && metadata.updated_at.length > 0
       : typeof metadata.updated_at === 'string' && metadata.updated_at.length > 0;
-    record(`metadata.versioning.${file}`, hasModuleVersion && hasSchemaVersion && hasCreationTimestamp && hasUpdatedAt ? 'pass' : 'fail', `${file} includes module_version, schema_version and timestamps.`);
+    record(`metadata.versioning.${file}`, hasModuleVersion && hasSchemaVersion && hasCreationTimestamp && hasUpdatedAt ? 'pass' : 'fail', `${file} includes module_version 0.4.0-dev, schema_version and timestamps.`);
   }
 }
 
@@ -473,7 +473,7 @@ function validateReferencesPayload(payload, prefix) {
   record(`${prefix}.root`, payload.metadata && Array.isArray(payload.references) ? 'pass' : 'fail', 'references.json has metadata and references array.');
   if (!payload.metadata || !Array.isArray(payload.references)) return;
   record(`${prefix}.reference_count`, payload.metadata.reference_count === payload.references.length ? 'pass' : 'fail', 'metadata.reference_count matches references length.');
-  record(`${prefix}.metadata.module_version`, typeof payload.metadata.module_version === 'string' && payload.metadata.module_version.length > 0 ? 'pass' : 'fail', 'metadata.module_version is present.');
+  record(`${prefix}.metadata.module_version`, payload.metadata.module_version === '0.4.0-dev' ? 'pass' : 'fail', 'metadata.module_version is 0.4.0-dev.');
   record(`${prefix}.metadata.schema_version`, typeof payload.metadata.schema_version === 'string' && payload.metadata.schema_version.length > 0 ? 'pass' : 'fail', 'metadata.schema_version is present.');
 
   const ids = new Set();

@@ -537,6 +537,13 @@ skills/contracts/external_links_security_strategy.md
 
 RefSciLink generated JSON must distinguish module version from schema version.
 
+Current development version:
+
+```text
+module_version: 0.4.0-dev
+schema_version: 1.0.0
+```
+
 Minimum expectations:
 
 - new generated metadata uses `module_version` for RefSciLink module behaviour;

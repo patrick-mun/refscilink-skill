@@ -44,7 +44,7 @@ Generated JSON files should include metadata when possible:
 ```json
 {
   "generated_by": "RefSciLink Skill",
-  "module_version": "0.2.0-dev",
+  "module_version": "0.4.0-dev",
   "schema_version": "1.0.0",
   "generated_at": "ISO-8601 timestamp"
 }

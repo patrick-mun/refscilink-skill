@@ -224,6 +224,8 @@ Important distinction:
 
 Current known functional state:
 
+- The repository and generated module metadata are aligned on `0.4.0-dev`.
+- JSON schema metadata remains `schema_version: 1.0.0`.
 - `examples/basic-site/` has been created.
 - The global README includes a five-minute developer quick start, the official example and the validation procedure.
 - The skill context files for AI assistants exist or have been planned/created.
@@ -314,7 +316,7 @@ Latest completed checks:
 - `npm run test:validate` passed with 14 checks.
 - Temporary static-site HTTP checks returned 200 for `/`, `index.html`, `index_ref.html`, `reference.html`, CSS, JS, `references.json` and `theme_refscilink.json`.
 - Fresh-install simulation in `/tmp/refscilink-basic-site-fresh` extracted 10 references.
-- Fresh install produced `module_version: 0.2.0-dev`, `schema_version: 1.0.0`, `ref001` through `ref010` and `REFSCILINK_EXTRACT_OK`.
+- Fresh install produced `module_version: 0.4.0-dev`, `schema_version: 1.0.0`, `ref001` through `ref010` and `REFSCILINK_EXTRACT_OK`.
 - Static checks confirmed `refscilink.config.json` source/output/display/theme/language settings, README quick-start coverage, automatic theme detection, dedicated theme detection fixtures, dedicated Markdown extraction fixtures, dedicated persistent validation fixtures, editable theme runtime overrides, mixed-format Markdown extraction, local installer syntax, local static server syntax, npm script execution, navigation integration, French generated pages, localized detail metadata, stable detail links and external-link safety guards.
 - Local installer checks confirmed module file creation, `index.html` backup, one localized `Références` link, reusable config creation and idempotent rerun behaviour.
 - Browser review confirmed the flow `index.html` -> `Références` -> bibliography list -> `reference.html?id=ref001`.

@@ -55,7 +55,7 @@ Recommended shape:
 {
   "status": "manual_review_required",
   "checklist_version": "1.0.0",
-  "module_version": "0.2.0-dev",
+  "module_version": "0.4.0-dev",
   "generated_at": "ISO-8601 timestamp",
   "checks": [
     {

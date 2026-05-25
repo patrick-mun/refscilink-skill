@@ -44,13 +44,14 @@ SH-023
 SH-024
 SH-025
 SH-026
+SH-027
 ```
 
 Current task:
 
 ```text
-SH-027
-Responsive design
+SH-028
+External links security
 ```
 
 ---
@@ -154,13 +155,13 @@ Do not confuse roadmap upgrades with hardening tasks.
 Implement:
 
 ```text
-SH-027 — Responsive design
+SH-028 — External links security
 ```
 
 Then continue validation hardening:
 
 ```text
-SH-028 — External links security
+SH-029 — Module versioning
 ```
 
 ---
@@ -183,11 +184,11 @@ Repository:
 refscilink-skill
 
 Current state:
-SH-000 to SH-026 completed and validated.
+SH-000 to SH-027 completed and validated.
 Generated-file contracts are externalized in skills/contracts/.
 
 Current task:
-SH-027 Responsive design.
+SH-028 External links security.
 
 Do not modify completed SH items without justification.
 Keep technical specifications in English.

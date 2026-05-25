@@ -165,6 +165,12 @@ Recommended baseline codes:
 | `REFSCILINK_ACCESSIBILITY_FOCUS_VISIBLE` | `success` | Visible focus states are defined. |
 | `REFSCILINK_ACCESSIBILITY_WARNING` | `warning` | An accessibility concern requires review. |
 | `REFSCILINK_ACCESSIBILITY_REVIEW_REQUIRED` | `review_required` | Accessibility cannot be verified automatically and needs human review. |
+| `REFSCILINK_RESPONSIVE_LAYOUT_OK` | `success` | Responsive layout requirements are satisfied. |
+| `REFSCILINK_RESPONSIVE_MOBILE_BREAKPOINT_OK` | `success` | A RefSciLink-scoped mobile breakpoint is defined. |
+| `REFSCILINK_RESPONSIVE_NO_HORIZONTAL_SCROLL` | `success` | Layout is designed to avoid horizontal scrolling. |
+| `REFSCILINK_RESPONSIVE_TOUCH_TARGETS_OK` | `success` | Controls have mobile-friendly spacing. |
+| `REFSCILINK_RESPONSIVE_WARNING` | `warning` | A responsive layout concern requires review. |
+| `REFSCILINK_RESPONSIVE_REVIEW_REQUIRED` | `review_required` | Responsive behaviour needs manual viewport review. |
 | `REFSCILINK_ROLLBACK_STARTED` | `info` | Rollback planning or execution started. |
 | `REFSCILINK_ROLLBACK_BACKUP_SELECTED` | `info` | A backup was selected. |
 | `REFSCILINK_ROLLBACK_PLAN_CREATED` | `info` | A rollback plan was created. |

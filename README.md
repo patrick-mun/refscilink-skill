@@ -339,6 +339,25 @@ The normative accessibility strategy is defined in:
 skills/contracts/accessibility_strategy.md
 ```
 
+## Responsive Design
+
+RefSciLink generated pages must remain readable and usable on desktop, tablet and mobile screens.
+
+Minimum expectations:
+
+- responsive behaviour down to approximately `320px`;
+- no horizontal scrolling for normal mobile widths;
+- filters and actions that wrap or stack;
+- cards and detail sections that remain readable;
+- long DOI, URL, title and author text that wraps safely;
+- responsive CSS scoped to RefSciLink selectors.
+
+The normative responsive strategy is defined in:
+
+```text
+skills/contracts/responsive_design_strategy.md
+```
+
 The official example must be used whenever a major change is made to:
 
 - bibliography extraction;

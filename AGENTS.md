@@ -323,3 +323,13 @@ skills/contracts/accessibility_strategy.md
 ```
 
 Use semantic HTML, labeled controls, real buttons and links, keyboard-accessible interactions, visible focus states and textual status messages.
+
+## Responsive design
+
+Before generating or modifying responsive layout behaviour, read:
+
+```text
+skills/contracts/responsive_design_strategy.md
+```
+
+Keep responsive rules scoped to RefSciLink selectors, avoid horizontal scrolling and preserve readable filters, cards and detail pages on mobile.

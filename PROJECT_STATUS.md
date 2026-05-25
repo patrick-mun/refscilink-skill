@@ -164,11 +164,12 @@ Completed and validated:
 | SH-024 | Done | User file protection strategy defined as global non-destruction layer. |
 | SH-025 | Done | GitHub Pages compatibility strategy defined for static subpath deployments. |
 | SH-026 | Done | Accessibility strategy defined for semantic, keyboard-friendly generated UI. |
+| SH-027 | Done | Responsive design strategy defined for mobile and tablet usability. |
 
 Next recommended hardening task:
 
 ```text
-SH-027 — Responsive design
+SH-028 — External links security
 ```
 
 ---
@@ -179,7 +180,7 @@ The next hardening item is:
 
 | ID | Topic | Status |
 |---|---|---|
-| SH-027 | Responsive design | Pending |
+| SH-028 | External links security | Pending |
 
 Do not modify completed SH items unless a bug or inconsistency is discovered.
 
@@ -292,13 +293,13 @@ For each new correction:
 Recommended next task:
 
 ```text
-SH-027 — Responsive design
+SH-028 — External links security
 ```
 
 Expected focus:
 
-- define mobile and tablet layout constraints;
-- preserve readable cards, filters and detail pages on narrow screens;
-- avoid horizontal scrolling;
-- define responsive controls and action layout;
-- keep responsive rules scoped to RefSciLink selectors.
+- define safe `target="_blank"` behaviour;
+- require `rel="noopener noreferrer"` for external links;
+- distinguish internal navigation from external scientific sources;
+- define source/PDF/DOI link rendering safety;
+- prevent unsafe opener access from generated pages.

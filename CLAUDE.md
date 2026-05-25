@@ -249,3 +249,11 @@ skills/contracts/accessibility_strategy.md
 ```
 
 Generated UI must use semantic HTML, labeled controls, keyboard-accessible actions and visible focus states.
+
+Responsive design is specified in:
+
+```text
+skills/contracts/responsive_design_strategy.md
+```
+
+Generated UI must remain readable on mobile and avoid horizontal scrolling without modifying host global responsive rules.

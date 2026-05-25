@@ -49,7 +49,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 | SH-024 | User file protection | Define strict non-destruction rules | No accidental data loss | Critical | Oui |
 | SH-025 | GitHub Pages compatibility | Define static hosting constraints | GitHub Pages support guaranteed | High | Oui |
 | SH-026 | Accessibility | Define minimum accessibility requirements | Accessible generated interface | Medium | Oui |
-| SH-027 | Responsive design | Define minimum responsive behaviour | Mobile compatibility guaranteed | Medium | Non |
+| SH-027 | Responsive design | Define minimum responsive behaviour | Mobile compatibility guaranteed | Medium | Oui |
 | SH-028 | External links security | Define `noopener`, `noreferrer`, target rules | Safer external navigation | Medium | Non |
 | SH-029 | Module versioning | Define generated module version metadata | Easier maintenance and upgrades | Medium | Non |
 | SH-030 | Validation checklist | Define machine-readable post-install checklist | Automated verification possible | High | Non |
@@ -699,9 +699,30 @@ Accessibility remains a contract requirement for all future generated UI, not op
 
 ---
 
+### SH-027 — Responsive Design Strategy
+
+Implemented in `skills/contracts/responsive_design_strategy.md` and used as the normative strategy for generated RefSciLink responsive behaviour.
+
+The responsive design strategy defines:
+
+- desktop, tablet and mobile target viewport expectations down to approximately `320px`;
+- scoped responsive rules under RefSciLink selectors only;
+- prohibition of dangerous fixed widths, host global overrides and expected horizontal scrolling;
+- index page expectations for stackable filters, readable single-column cards, wrapping badges and non-clipped actions;
+- detail page expectations for readable metadata, wrapping summaries, safe long links and stacked actions;
+- touch-friendly control spacing and non-hover-only interaction requirements;
+- text overflow rules for article titles, author lists, DOI strings, URLs, journal names, review notes and summaries;
+- motion and viewport compatibility aligned with accessibility requirements;
+- stable diagnostics including `REFSCILINK_RESPONSIVE_LAYOUT_OK`, `REFSCILINK_RESPONSIVE_MOBILE_BREAKPOINT_OK`, `REFSCILINK_RESPONSIVE_NO_HORIZONTAL_SCROLL`, `REFSCILINK_RESPONSIVE_TOUCH_TARGETS_OK`, `REFSCILINK_RESPONSIVE_WARNING` and `REFSCILINK_RESPONSIVE_REVIEW_REQUIRED`;
+- validation and final report expectations for mobile/tablet manual review.
+
+Responsive behaviour must adapt the RefSciLink module without taking control of the host site's global responsive design.
+
+---
+
 ## Contract externalization note
 
-The normative contracts for completed hardening items SH-001 to SH-026 are now externalized in:
+The normative contracts for completed hardening items SH-001 to SH-027 are now externalized in:
 
 ```text
 skills/contracts/
@@ -745,6 +766,7 @@ Current externalized contracts:
 | SH-024 | `skills/contracts/user_file_protection_strategy.md` |
 | SH-025 | `skills/contracts/github_pages_compatibility_strategy.md` |
 | SH-026 | `skills/contracts/accessibility_strategy.md` |
+| SH-027 | `skills/contracts/responsive_design_strategy.md` |
 
 ---
 
@@ -752,8 +774,8 @@ Current externalized contracts:
 
 ### Phase 2 — Reliability and execution modes
 
-- SH-027
+- SH-028
 
 Goal:
 
-Define minimum responsive behaviour.
+Define safe external-link behaviour.

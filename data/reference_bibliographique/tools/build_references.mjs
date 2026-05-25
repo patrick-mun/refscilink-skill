@@ -329,12 +329,18 @@ function extractReferences(markdown) {
   let sectionLevel = 0;
   let buffer = [];
   let bufferStart = 0;
+  let bufferHasMarker = false;
   let markerFound = false;
 
-  const flushBuffer = (lineEnd, extractionStatus = 'extracted') => {
+  const flushBuffer = (lineEnd, extractionStatus = '') => {
     if (!buffer.length) return;
-    blocks.push(toEntry(buffer, bufferStart, lineEnd, activeSectionTitle || sectionTitle, sectionLevel, extractionStatus));
+    const raw = buffer.join(' ').replace(REFERENCE_MARKER_PATTERN, '').trim();
+    const status = extractionStatus || classifyExtractionStatus(raw, bufferHasMarker);
+    if (raw.length > 20 || hasIdentifierSignal(raw)) {
+      blocks.push(toEntry(buffer, bufferStart, lineEnd, activeSectionTitle || sectionTitle, sectionLevel, status));
+    }
     buffer = [];
+    bufferHasMarker = false;
   };
 
   lines.forEach((line, index) => {
@@ -368,21 +374,18 @@ function extractReferences(markdown) {
     }
 
     if (!capture) return;
-    const startsReference = /^\s*(?:[-*+]\s+|\d+[.)]\s+|\[[0-9]+\]\s*)/.test(line);
+    const startsReference = isReferenceStart(line);
     if (startsReference && buffer.length) {
       flushBuffer(index);
-      buffer = [];
     }
     if (startsReference) markerFound = true;
     if (line.trim()) {
       if (!buffer.length) bufferStart = index + 1;
+      if (startsReference) bufferHasMarker = true;
       buffer.push(line);
       return;
     }
-    if (!markerFound && buffer.length) {
-      flushBuffer(index, 'manual_review_required');
-      buffer = [];
-    }
+    flushBuffer(index);
   });
 
   flushBuffer(lines.length);
@@ -406,6 +409,29 @@ function extractReferences(markdown) {
       section_level: 0,
       extraction_status: 'manual_review_required'
     }));
+}
+
+const REFERENCE_MARKER_PATTERN = /^\s*(?:[-*+]\s+|\d+[.)]\s+|\[[0-9]+\]\s*)/;
+
+function isReferenceStart(line) {
+  return REFERENCE_MARKER_PATTERN.test(line);
+}
+
+function classifyExtractionStatus(raw, hasMarker) {
+  if (hasMarker) return 'extracted';
+  if (hasStrongBibliographicSignal(raw)) return 'extracted';
+  if (hasWeakBibliographicSignal(raw)) return 'partially_extracted';
+  return 'manual_review_required';
+}
+
+function hasStrongBibliographicSignal(text) {
+  return hasIdentifierSignal(text)
+    || (/\b(19|20)\d{2}\b/.test(text) && /\b(?:Journal|Nature|Science|Cell|Proceedings|PLoS|Genome|Genetics|Lancet|JAMA|BMJ|Revue|Press|University|Université)\b/i.test(text));
+}
+
+function hasWeakBibliographicSignal(text) {
+  const sentenceCount = (text.match(/\./g) || []).length;
+  return /\b(19|20)\d{2}\b/.test(text) && sentenceCount >= 2 && /[A-Z][a-z]+(?:\s+[A-Z]\.)?/.test(text);
 }
 
 function parseMarkdownHeading(line) {
@@ -443,7 +469,7 @@ function isStopHeading(normalizedTitle) {
 
 function toEntry(buffer, lineStart, lineEnd, sectionTitle, sectionLevel, extractionStatus = 'extracted') {
   return {
-    raw_reference: buffer.join(' ').replace(/^\s*(?:[-*+]\s+|\d+[.)]\s+|\[[0-9]+\]\s*)/, '').trim(),
+    raw_reference: buffer.join(' ').replace(REFERENCE_MARKER_PATTERN, '').trim(),
     line_start: lineStart,
     line_end: lineEnd,
     section_title: sectionTitle,

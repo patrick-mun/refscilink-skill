@@ -70,6 +70,8 @@ To rebuild the official example references from Markdown:
 npm run build:refs
 ```
 
+The Markdown extractor supports numbered references, bracketed references, bullet references, multi-line continuations, free-form bibliographic paragraphs, allowed bibliography subsections and conservative stop headings such as notes or annexes.
+
 To regenerate the official example theme from the host HTML/CSS:
 
 ```bash
@@ -325,7 +327,7 @@ From the repository root, run:
 npm run test:basic-site
 ```
 
-This validates the canonical `examples/basic-site/bibliographie.md` fixture, checks required JSON files, verifies `refscilink.config.json` source/output/display/theme/language settings, verifies `build_references.mjs`, `install_refscilink.mjs`, `theme_detector.mjs` and `serve_static.mjs` syntax, tests the local installer and npm scripts on temporary sites, confirms generated version metadata, checks automatic theme detection from the host CSS, checks runtime application and preservation of editable theme overrides, runs the dedicated theme detection suite, checks the localized navigation entry and French generated pages, verifies stable `ref001` to `ref010` fresh-install IDs and detail links, checks external-link safety guards, confirms the expected 10 extracted references, and ensures dry-run mode does not write generated files.
+This validates the canonical `examples/basic-site/bibliographie.md` fixture, checks required JSON files, verifies `refscilink.config.json` source/output/display/theme/language settings, verifies `build_references.mjs`, `install_refscilink.mjs`, `theme_detector.mjs` and `serve_static.mjs` syntax, tests the local installer and npm scripts on temporary sites, confirms generated version metadata, checks automatic theme detection from the host CSS, checks runtime application and preservation of editable theme overrides, runs the dedicated theme detection suite, checks mixed-format Markdown extraction, checks the localized navigation entry and French generated pages, verifies stable `ref001` to `ref010` fresh-install IDs and detail links, checks external-link safety guards, confirms the expected 10 extracted references, and ensures dry-run mode does not write generated files.
 
 The dedicated theme suite runs:
 

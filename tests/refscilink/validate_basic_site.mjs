@@ -45,6 +45,7 @@ async function main() {
   await checkGeneratedMetadata();
   await checkExternalLinkSafety();
   await checkOfficialExtraction();
+  await checkMixedMarkdownExtraction();
   await checkLocalInstaller();
   await checkStaticServer();
   await checkDryRunNoMutation();
@@ -338,6 +339,45 @@ async function checkOfficialExtraction() {
   record('example.extract.last_id', payload.references.at(-1)?.id === 'ref010' && payload.references.at(-1)?.number === expectedReferenceCount ? 'pass' : 'fail', 'Fresh extraction ends with id ref010 and number 10.');
   record('example.extract.sequential_ids', hasSequentialReferenceIds(payload.references) ? 'pass' : 'fail', 'Fresh extraction creates sequential ref001..ref010 IDs.');
   record('example.extract.diagnostics', hasDiagnostic(payload, 'REFSCILINK_EXTRACT_OK') ? 'pass' : 'fail', 'Extraction diagnostics include REFSCILINK_EXTRACT_OK.');
+}
+
+async function checkMixedMarkdownExtraction() {
+  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'refscilink-mixed-md-'));
+  const markdown = `# Projet test
+
+## Références bibliographiques
+
+### Articles
+
+1. Marker A. Alpha article. Journal of Genome Tests. 2024. doi:10.1000/alpha.
+   PMID: 12345678.
+
+[2] Bracket B. Beta article. Science. 2023. PMCID: PMC7654321.
+
+Freeform C. Gamma article without marker. Genome Biology. 2022. https://example.org/gamma
+
+### Sites web
+
+- Dataset Team. Delta dataset. Data Journal. 2021. https://example.org/delta.pdf
+
+### Notes internes
+
+This internal note must not become a reference even with doi:10.9999/internal.
+`;
+  await fs.writeFile(path.join(tempDir, 'mixed.md'), markdown, 'utf8');
+  const result = await run('node', [buildTool, 'mixed.md'], tempDir);
+  record('example.extract.mixed.command', result.code === 0 ? 'pass' : 'fail', result.code === 0 ? 'Mixed-format Markdown extraction command succeeded.' : result.stderr || result.stdout);
+  if (result.code !== 0) return;
+
+  const payload = JSON.parse(await fs.readFile(path.join(tempDir, 'data/reference_bibliographique/json/references.json'), 'utf8'));
+  const references = payload.references || [];
+  record('example.extract.mixed.count', references.length === 4 ? 'pass' : 'fail', `Expected 4 mixed-format references, got ${references.length}.`);
+  const raw = references.map(reference => reference.raw_reference).join(' ');
+  record('example.extract.mixed.formats', raw.includes('Alpha article') && raw.includes('Beta article') && raw.includes('Gamma article without marker') && raw.includes('Delta dataset') ? 'pass' : 'fail', 'Mixed extraction captures numbered, bracketed, free-form and bullet references.');
+  record('example.extract.mixed.boundary', !raw.includes('internal note') && !raw.includes('10.9999/internal') ? 'pass' : 'fail', 'Mixed extraction stops at explicit non-bibliographic headings.');
+  const subsectionOk = references[0]?.source_location?.section_title === 'Références bibliographiques / Articles'
+    && references[3]?.source_location?.section_title === 'Références bibliographiques / Sites web';
+  record('example.extract.mixed.subsections', subsectionOk ? 'pass' : 'fail', 'Mixed extraction preserves allowed bibliography subsection metadata.');
 }
 
 async function checkDryRunNoMutation() {

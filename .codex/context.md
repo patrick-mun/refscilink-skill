@@ -100,6 +100,8 @@ Bibliography capture must follow:
 skills/contracts/bibliography_boundary_strategy.md
 ```
 
+Extraction must support mixed bibliography sections containing numbered entries, bracketed entries, bullets, multi-line continuations and free-form bibliographic paragraphs while stopping at explicit non-bibliographic headings.
+
 Reference IDs and rerun numbering must follow:
 
 ```text

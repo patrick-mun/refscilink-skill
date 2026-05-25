@@ -59,6 +59,8 @@ Markdown extraction must respect the bibliography section boundary strategy in:
 skills/contracts/bibliography_boundary_strategy.md
 ```
 
+Markdown extraction must support mixed bibliography sections containing numbered entries, bracketed entries, bullets, multi-line continuations and free-form bibliographic paragraphs while stopping at explicit non-bibliographic headings.
+
 Reference IDs and rerun numbering must respect:
 
 ```text

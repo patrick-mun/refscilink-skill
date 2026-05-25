@@ -162,6 +162,8 @@ Markdown bibliography extraction boundaries are defined in:
 skills/contracts/bibliography_boundary_strategy.md
 ```
 
+Markdown extraction must support mixed bibliography sections containing numbered entries, bracketed entries, bullets, multi-line continuations and free-form bibliographic paragraphs while stopping at explicit non-bibliographic headings.
+
 Reference numbering and stable IDs are defined in:
 
 ```text

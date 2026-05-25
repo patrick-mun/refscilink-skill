@@ -51,6 +51,8 @@ Mode 2 — Install + Extract references
 
 Scientific enrichment must not block installation. If web access or API access is unavailable, generate the module and mark references as requiring enrichment.
 
+Markdown extraction must support mixed bibliography formats in the same selected file: numbered entries, bracketed entries, bullet entries, multi-line continuations, free-form bibliographic paragraphs, allowed bibliography subsections and conservative stop headings. Follow `skills/contracts/markdown_parsing_strategy.md` and `skills/contracts/bibliography_boundary_strategy.md` for exact boundaries and fallback behaviour.
+
 ---
 
 ## First mandatory questions

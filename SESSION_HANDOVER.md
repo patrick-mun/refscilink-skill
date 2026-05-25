@@ -14,6 +14,14 @@ Continue testing and stabilizing the real RefSciLink module after completing `/c
 
 ## Current status
 
+Branch and remote:
+
+```text
+main is aligned with origin/main.
+Latest pushed commit: b3742a5 Align module version to 0.4.0-dev
+Working tree was clean after the last push.
+```
+
 Completed hardening items:
 
 ```text
@@ -53,7 +61,8 @@ SH-030
 Current task:
 
 ```text
-Continue roadmap-driven module improvements after examples/basic-site validation
+Continue roadmap-driven module improvements after examples/basic-site validation.
+Next likely roadmap item: 12, JSON schema validation.
 ```
 
 Last completed test sequence:
@@ -69,6 +78,17 @@ Last completed test sequence:
 - Fresh generated references.json includes module_version 0.4.0-dev, schema_version 1.0.0 and sequential ref001..ref010 IDs.
 - Browser visual inspection was completed: home navigation contains Références, the list page renders 10 French references, card #1 links to reference.html?id=ref001, and the ref001 detail page renders French metadata/actions.
 - Roadmap items 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 and 11 are validated.
+```
+
+Recent pushed commits:
+
+```text
+b3742a5 Align module version to 0.4.0-dev
+68c45e7 Document local validation maintenance points
+28c853d Add local persistent reference validation
+11e1918 Add dedicated Markdown extraction tests
+2965ca2 Improve mixed Markdown reference extraction
+1e0ae14 Add dedicated theme detection tests
 ```
 
 ---
@@ -136,6 +156,9 @@ Use data-refscilink-* hooks
 
 ```text
 Generated code must be meaningfully commented
+Prefer maintainer-friendly comments for open-source contributors
+Comment intent, invariants, safety rules and non-obvious decisions
+Avoid comments that merely restate obvious code
 Contracts in skills/contracts/ are normative when present
 ```
 
@@ -172,7 +195,7 @@ Do not confuse roadmap upgrades with hardening tasks.
 Next action:
 
 ```text
-Continue roadmap-driven module improvements
+Continue roadmap-driven module improvements with item 12: JSON schema validation.
 ```
 
 Then continue with:
@@ -203,6 +226,10 @@ refscilink-skill
 Current state:
 SH-000 to SH-030 completed and validated.
 Generated-file contracts are externalized in skills/contracts/.
+Current development version: 0.4.0-dev.
+Generated JSON schema_version remains 1.0.0.
+Latest pushed commit: b3742a5 Align module version to 0.4.0-dev.
+Branch main was clean and aligned with origin/main after the last push.
 First examples/basic-site test passed:
 - npm run test:basic-site => pass, 84 checks.
 - npm run test:extract => pass, 19 checks.
@@ -221,14 +248,17 @@ First examples/basic-site test passed:
 - Markdown extraction now handles mixed numbered, bracketed, bullet and free-form bibliography entries in the same section, preserves subsection metadata and stops at explicit non-bibliographic headings.
 - tests/extract_references.test.mjs => dedicated fixtures cover DOI, PMID, PMCID, URL/PDF URL extraction, stable rerun IDs, source-order numbering, no-heading fallback and dry-run safety.
 - tools/validate_reference.mjs => local persistent validation writes human validation fields back to references.json with backup, note appending, JSON preservation and dry-run safety.
+- recent commits => b3742a5 version alignment, 68c45e7 maintenance comments, 28c853d persistent validation.
 
 Current task:
 Continue roadmap-driven module improvements.
+Next likely roadmap item: item 12, JSON schema validation with tools/validate_schema.mjs and tests/schema_validation.test.mjs.
 
 Do not modify completed SH items without justification.
 Keep technical specifications in English.
 Generated UI must follow the host language.
 Host visual identity has priority.
+Generated code should include maintainer-friendly comments for open-source contributors.
 Do not update ROADMAP_UPGRADES.md statuses unless the corresponding module feature is fully validated against its roadmap criterion.
 ```
 

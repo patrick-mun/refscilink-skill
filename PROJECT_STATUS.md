@@ -226,6 +226,7 @@ Current known functional state:
 
 - The repository and generated module metadata are aligned on `0.4.0-dev`.
 - JSON schema metadata remains `schema_version: 1.0.0`.
+- `main` is aligned with `origin/main`; latest pushed commit is `b3742a5 Align module version to 0.4.0-dev`.
 - `examples/basic-site/` has been created.
 - The global README includes a five-minute developer quick start, the official example and the validation procedure.
 - The skill context files for AI assistants exist or have been planned/created.
@@ -324,7 +325,18 @@ Latest completed checks:
 Expected next focus:
 
 - continue the module roadmap in `ROADMAP_UPGRADES.md`;
-- next likely target is JSON schema validation.
+- next likely target is roadmap item 12, JSON schema validation (`tools/validate_schema.mjs`, `tests/schema_validation.test.mjs`).
+
+Recent pushed commits:
+
+```text
+b3742a5 Align module version to 0.4.0-dev
+68c45e7 Document local validation maintenance points
+28c853d Add local persistent reference validation
+11e1918 Add dedicated Markdown extraction tests
+2965ca2 Improve mixed Markdown reference extraction
+1e0ae14 Add dedicated theme detection tests
+```
 
 Latest deep-analysis correction sequence:
 

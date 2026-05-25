@@ -13,7 +13,7 @@ patrick-mun/refscilink-skill
 Current focus:
 
 ```text
-Hardening the `/create_module_ref` skill before full integration into Codex, Claude Code or another AI coding assistant.
+Testing and stabilizing the real RefSciLink module after completing `/create_module_ref` skill hardening.
 ```
 
 ---
@@ -172,7 +172,7 @@ Completed and validated:
 Next recommended phase:
 
 ```text
-Deep construction analysis before full module testing
+Continue module testing after first `examples/basic-site` validation
 ```
 
 ---
@@ -227,6 +227,10 @@ Current known functional state:
 - `examples/basic-site/` has been created.
 - The global README includes an official example and validation procedure.
 - The skill context files for AI assistants exist or have been planned/created.
+- The first `examples/basic-site` module test passed with 31 automated checks.
+- A temporary static-site copy served all main pages, assets and JSON files with HTTP 200.
+- A fresh-install simulation extracted 10 references from `examples/basic-site/bibliographie.md`.
+- Browser visual inspection has not yet been completed in Codex because the Browser tool was unavailable in the previous session.
 - Some roadmap items may need their `Validé` column updated after formal verification.
 
 Before changing roadmap statuses, inspect the actual repository state and update `ROADMAP_UPGRADES.md` deliberately.
@@ -296,16 +300,23 @@ For each new correction:
 Recommended next task:
 
 ```text
-Deep construction analysis before full module testing
+Continue `examples/basic-site` testing with visual/browser review
 ```
 
-Expected focus:
+Latest completed checks:
 
-- verify consistency across all contracts and AI instructions;
-- inspect `/create_module_ref` workflow against generated files;
-- inspect JSON contracts, schemas and example output;
-- inspect Node extraction tool and official basic-site fixture;
-- identify contradictions, missing files or implementation gaps before full module testing.
+- `npm run test:basic-site` passed with 31 checks.
+- Temporary static-site HTTP checks returned 200 for `/`, `index.html`, `index_ref.html`, `reference.html`, CSS, JS, `references.json` and `theme_refscilink.json`.
+- Fresh-install simulation in `/tmp/refscilink-basic-site-fresh` extracted 10 references.
+- Fresh install produced `module_version: 0.2.0-dev`, `schema_version: 1.0.0` and `REFSCILINK_EXTRACT_OK`.
+- Static checks confirmed index/detail hooks and external-link safety guards.
+
+Expected next focus:
+
+- perform browser or manual visual inspection of the temporary/basic-site module;
+- verify filters, detail links, source links, copy action and localStorage validation behaviour;
+- decide whether roadmap items 1, 2 and 4 can be partially or fully validated, without confusing roadmap status with skill hardening status;
+- then continue the module roadmap in `ROADMAP_UPGRADES.md`.
 
 Latest deep-analysis correction sequence:
 

@@ -8,7 +8,7 @@ refscilink-skill
 
 ## Current objective
 
-Finish hardening the `/create_module_ref` skill before advanced feature development and implementation work.
+Continue testing and stabilizing the real RefSciLink module after completing `/create_module_ref` skill hardening.
 
 ---
 
@@ -53,8 +53,18 @@ SH-030
 Current task:
 
 ```text
-Deep construction analysis
-Before full module testing
+Continue examples/basic-site testing
+Visual/browser review still needed
+```
+
+Last completed test sequence:
+
+```text
+- npm run test:basic-site passed with 31 checks.
+- Temporary static-site HTTP checks passed for main pages, CSS, JS and JSON.
+- Fresh-install simulation extracted 10 references from examples/basic-site/bibliographie.md.
+- Fresh generated references.json includes module_version 0.2.0-dev and schema_version 1.0.0.
+- Browser visual inspection was not completed because the Browser tool was unavailable.
 ```
 
 ---
@@ -158,13 +168,13 @@ Do not confuse roadmap upgrades with hardening tasks.
 Next action:
 
 ```text
-Deep construction analysis before full module testing
+Continue examples/basic-site visual/browser testing
 ```
 
 Then continue with:
 
 ```text
-Full module testing after SH-030
+Roadmap-driven module improvements in ROADMAP_UPGRADES.md
 ```
 
 ---
@@ -189,14 +199,19 @@ refscilink-skill
 Current state:
 SH-000 to SH-030 completed and validated.
 Generated-file contracts are externalized in skills/contracts/.
+First examples/basic-site test passed:
+- npm run test:basic-site => pass, 31 checks.
+- Static HTTP checks => all tested pages/assets/JSON returned 200.
+- Fresh install simulation => 10 references extracted.
 
 Current task:
-Deep construction analysis before full module testing.
+Continue examples/basic-site visual/browser testing.
 
 Do not modify completed SH items without justification.
 Keep technical specifications in English.
 Generated UI must follow the host language.
 Host visual identity has priority.
+Do not update ROADMAP_UPGRADES.md statuses unless the corresponding module feature is fully validated against its roadmap criterion.
 ```
 
 Recent deep-analysis corrections:

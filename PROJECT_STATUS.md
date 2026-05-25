@@ -163,11 +163,12 @@ Completed and validated:
 | SH-023 | Done | Deferred enrichment strategy defined for non-blocking metadata lookup. |
 | SH-024 | Done | User file protection strategy defined as global non-destruction layer. |
 | SH-025 | Done | GitHub Pages compatibility strategy defined for static subpath deployments. |
+| SH-026 | Done | Accessibility strategy defined for semantic, keyboard-friendly generated UI. |
 
 Next recommended hardening task:
 
 ```text
-SH-026 — Accessibility
+SH-027 — Responsive design
 ```
 
 ---
@@ -178,7 +179,7 @@ The next hardening item is:
 
 | ID | Topic | Status |
 |---|---|---|
-| SH-026 | Accessibility | Pending |
+| SH-027 | Responsive design | Pending |
 
 Do not modify completed SH items unless a bug or inconsistency is discovered.
 
@@ -291,13 +292,13 @@ For each new correction:
 Recommended next task:
 
 ```text
-SH-026 — Accessibility
+SH-027 — Responsive design
 ```
 
 Expected focus:
 
-- define semantic HTML and ARIA expectations;
-- require keyboard-accessible controls and visible focus states;
-- define accessible status messages and error states;
-- ensure filters, buttons and validation controls have labels;
-- preserve readability and contrast in generated UI.
+- define mobile and tablet layout constraints;
+- preserve readable cards, filters and detail pages on narrow screens;
+- avoid horizontal scrolling;
+- define responsive controls and action layout;
+- keep responsive rules scoped to RefSciLink selectors.

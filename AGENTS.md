@@ -313,3 +313,13 @@ skills/contracts/github_pages_compatibility_strategy.md
 ```
 
 Use relative paths by default and keep generated browser output deployable as static HTML/CSS/JS/JSON without backend routes or `localhost`.
+
+## Accessibility
+
+Before generating or modifying accessible UI behaviour, read:
+
+```text
+skills/contracts/accessibility_strategy.md
+```
+
+Use semantic HTML, labeled controls, real buttons and links, keyboard-accessible interactions, visible focus states and textual status messages.

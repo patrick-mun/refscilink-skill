@@ -319,6 +319,26 @@ The normative strategy is defined in:
 skills/contracts/github_pages_compatibility_strategy.md
 ```
 
+## Accessibility
+
+RefSciLink generated pages must remain accessible and keyboard-friendly.
+
+Minimum expectations:
+
+- semantic HTML structure;
+- labeled filters and controls;
+- real buttons for actions and real links for navigation;
+- visible focus states;
+- live regions for loading/count updates;
+- `role="alert"` for blocking errors;
+- textual status indicators, not color-only signals.
+
+The normative accessibility strategy is defined in:
+
+```text
+skills/contracts/accessibility_strategy.md
+```
+
 The official example must be used whenever a major change is made to:
 
 - bibliography extraction;

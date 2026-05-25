@@ -241,3 +241,11 @@ skills/contracts/github_pages_compatibility_strategy.md
 ```
 
 Use relative browser paths and avoid backend-only assumptions for generated pages.
+
+Accessibility is specified in:
+
+```text
+skills/contracts/accessibility_strategy.md
+```
+
+Generated UI must use semantic HTML, labeled controls, keyboard-accessible actions and visible focus states.

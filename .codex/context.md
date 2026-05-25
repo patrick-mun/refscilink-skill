@@ -292,3 +292,13 @@ skills/contracts/github_pages_compatibility_strategy.md
 ```
 
 Generated browser output must use relative paths by default and work as committed static files under project subpaths.
+
+## Accessibility
+
+Accessibility is specified in:
+
+```text
+skills/contracts/accessibility_strategy.md
+```
+
+Generated UI must preserve semantic HTML, keyboard navigation, visible focus states, accessible labels and textual status messages.

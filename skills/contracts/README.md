@@ -47,6 +47,7 @@ If no dedicated contract exists for a file yet, use the relevant section in `ski
 | SH-023 | Deferred enrichment strategy | `deferred_enrichment_strategy.md` |
 | SH-024 | User file protection strategy | `user_file_protection_strategy.md` |
 | SH-025 | GitHub Pages compatibility strategy | `github_pages_compatibility_strategy.md` |
+| SH-026 | Accessibility strategy | `accessibility_strategy.md` |
 
 ---
 
@@ -78,6 +79,7 @@ If no dedicated contract exists for a file yet, use the relevant section in `ski
 | Deferred metadata enrichment after installation or extraction | `deferred_enrichment_strategy.md` |
 | User file protection, overwrite prevention and conflict handling | `user_file_protection_strategy.md` |
 | Static hosting and GitHub Pages compatibility | `github_pages_compatibility_strategy.md` |
+| Semantic HTML, ARIA, keyboard and focus accessibility | `accessibility_strategy.md` |
 | Generated module structure or backup behaviour | `generated_files_contract.md` |
 
 ---

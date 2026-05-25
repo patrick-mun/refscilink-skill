@@ -48,7 +48,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 | SH-023 | Deferred enrichment | Define delayed enrichment workflow | Non-blocking installation | Medium | Oui |
 | SH-024 | User file protection | Define strict non-destruction rules | No accidental data loss | Critical | Oui |
 | SH-025 | GitHub Pages compatibility | Define static hosting constraints | GitHub Pages support guaranteed | High | Oui |
-| SH-026 | Accessibility | Define minimum accessibility requirements | Accessible generated interface | Medium | Non |
+| SH-026 | Accessibility | Define minimum accessibility requirements | Accessible generated interface | Medium | Oui |
 | SH-027 | Responsive design | Define minimum responsive behaviour | Mobile compatibility guaranteed | Medium | Non |
 | SH-028 | External links security | Define `noopener`, `noreferrer`, target rules | Safer external navigation | Medium | Non |
 | SH-029 | Module versioning | Define generated module version metadata | Easier maintenance and upgrades | Medium | Non |
@@ -679,9 +679,29 @@ GitHub Pages compatibility must prefer relative paths over root-relative paths u
 
 ---
 
+### SH-026 — Accessibility Strategy
+
+Implemented in `skills/contracts/accessibility_strategy.md` and used as the normative strategy for generated RefSciLink accessibility.
+
+The accessibility strategy defines:
+
+- semantic HTML rules for `main`, `header`, `section`, navigation, headings, buttons and links;
+- accessible names and labels for filters, search, validation controls, copy actions and navigation links;
+- dynamic state rules for `aria-live="polite"`, `role="alert"`, textual status badges and visible metadata review warnings;
+- keyboard rules requiring native controls, logical tab order, no positive `tabindex`, no focus traps and no mouse-only actions;
+- focus visibility requirements scoped to RefSciLink selectors;
+- readability requirements for contrast, reduced motion, text labels beyond color, summary spacing and high-contrast host styles;
+- page-specific requirements for `index_ref.html`, `reference.html`, `reference.js` and `reference.css`;
+- stable diagnostics including `REFSCILINK_ACCESSIBILITY_SEMANTIC_HTML_OK`, `REFSCILINK_ACCESSIBILITY_LABELS_OK`, `REFSCILINK_ACCESSIBILITY_KEYBOARD_OK`, `REFSCILINK_ACCESSIBILITY_FOCUS_VISIBLE`, `REFSCILINK_ACCESSIBILITY_WARNING` and `REFSCILINK_ACCESSIBILITY_REVIEW_REQUIRED`;
+- validation and final report expectations for keyboard navigation, labels, focus visibility and manual accessibility review.
+
+Accessibility remains a contract requirement for all future generated UI, not optional visual polish.
+
+---
+
 ## Contract externalization note
 
-The normative contracts for completed hardening items SH-001 to SH-025 are now externalized in:
+The normative contracts for completed hardening items SH-001 to SH-026 are now externalized in:
 
 ```text
 skills/contracts/
@@ -724,6 +744,7 @@ Current externalized contracts:
 | SH-023 | `skills/contracts/deferred_enrichment_strategy.md` |
 | SH-024 | `skills/contracts/user_file_protection_strategy.md` |
 | SH-025 | `skills/contracts/github_pages_compatibility_strategy.md` |
+| SH-026 | `skills/contracts/accessibility_strategy.md` |
 
 ---
 
@@ -731,8 +752,8 @@ Current externalized contracts:
 
 ### Phase 2 — Reliability and execution modes
 
-- SH-026
+- SH-027
 
 Goal:
 
-Define minimum accessibility requirements.
+Define minimum responsive behaviour.

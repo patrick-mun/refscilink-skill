@@ -369,6 +369,14 @@ Detection priority:
 
 ### 3. Create module files
 
+Accessibility rules are externalized in:
+
+```text
+skills/contracts/accessibility_strategy.md
+```
+
+The assistant must read that strategy before generating or modifying semantic HTML, ARIA attributes, keyboard behaviour, focus styles or accessible status messages.
+
 Create all required module files under:
 
 ```text

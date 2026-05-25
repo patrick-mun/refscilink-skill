@@ -239,3 +239,11 @@ skills/contracts/github_pages_compatibility_strategy.md
 ```
 
 Generated browser output must stay static-hosting compatible and use relative paths by default.
+
+Accessibility is defined in:
+
+```text
+skills/contracts/accessibility_strategy.md
+```
+
+Generated UI must use semantic HTML, accessible labels, keyboard-accessible controls and visible focus states.

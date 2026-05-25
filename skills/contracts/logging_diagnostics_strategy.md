@@ -159,6 +159,12 @@ Recommended baseline codes:
 | `REFSCILINK_STATIC_JSON_LOAD_CONFIGURED` | `success` | Static JSON loading is configured with relative paths. |
 | `REFSCILINK_STATIC_HOSTING_WARNING` | `warning` | A static hosting compatibility concern was detected. |
 | `REFSCILINK_SITE_ROOT_ASSUMED` | `info` | A likely static site root was assumed. |
+| `REFSCILINK_ACCESSIBILITY_SEMANTIC_HTML_OK` | `success` | Required semantic HTML structure is present. |
+| `REFSCILINK_ACCESSIBILITY_LABELS_OK` | `success` | Interactive controls have accessible labels. |
+| `REFSCILINK_ACCESSIBILITY_KEYBOARD_OK` | `success` | Controls are keyboard-accessible. |
+| `REFSCILINK_ACCESSIBILITY_FOCUS_VISIBLE` | `success` | Visible focus states are defined. |
+| `REFSCILINK_ACCESSIBILITY_WARNING` | `warning` | An accessibility concern requires review. |
+| `REFSCILINK_ACCESSIBILITY_REVIEW_REQUIRED` | `review_required` | Accessibility cannot be verified automatically and needs human review. |
 | `REFSCILINK_ROLLBACK_STARTED` | `info` | Rollback planning or execution started. |
 | `REFSCILINK_ROLLBACK_BACKUP_SELECTED` | `info` | A backup was selected. |
 | `REFSCILINK_ROLLBACK_PLAN_CREATED` | `info` | A rollback plan was created. |

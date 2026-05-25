@@ -53,18 +53,17 @@ SH-030
 Current task:
 
 ```text
-Continue examples/basic-site testing
-Visual/browser review still needed
+Continue roadmap-driven module improvements after examples/basic-site validation
 ```
 
 Last completed test sequence:
 
 ```text
-- npm run test:basic-site passed with 31 checks.
+- npm run test:basic-site passed with 39 checks.
 - Temporary static-site HTTP checks passed for main pages, CSS, JS and JSON.
 - Fresh-install simulation extracted 10 references from examples/basic-site/bibliographie.md.
-- Fresh generated references.json includes module_version 0.2.0-dev and schema_version 1.0.0.
-- Browser visual inspection was not completed because the Browser tool was unavailable.
+- Fresh generated references.json includes module_version 0.2.0-dev, schema_version 1.0.0 and sequential ref001..ref010 IDs.
+- Browser visual inspection was completed: home navigation contains Références, the list page renders 10 French references, card #1 links to reference.html?id=ref001, and the ref001 detail page renders French metadata/actions.
 ```
 
 ---
@@ -168,7 +167,7 @@ Do not confuse roadmap upgrades with hardening tasks.
 Next action:
 
 ```text
-Continue examples/basic-site visual/browser testing
+Continue roadmap-driven module improvements
 ```
 
 Then continue with:
@@ -200,12 +199,13 @@ Current state:
 SH-000 to SH-030 completed and validated.
 Generated-file contracts are externalized in skills/contracts/.
 First examples/basic-site test passed:
-- npm run test:basic-site => pass, 31 checks.
+- npm run test:basic-site => pass, 39 checks.
 - Static HTTP checks => all tested pages/assets/JSON returned 200.
-- Fresh install simulation => 10 references extracted.
+- Fresh install simulation => 10 references extracted with ref001..ref010.
+- Browser review => home Références link, list page and ref001 detail page validated.
 
 Current task:
-Continue examples/basic-site visual/browser testing.
+Continue roadmap-driven module improvements.
 
 Do not modify completed SH items without justification.
 Keep technical specifications in English.
@@ -220,5 +220,5 @@ Recent deep-analysis corrections:
 - module_version metadata aligned in generated JSON and extraction output;
 - external links are filtered to safe http/https URLs before rendering;
 - create_module_ref contract table includes all SH-001 to SH-030 contracts;
-- official tests include versioning and external-link safety checks.
+- official tests include navigation integration, French UI, stable fresh-install IDs, detail-link ID usage, versioning and external-link safety checks.
 ```

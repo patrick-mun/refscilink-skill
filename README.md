@@ -216,7 +216,7 @@ From the repository root, run:
 npm run test:basic-site
 ```
 
-This validates the canonical `examples/basic-site/bibliographie.md` fixture, checks required JSON files, verifies `build_references.mjs` syntax, confirms generated version metadata, checks external-link safety guards, confirms the expected 10 extracted references, and ensures dry-run mode does not write generated files.
+This validates the canonical `examples/basic-site/bibliographie.md` fixture, checks required JSON files, verifies `build_references.mjs` syntax, confirms generated version metadata, checks the localized navigation entry and French generated pages, verifies stable `ref001` to `ref010` fresh-install IDs and detail links, checks external-link safety guards, confirms the expected 10 extracted references, and ensures dry-run mode does not write generated files.
 
 ### Validation goal
 

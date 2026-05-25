@@ -227,11 +227,11 @@ Current known functional state:
 - `examples/basic-site/` has been created.
 - The global README includes an official example and validation procedure.
 - The skill context files for AI assistants exist or have been planned/created.
-- The first `examples/basic-site` module test passed with 31 automated checks.
+- The latest `examples/basic-site` module test passed with 39 automated checks.
 - A temporary static-site copy served all main pages, assets and JSON files with HTTP 200.
 - A fresh-install simulation extracted 10 references from `examples/basic-site/bibliographie.md`.
-- Browser visual inspection has not yet been completed in Codex because the Browser tool was unavailable in the previous session.
-- Some roadmap items may need their `Validé` column updated after formal verification.
+- Browser visual inspection has been completed in Codex for the official example flow: home page navigation, bibliography list, `ref001` detail page and French labels.
+- Roadmap item 1 (`examples/basic-site/`) is validated.
 
 Before changing roadmap statuses, inspect the actual repository state and update `ROADMAP_UPGRADES.md` deliberately.
 
@@ -300,27 +300,26 @@ For each new correction:
 Recommended next task:
 
 ```text
-Continue `examples/basic-site` testing with visual/browser review
+Continue roadmap-driven module improvements after validating `examples/basic-site`
 ```
 
 Latest completed checks:
 
-- `npm run test:basic-site` passed with 31 checks.
+- `npm run test:basic-site` passed with 39 checks.
 - Temporary static-site HTTP checks returned 200 for `/`, `index.html`, `index_ref.html`, `reference.html`, CSS, JS, `references.json` and `theme_refscilink.json`.
 - Fresh-install simulation in `/tmp/refscilink-basic-site-fresh` extracted 10 references.
-- Fresh install produced `module_version: 0.2.0-dev`, `schema_version: 1.0.0` and `REFSCILINK_EXTRACT_OK`.
-- Static checks confirmed index/detail hooks and external-link safety guards.
+- Fresh install produced `module_version: 0.2.0-dev`, `schema_version: 1.0.0`, `ref001` through `ref010` and `REFSCILINK_EXTRACT_OK`.
+- Static checks confirmed navigation integration, French generated pages, localized detail metadata, stable detail links and external-link safety guards.
+- Browser review confirmed the flow `index.html` -> `Références` -> bibliography list -> `reference.html?id=ref001`.
 
 Expected next focus:
 
-- perform browser or manual visual inspection of the temporary/basic-site module;
-- verify filters, detail links, source links, copy action and localStorage validation behaviour;
-- decide whether roadmap items 1, 2 and 4 can be partially or fully validated, without confusing roadmap status with skill hardening status;
-- then continue the module roadmap in `ROADMAP_UPGRADES.md`.
+- continue the module roadmap in `ROADMAP_UPGRADES.md`;
+- next likely targets are `refscilink.config.json` completeness, local installer behaviour and npm script standardization.
 
 Latest deep-analysis correction sequence:
 
 - generated metadata now uses `module_version` with `schema_version` and timestamps;
 - generated external links are filtered through safe `http:` and `https:` URL checks;
 - `/create_module_ref` lists all SH-001 to SH-030 normative contracts in its contract table;
-- official tests now catch versioning and external-link safety regressions.
+- official tests now catch navigation integration, French generated UI, stable fresh-install IDs, detail-link ID usage, versioning and external-link safety regressions.

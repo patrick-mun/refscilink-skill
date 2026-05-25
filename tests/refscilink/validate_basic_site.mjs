@@ -24,6 +24,7 @@ async function main() {
   await checkBasicSiteNavigation();
   await checkGeneratedHtmlLanguage();
   await checkGeneratedJsLocalization();
+  await checkGeneratedJsDetailLinks();
   await checkBuildToolSyntax();
   await checkRootReferencesStructure();
   await checkGeneratedMetadata();
@@ -54,6 +55,13 @@ async function checkGeneratedJsLocalization() {
     && script.includes('fieldAccess: "Accès"')
     && script.includes('translateBadgeValue("validation", getValidationStatus(reference))');
   record('ui.detail.metadata_i18n', localizesMetadata ? 'pass' : 'fail', localizesMetadata ? 'Detail metadata labels and status values are localized.' : 'Detail metadata labels or status values are not localized.');
+}
+
+async function checkGeneratedJsDetailLinks() {
+  const script = await fs.readFile(path.join(repoRoot, 'data/reference_bibliographique/assets/js/reference.js'), 'utf8');
+  const usesStableIds = script.includes('reference.html?id=${encodeURIComponent(reference.id)}');
+  const doesNotUseDisplayNumber = !script.includes('reference.html?id=${encodeURIComponent(reference.number)}');
+  record('ui.index.detail_links_use_ids', usesStableIds && doesNotUseDisplayNumber ? 'pass' : 'fail', usesStableIds && doesNotUseDisplayNumber ? 'Detail links use stable reference IDs, not display numbers.' : 'Detail links must use stable reference IDs.');
 }
 
 async function checkRequiredFiles() {
@@ -139,6 +147,7 @@ async function checkOfficialExtraction() {
   record('example.extract.count', payload.references.length === expectedReferenceCount ? 'pass' : 'fail', `Expected ${expectedReferenceCount} references, got ${payload.references.length}.`);
   record('example.extract.first_id', payload.references[0]?.id === 'ref001' && payload.references[0]?.number === 1 ? 'pass' : 'fail', 'Fresh extraction starts with id ref001 and number 1.');
   record('example.extract.last_id', payload.references.at(-1)?.id === 'ref010' && payload.references.at(-1)?.number === expectedReferenceCount ? 'pass' : 'fail', 'Fresh extraction ends with id ref010 and number 10.');
+  record('example.extract.sequential_ids', hasSequentialReferenceIds(payload.references) ? 'pass' : 'fail', 'Fresh extraction creates sequential ref001..ref010 IDs.');
   record('example.extract.diagnostics', hasDiagnostic(payload, 'REFSCILINK_EXTRACT_OK') ? 'pass' : 'fail', 'Extraction diagnostics include REFSCILINK_EXTRACT_OK.');
 }
 
@@ -189,6 +198,13 @@ function validateReference(reference, ids, numbers) {
   valid = reference.validated === (reference.validation_status === 'validated') && valid;
   valid = reference.source_location && Number.isInteger(reference.source_location.line_start) && valid;
   return valid;
+}
+
+function hasSequentialReferenceIds(references) {
+  return references.every((reference, index) => {
+    const number = index + 1;
+    return reference.id === `ref${String(number).padStart(3, '0')}` && reference.number === number;
+  });
 }
 
 function hasDiagnostic(payload, code) {

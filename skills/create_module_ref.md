@@ -124,6 +124,41 @@ The technical specification, code comments and implementation instructions remai
 4. `refscilink.config.json` if it already exists.
 5. Fallback: `en`.
 
+### Setting the language attribute on generated HTML files
+
+When generating `index_ref.html` and `reference.html`, the skill must set the `lang` attribute to the detected language code:
+
+```html
+<html lang="{{detected_language}}">
+```
+
+Where `{{detected_language}}` is a valid BCP 47 language tag (e.g. `fr`, `en`, `de`, `es`).
+
+If detection is inconclusive, use `en` as the international fallback:
+
+```html
+<html lang="en">
+```
+
+The `reference.js` module reads this attribute at runtime through `detectLanguage()` and applies the matching locale to all UI elements through `applyI18n()`. Static text in the HTML template must therefore be set to the detected language as the **default displayed value**, so the page is readable even before JavaScript executes.
+
+### Runtime i18n mechanism
+
+Generated HTML files use a two-layer localization approach:
+
+- **Layer 1 — Static default text**: all translatable elements carry their text content in the detected language. This ensures a readable page without JavaScript.
+- **Layer 2 — Runtime replacement**: all translatable elements carry a `data-refscilink-i18n="key"` attribute. The `applyI18n()` function in `reference.js` reads `<html lang>` at `DOMContentLoaded` and replaces text content using the matching locale from `REFSCILINK_I18N`.
+
+This means the skill must:
+
+1. Set `<html lang="{{detected_language}}">`.
+2. Write the correct translated text as the static default in every translatable element.
+3. Add `data-refscilink-i18n="key"` on every translatable element so `applyI18n()` can update it at runtime.
+
+The full list of i18n keys and their per-locale values is defined in `REFSCILINK_I18N` inside `assets/js/reference.js`.
+
+If the detected language has no matching locale in `REFSCILINK_I18N`, `reference.js` falls back to `en` automatically.
+
 ### Language behaviour examples
 
 If the host page contains `<html lang="fr">`, generated labels may include:

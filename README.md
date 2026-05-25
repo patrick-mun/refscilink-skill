@@ -62,6 +62,12 @@ Run the dedicated Markdown extraction validation:
 npm run test:extract
 ```
 
+Run the dedicated persistent-validation validation:
+
+```bash
+npm run test:validate
+```
+
 To install RefSciLink into another local static site:
 
 ```bash
@@ -105,6 +111,14 @@ Durable manual overrides should go under:
 ```
 
 `reference.js` applies safe `--refscilink-*` variables from this JSON at runtime. `theme_detector.mjs` preserves `manual_overrides` and unknown maintainer keys when the theme is regenerated.
+
+To persist a human validation decision back into `references.json`:
+
+```bash
+node tools/validate_reference.mjs --id ref001 --status validated --validated-by "Patrick Munier" --note "Checked manually"
+```
+
+The local validation tool creates a backup under `backup/refscilink/`, preserves unknown JSON keys, summaries, themes, keywords and existing review notes, and keeps `validated` consistent with `validation_status`. Use `--dry-run` to preview the backup/write actions without modifying files.
 
 For a root-level static preview instead of the assembled demo:
 
@@ -334,7 +348,7 @@ From the repository root, run:
 npm run test:basic-site
 ```
 
-This validates the canonical `examples/basic-site/bibliographie.md` fixture, checks required JSON files, verifies `refscilink.config.json` source/output/display/theme/language settings, verifies `build_references.mjs`, `install_refscilink.mjs`, `theme_detector.mjs` and `serve_static.mjs` syntax, tests the local installer and npm scripts on temporary sites, confirms generated version metadata, checks automatic theme detection from the host CSS, checks runtime application and preservation of editable theme overrides, runs the dedicated theme and Markdown extraction suites, checks mixed-format Markdown extraction, checks the localized navigation entry and French generated pages, verifies stable `ref001` to `ref010` fresh-install IDs and detail links, checks external-link safety guards, confirms the expected 10 extracted references, and ensures dry-run mode does not write generated files.
+This validates the canonical `examples/basic-site/bibliographie.md` fixture, checks required JSON files, verifies `refscilink.config.json` source/output/display/theme/language settings, verifies `build_references.mjs`, `install_refscilink.mjs`, `theme_detector.mjs`, `validate_reference.mjs` and `serve_static.mjs` syntax, tests the local installer and npm scripts on temporary sites, confirms generated version metadata, checks automatic theme detection from the host CSS, checks runtime application and preservation of editable theme overrides, runs the dedicated theme, Markdown extraction and persistent-validation suites, checks mixed-format Markdown extraction, checks the localized navigation entry and French generated pages, verifies stable `ref001` to `ref010` fresh-install IDs and detail links, checks external-link safety guards, confirms the expected 10 extracted references, and ensures dry-run mode does not write generated files.
 
 The dedicated extraction suite runs:
 
@@ -351,6 +365,14 @@ npm run test:theme
 ```
 
 It verifies CSS variable extraction, selector-only extraction, nested stylesheet paths, fallback behaviour, ignored external stylesheet URLs, dark/light inference and preservation of manual overrides.
+
+The dedicated persistent-validation suite runs:
+
+```bash
+npm run test:validate
+```
+
+It verifies that `tools/validate_reference.mjs` updates `validation_status`, keeps `validated` consistent, preserves human-edited JSON content, appends review notes, creates a backup before writing and leaves `references.json` untouched in dry-run mode.
 
 ### Validation goal
 
@@ -409,6 +431,7 @@ Deferred enrichment means:
 - metadata lookup can run later;
 - stable IDs and source traceability are preserved;
 - human validation fields are never overwritten silently;
+- local human validation can be persisted with `tools/validate_reference.mjs`;
 - AI-generated summaries remain unvalidated until a human validates them.
 
 The normative workflow is defined in:

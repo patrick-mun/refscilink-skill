@@ -26,7 +26,7 @@ Légende :
 | 8 | v0.3.0 | Ajouter tests de détection thème | Éviter les régressions visuelles | `tests/theme_detection.test.mjs` | Les tests vérifient l'extraction des couleurs, polices et radius | Oui |
 | 9 | v0.3.0 | Améliorer l'extraction des références Markdown | Gérer références mal formatées ou dispersées | `tools/extract_references.mjs`, `build_references.mjs` | Le parseur détecte plusieurs formats de bibliographie dans un même fichier | Oui |
 | 10 | v0.3.0 | Ajouter tests d'extraction | Fiabiliser la détection bibliographique | `tests/extract_references.test.mjs` | Les tests couvrent DOI, PMID, URL, numérotation et formats libres | Oui |
-| 11 | v0.4.0 | Ajouter validation persistante locale | Ne pas dépendre uniquement de `localStorage` | `tools/validate_reference.mjs` | Une validation utilisateur peut être réécrite dans `references.json` | Non |
+| 11 | v0.4.0 | Ajouter validation persistante locale | Ne pas dépendre uniquement de `localStorage` | `tools/validate_reference.mjs` | Une validation utilisateur peut être réécrite dans `references.json` | Oui |
 | 12 | v0.4.0 | Ajouter validation du schéma JSON | Garantir la qualité des données | `tools/validate_schema.mjs`, `schema_references.json`, `tests/schema_validation.test.mjs` | `npm test` échoue si le JSON ne respecte pas le schéma | Non |
 | 13 | v0.4.0 | Ajouter enrichissement PubMed / Europe PMC | Compléter les métadonnées scientifiques | `tools/enrich_pubmed.mjs`, `tools/enrich_europepmc.mjs` | DOI/PMID/PMCID permettent de récupérer des métadonnées fiables | Non |
 | 14 | v0.4.0 | Ajouter classification Open Access via Unpaywall | Distinguer accès libre, abstract only, preprint, paywall | `tools/check_open_access.mjs` | Chaque référence reçoit un `access_type` documenté | Non |

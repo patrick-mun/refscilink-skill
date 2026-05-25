@@ -223,7 +223,7 @@ The bibliography interface must provide:
 
 Static-mode validation may use localStorage.
 
-Persistent validation should update JSON through a local tool or later backend integration.
+Persistent validation should update JSON through `tools/validate_reference.mjs` or later backend integration.
 
 ## Style expectations
 

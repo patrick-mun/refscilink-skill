@@ -123,6 +123,7 @@ The bibliography page should include:
 - button to validate the summary.
 
 Validation can use browser localStorage in static mode.
+Persistent local validation should use `tools/validate_reference.mjs`.
 
 ## Style rules
 

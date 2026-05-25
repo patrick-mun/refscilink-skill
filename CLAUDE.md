@@ -123,6 +123,7 @@ Provide:
 - summary view;
 - source access indicators;
 - validation controls;
+- persistent local validation through `tools/validate_reference.mjs`;
 - copy-reference actions.
 
 ## Style guidance

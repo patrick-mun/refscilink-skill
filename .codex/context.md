@@ -204,6 +204,7 @@ Bibliography pages should support:
 - copy reference action;
 - source link;
 - validation button.
+- persistent local validation through `tools/validate_reference.mjs`.
 
 ## Design expectations
 

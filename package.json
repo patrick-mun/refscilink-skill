@@ -9,6 +9,7 @@
     "theme:detect": "node tools/theme_detector.mjs --html examples/basic-site/index.html",
     "test:basic-site": "node tests/refscilink/validate_basic_site.mjs",
     "test:extract": "node tests/extract_references.test.mjs",
+    "test:validate": "node tests/validate_reference.test.mjs",
     "test:theme": "node tests/theme_detection.test.mjs",
     "serve": "node tools/serve_static.mjs . --port 8000",
     "demo": "node tools/serve_static.mjs --demo-basic-site --port 8000"

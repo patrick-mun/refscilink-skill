@@ -11,6 +11,7 @@ const buildTool = path.join(repoRoot, 'data/reference_bibliographique/tools/buil
 const installTool = path.join(repoRoot, 'tools/install_refscilink.mjs');
 const serveTool = path.join(repoRoot, 'tools/serve_static.mjs');
 const themeTool = path.join(repoRoot, 'tools/theme_detector.mjs');
+const validateTool = path.join(repoRoot, 'tools/validate_reference.mjs');
 const exampleMarkdown = path.join(repoRoot, 'examples/basic-site/bibliographie.md');
 const exampleIndex = path.join(repoRoot, 'examples/basic-site/index.html');
 const exampleStyle = path.join(repoRoot, 'examples/basic-site/style.css');
@@ -39,6 +40,7 @@ async function main() {
   await checkInstallToolSyntax();
   await checkServeToolSyntax();
   await checkThemeToolSyntax();
+  await checkValidateToolSyntax();
   await checkRootReferencesStructure();
   await checkThemeDetection();
   await checkThemeManualOverrides();
@@ -105,6 +107,7 @@ async function checkReadmeQuickStart() {
     'npm run test:basic-site',
     'npm run test:extract',
     'npm run test:theme',
+    'npm run test:validate',
     'npm run install:module',
     'npm run build:refs',
     'npm run theme:detect',
@@ -117,11 +120,12 @@ async function checkReadmeQuickStart() {
 async function checkPackageScripts() {
   const pkg = JSON.parse(await fs.readFile(path.join(repoRoot, 'package.json'), 'utf8'));
   const scripts = pkg.scripts || {};
-  const required = ['build:refs', 'install:module', 'theme:detect', 'test:extract', 'test:theme', 'serve', 'demo'];
-  record('npm.scripts.required', required.every(name => typeof scripts[name] === 'string' && scripts[name].length > 0) ? 'pass' : 'fail', 'package.json exposes build:refs, install:module, theme:detect, test:extract, test:theme, serve and demo scripts.');
+  const required = ['build:refs', 'install:module', 'theme:detect', 'test:extract', 'test:theme', 'test:validate', 'serve', 'demo'];
+  record('npm.scripts.required', required.every(name => typeof scripts[name] === 'string' && scripts[name].length > 0) ? 'pass' : 'fail', 'package.json exposes build:refs, install:module, theme:detect, test:extract, test:theme, test:validate, serve and demo scripts.');
   record('npm.scripts.local_only', !Object.values(scripts).some(script => script.includes('npx serve')) ? 'pass' : 'fail', 'npm serve/demo scripts use local Node tooling instead of npx serve.');
   record('npm.scripts.install_module', scripts['install:module']?.includes('tools/install_refscilink.mjs') ? 'pass' : 'fail', 'install:module calls the local installer.');
   record('npm.scripts.theme_detect', scripts['theme:detect']?.includes('tools/theme_detector.mjs') ? 'pass' : 'fail', 'theme:detect calls the local theme detector.');
+  record('npm.scripts.test_validate', scripts['test:validate']?.includes('tests/validate_reference.test.mjs') ? 'pass' : 'fail', 'test:validate calls the local persistent validation test suite.');
 }
 
 async function checkNpmScriptExecution() {
@@ -146,6 +150,9 @@ async function checkNpmScriptExecution() {
   const extractTestResult = await run('npm', ['run', 'test:extract'], repoRoot);
   record('npm.script.test_extract', extractTestResult.code === 0 && extractTestResult.stdout.includes('"pass": 19') ? 'pass' : 'fail', extractTestResult.code === 0 ? 'npm run test:extract passes dedicated Markdown extraction tests.' : extractTestResult.stderr || extractTestResult.stdout);
 
+  const validateTestResult = await run('npm', ['run', 'test:validate'], repoRoot);
+  record('npm.script.test_validate', validateTestResult.code === 0 && validateTestResult.stdout.includes('"pass": 14') ? 'pass' : 'fail', validateTestResult.code === 0 ? 'npm run test:validate passes local persistent validation tests.' : validateTestResult.stderr || validateTestResult.stdout);
+
   const serveResult = await run('npm', ['run', 'serve', '--', '--check'], repoRoot);
   record('npm.script.serve', serveResult.code === 0 ? 'pass' : 'fail', serveResult.code === 0 ? 'npm run serve passes static server check mode.' : serveResult.stderr || serveResult.stdout);
 
@@ -166,7 +173,8 @@ async function checkRequiredFiles() {
     'data/reference_bibliographique/tools/schema_references.json',
     'refscilink.config.json',
     'tools/install_refscilink.mjs',
-    'tools/theme_detector.mjs'
+    'tools/theme_detector.mjs',
+    'tools/validate_reference.mjs'
   ];
   const missing = requiredFiles.filter(file => !existsSync(path.join(repoRoot, file)));
   record('files.required', missing.length ? 'fail' : 'pass', missing.length ? `Missing files: ${missing.join(', ')}` : 'All mandatory files exist.');
@@ -244,6 +252,11 @@ async function checkServeToolSyntax() {
 async function checkThemeToolSyntax() {
   const result = await run('node', ['--check', themeTool], repoRoot);
   record('tool.syntax.theme_detector', result.code === 0 ? 'pass' : 'fail', result.code === 0 ? 'theme_detector.mjs syntax is valid.' : result.stderr || result.stdout);
+}
+
+async function checkValidateToolSyntax() {
+  const result = await run('node', ['--check', validateTool], repoRoot);
+  record('tool.syntax.validate_reference', result.code === 0 ? 'pass' : 'fail', result.code === 0 ? 'validate_reference.mjs syntax is valid.' : result.stderr || result.stdout);
 }
 
 async function checkRootReferencesStructure() {

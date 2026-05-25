@@ -744,6 +744,37 @@ Repository validation exposes the detector through:
 npm run theme:detect
 ```
 
+## Local persistent validation
+
+Generated static pages may keep browser-only validation state in `localStorage`, but repository and project workflows must also support a local persistent validation path for human review decisions.
+
+The local implementation provides:
+
+```text
+tools/validate_reference.mjs
+```
+
+Use it to update only the human validation fields for one reference in `data/reference_bibliographique/json/references.json`:
+
+```bash
+node tools/validate_reference.mjs --id ref001 --status validated --validated-by "Reviewer" --note "Checked manually"
+```
+
+The tool must:
+
+- support `validated`, `pending_validation`, `needs_revision` and `rejected`;
+- keep `validated` consistent with `validation_status`;
+- preserve unknown JSON keys, summaries, themes, keywords and existing review notes;
+- append new review notes instead of overwriting them;
+- create and verify a backup under `backup/refscilink/` before writing;
+- support `--dry-run` without creating backups or mutating files.
+
+Repository validation exposes this workflow through:
+
+```bash
+npm run test:validate
+```
+
 ## Error handling
 
 ### No Markdown file found

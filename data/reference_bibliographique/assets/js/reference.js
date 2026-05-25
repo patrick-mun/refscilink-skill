@@ -465,7 +465,14 @@ function createSourceLink(reference) {
 }
 
 function getSafeExternalHref(reference) {
-  const candidates = [reference.url, reference.source_url, reference.pdf_url, getDoiHref(reference.doi)].filter(Boolean);
+  const candidates = [
+    reference.url,
+    reference.source_url,
+    reference.pdf_url,
+    getDoiHref(reference.doi),
+    getPmidHref(reference.pmid),
+    getPmcidHref(reference.pmcid)
+  ].filter(Boolean);
   for (const href of candidates) {
     try {
       const parsed = new URL(href, window.location.href);
@@ -483,6 +490,16 @@ function getDoiHref(doi) {
     .replace(/^doi\s*:?\s*/i, "")
     .replace(/^https?:\/\/(?:dx\.)?doi\.org\//i, "");
   return normalized ? `https://doi.org/${encodeURI(normalized)}` : "";
+}
+
+function getPmidHref(pmid) {
+  const normalized = String(pmid || "").trim().replace(/^PMID:?\s*/i, "");
+  return normalized ? `https://pubmed.ncbi.nlm.nih.gov/${encodeURIComponent(normalized)}/` : "";
+}
+
+function getPmcidHref(pmcid) {
+  const normalized = String(pmcid || "").trim().replace(/^PMC/i, "");
+  return normalized ? `https://www.ncbi.nlm.nih.gov/pmc/articles/PMC${encodeURIComponent(normalized)}/` : "";
 }
 
 function createButton(label, handler) {

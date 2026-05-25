@@ -19,6 +19,8 @@ async function main() {
     throw new UsageError(`Invalid --status "${options.status}". Allowed values: ${[...VALIDATION_STATUSES].join(', ')}.`);
   }
 
+  // Read and mutate the parsed object in place so unknown root keys and
+  // maintainer-added fields survive the write.
   const filePath = path.resolve(options.file);
   const raw = await fs.readFile(filePath, 'utf8');
   const payload = JSON.parse(raw);
@@ -48,6 +50,8 @@ async function main() {
   }));
 
   if (options.dryRun) {
+    // Dry-run reports the same safety actions as a real write, but must not
+    // create either a backup directory or a modified JSON file.
     diagnostics.push(createDiagnostic('info', 'REFSCILINK_DRY_RUN_WOULD_BACKUP', 'Dry-run: existing references.json would be backed up before validation write.', {
       action: 'would_backup',
       path: relativePath(getBackupPath(filePath, updatedAt))
@@ -59,6 +63,8 @@ async function main() {
     }));
     diagnostics.push(createDiagnostic('success', 'REFSCILINK_DRY_RUN_NO_WRITE', 'Dry-run completed without writing files.'));
   } else {
+    // User-file protection requires a readable backup before replacing
+    // editable JSON, even when only one reference is changed.
     const backupPath = getBackupPath(filePath, updatedAt);
     await createBackup(filePath, backupPath);
     diagnostics.push(createDiagnostic('success', 'REFSCILINK_BACKUP_CREATED', 'Existing references.json was backed up before validation write.', {
@@ -132,15 +138,21 @@ Options:
 }
 
 function getReferences(payload) {
+  // Legacy root-array JSON is accepted for reading, while the canonical
+  // generated format remains an object with a references array.
   if (Array.isArray(payload)) return payload;
   if (payload && Array.isArray(payload.references)) return payload.references;
   throw new Error('references.json must be either a references array or an object with a references array.');
 }
 
 function applyValidation(reference, options, timestamp) {
+  // The boolean is derived from the status so downstream UI/tests never have
+  // to resolve contradictory validation fields.
   reference.validation_status = options.status;
   reference.validated = options.status === 'validated';
 
+  // Preserve an existing reviewer when the caller does not provide one, except
+  // for a first validation where local_user makes the action traceable.
   if (options.validatedBy.trim()) {
     reference.validated_by = options.validatedBy.trim();
   } else if (reference.validated && !reference.validated_by) {
@@ -149,12 +161,15 @@ function applyValidation(reference, options, timestamp) {
     reference.validated_by = '';
   }
 
+  // Keep the last human action timestamp only when a human action was actually
+  // supplied; a plain pending reset without reviewer/note should not invent one.
   if (reference.validated || options.validatedBy.trim() || options.note.trim()) {
     reference.validation_date = timestamp;
   } else if (typeof reference.validation_date !== 'string') {
     reference.validation_date = '';
   }
 
+  // Review notes are append-only because they are human validation history.
   if (options.note.trim()) {
     reference.review_notes = appendReviewNote(reference.review_notes, options.note.trim(), timestamp);
   } else if (typeof reference.review_notes !== 'string') {
@@ -170,6 +185,8 @@ function appendReviewNote(existingNotes, note, timestamp) {
 
 function updateMetadata(payload, options, diagnostics, timestamp) {
   if (!payload || typeof payload !== 'object' || Array.isArray(payload)) return;
+  // Metadata is refreshed around the validation event, but the references
+  // payload itself is otherwise preserved.
   payload.metadata = payload.metadata && typeof payload.metadata === 'object' ? payload.metadata : {};
   payload.metadata.updated_at = timestamp;
   payload.metadata.reference_count = Array.isArray(payload.references) ? payload.references.length : payload.metadata.reference_count;
@@ -183,6 +200,8 @@ function updateMetadata(payload, options, diagnostics, timestamp) {
 }
 
 async function createBackup(filePath, backupPath) {
+  // fs.access confirms that the copied backup is readable before the caller
+  // proceeds to overwrite the protected JSON file.
   await fs.mkdir(path.dirname(backupPath), { recursive: true });
   await fs.copyFile(filePath, backupPath);
   await fs.access(backupPath);
@@ -191,6 +210,8 @@ async function createBackup(filePath, backupPath) {
 function getBackupPath(filePath, timestamp) {
   const safeTimestamp = timestamp.replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
   const relativeTarget = path.relative(process.cwd(), filePath);
+  // Files outside the current project still get a safe backup name instead of
+  // writing parent-directory paths under backup/refscilink.
   const safeRelativeTarget = relativeTarget.startsWith('..') ? path.basename(filePath) : relativeTarget;
   return path.join(process.cwd(), 'backup/refscilink', `validation_${safeTimestamp}`, safeRelativeTarget);
 }

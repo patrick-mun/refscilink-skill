@@ -17,6 +17,8 @@ async function main() {
   await fs.mkdir(jsonDir, { recursive: true });
   await fs.writeFile(referencesPath, `${JSON.stringify(createFixture(), null, 2)}\n`, 'utf8');
 
+  // First pass validates the happy path and the preservation rules that matter
+  // most for manually reviewed scientific content.
   const validateResult = await run('node', [tool, '--file', 'data/reference_bibliographique/json/references.json', '--id', 'ref001', '--status', 'validated', '--validated-by', 'Dr Test', '--note', 'Checked against source'], tempDir);
   record('validate.command', validateResult.code === 0 ? 'pass' : 'fail', validateResult.stderr || validateResult.stdout);
 
@@ -30,12 +32,16 @@ async function main() {
   record('validate.preserves_unknown_root', payload.maintainer_note === 'preserve root key' ? 'pass' : 'fail', 'Validation preserves unknown root keys.');
   record('validate.untouched_reference', ref002.validated === false && ref002.review_notes === '' ? 'pass' : 'fail', 'Validation leaves other references untouched.');
 
+  // A non-validated human review state must stay explicit: status changes, but
+  // the boolean remains false for UI filters and schema checks.
   const revisionResult = await run('node', [tool, '--file', 'data/reference_bibliographique/json/references.json', '--id', 'ref002', '--status', 'needs_revision', '--validated-by', 'Reviewer Two', '--note', 'Missing full text'], tempDir);
   const revisionPayload = JSON.parse(await fs.readFile(referencesPath, 'utf8'));
   const revisedRef002 = revisionPayload.references.find(reference => reference.id === 'ref002');
   record('revision.command', revisionResult.code === 0 ? 'pass' : 'fail', revisionResult.stderr || revisionResult.stdout);
   record('revision.fields', revisedRef002.validated === false && revisedRef002.validation_status === 'needs_revision' && revisedRef002.validated_by === 'Reviewer Two' && revisedRef002.review_notes.includes('Missing full text') ? 'pass' : 'fail', 'Non-validated review statuses keep validated false and record the reviewer note.');
 
+  // Dry-run is checked with byte-for-byte JSON comparison and backup counting,
+  // because silent writes here would be a direct user-file-protection bug.
   const beforeDryRun = await fs.readFile(referencesPath, 'utf8');
   const backupBeforeDryRun = await countFiles(path.join(tempDir, 'backup/refscilink'));
   const dryRunResult = await run('node', [tool, '--file', 'data/reference_bibliographique/json/references.json', '--id', 'ref001', '--status', 'pending_validation', '--dry-run'], tempDir);
@@ -45,6 +51,8 @@ async function main() {
   record('dry_run.no_json_mutation', beforeDryRun === afterDryRun ? 'pass' : 'fail', 'Dry-run must not mutate references.json.');
   record('dry_run.no_backup', backupBeforeDryRun === backupAfterDryRun ? 'pass' : 'fail', 'Dry-run must not create backups.');
 
+  // Error cases should fail before writing and expose stable diagnostics for
+  // future automation or troubleshooting.
   const missingResult = await run('node', [tool, '--file', 'data/reference_bibliographique/json/references.json', '--id', 'ref999'], tempDir);
   record('errors.missing_id', missingResult.code !== 0 && missingResult.stdout.includes('REFSCILINK_VALIDATION_REFERENCE_NOT_FOUND') ? 'pass' : 'fail', 'Missing reference IDs fail with a stable diagnostic.');
 
@@ -55,6 +63,8 @@ async function main() {
 }
 
 function createFixture() {
+  // The fixture deliberately includes human-edited fields and an unknown root
+  // key so the test can catch accidental destructive rewrites.
   return {
     metadata: {
       generated_by: 'RefSciLink Skill',

@@ -1,34 +1,34 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Référence — Références bibliographiques</title>
+  <title>Reference — Bibliographic references</title>
   <link rel="stylesheet" href="./assets/css/reference.css" />
 </head>
 <body>
   <!-- RefSciLink detail page. One reference is selected through reference.html?id=ref001. -->
   <main class="refscilink-page" data-refscilink-page="detail">
     <header class="refscilink-header">
-      <a class="refscilink-back-link" href="./index_ref.html" data-refscilink-back-to-list>Retour aux références</a>
-      <h1 class="refscilink-title" data-refscilink-detail-title>Chargement de la référence…</h1>
+      <a class="refscilink-back-link" href="./index_ref.html" data-refscilink-back-to-list data-refscilink-i18n="backToList">Back to references</a>
+      <h1 class="refscilink-title" data-refscilink-detail-title data-refscilink-i18n="loadingReference">Loading reference…</h1>
     </header>
 
     <section class="refscilink-state-area" aria-live="polite">
-      <p class="refscilink-loading" data-refscilink-loading>Chargement…</p>
-      <p class="refscilink-not-found" data-refscilink-not-found hidden>Référence introuvable.</p>
+      <p class="refscilink-loading" data-refscilink-loading data-refscilink-i18n="loadingShort">Loading…</p>
+      <p class="refscilink-not-found" data-refscilink-not-found data-refscilink-i18n="notFound" hidden>Reference not found.</p>
       <p class="refscilink-error" data-refscilink-error role="alert" hidden></p>
     </section>
 
     <!-- JavaScript fills this article using safe text nodes and explicit links. -->
     <article class="refscilink-detail" data-refscilink-detail hidden>
       <section class="refscilink-metadata" aria-labelledby="refscilink-metadata-title">
-        <h2 id="refscilink-metadata-title">Métadonnées</h2>
+        <h2 id="refscilink-metadata-title" data-refscilink-i18n="sectionMetadata">Metadata</h2>
         <dl class="refscilink-metadata-list" data-refscilink-metadata></dl>
       </section>
 
       <section class="refscilink-summary-section" aria-labelledby="refscilink-summary-title">
-        <h2 id="refscilink-summary-title">Résumé</h2>
+        <h2 id="refscilink-summary-title" data-refscilink-i18n="sectionSummary">Summary</h2>
         <section data-refscilink-short-summary></section>
         <section data-refscilink-detailed-summary></section>
         <section data-refscilink-key-points></section>
@@ -36,10 +36,10 @@
         <section data-refscilink-limitations></section>
       </section>
 
-      <section class="refscilink-actions" aria-label="Actions sur la référence">
-        <a class="refscilink-source-link" href="#" data-refscilink-source-link target="_blank" rel="noopener noreferrer">Voir la source</a>
-        <button type="button" class="refscilink-copy-button" data-refscilink-copy-reference>Copier la référence</button>
-        <button type="button" class="refscilink-validate-button" data-refscilink-validate>Valider le résumé</button>
+      <section class="refscilink-actions" data-refscilink-i18n-aria="actionsLabel" aria-label="Reference actions">
+        <a class="refscilink-source-link" href="#" data-refscilink-source-link data-refscilink-i18n="viewSource" target="_blank" rel="noopener noreferrer">View source</a>
+        <button type="button" class="refscilink-copy-button" data-refscilink-copy-reference data-refscilink-i18n="copyReference">Copy reference</button>
+        <button type="button" class="refscilink-validate-button" data-refscilink-validate data-refscilink-i18n="validateSummary">Validate summary</button>
       </section>
     </article>
   </main>

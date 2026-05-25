@@ -59,7 +59,11 @@ const REFSCILINK_I18N = {
     keyPoints: "Points clés",
     projectRelevance: "Intérêt pour le projet",
     limitations: "Limites",
-    pending: "À compléter."
+    pending: "À compléter.",
+    pageTitle: "Références bibliographiques",
+    filtersLabel: "Filtres bibliographiques",
+    actionsLabel: "Actions sur la référence",
+    loadingShort: "Chargement…"
   },
   en: {
     references: "References",
@@ -103,7 +107,11 @@ const REFSCILINK_I18N = {
     keyPoints: "Key points",
     projectRelevance: "Project relevance",
     limitations: "Limitations",
-    pending: "To be completed."
+    pending: "To be completed.",
+    pageTitle: "Bibliographic references",
+    filtersLabel: "Bibliography filters",
+    actionsLabel: "Reference actions",
+    loadingShort: "Loading…"
   }
 };
 
@@ -124,6 +132,24 @@ async function loadReferences() {
   }
   const data = await response.json();
   return Array.isArray(data) ? data : data.references || [];
+}
+
+function applyI18n() {
+  document.querySelectorAll("[data-refscilink-i18n]").forEach(el => {
+    const key = el.dataset.refscilinkI18n;
+    const value = refscilinkState.labels[key];
+    if (value && typeof value === "string") el.textContent = value;
+  });
+  document.querySelectorAll("[data-refscilink-i18n-placeholder]").forEach(el => {
+    const key = el.dataset.refscilinkI18nPlaceholder;
+    const value = refscilinkState.labels[key];
+    if (value && typeof value === "string") el.placeholder = value;
+  });
+  document.querySelectorAll("[data-refscilink-i18n-aria]").forEach(el => {
+    const key = el.dataset.refscilinkI18nAria;
+    const value = refscilinkState.labels[key];
+    if (value && typeof value === "string") el.setAttribute("aria-label", value);
+  });
 }
 
 function detectCurrentPage() {
@@ -485,6 +511,7 @@ async function initRefSciLink() {
   try {
     setPageState("loading");
     refscilinkState.labels = getLocalizedLabels();
+    applyI18n();
     refscilinkState.validation = loadValidationState();
     refscilinkState.references = await loadReferences();
     renderCurrentPage();

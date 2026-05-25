@@ -26,9 +26,40 @@ const REFSCILINK_I18N = {
     noReferences: "Aucune référence trouvée",
     count: count => `${count} référence${count > 1 ? "s" : ""}`,
     error: "Impossible de charger les références.",
-    referenceNotFound: "Référence introuvable",
+    referenceNotFound: "Référence introuvable.",
     copied: "Référence copiée",
-    validated: "Résumé validé localement"
+    validated: "Résumé validé localement",
+    backToSite: "Retour au site",
+    backToList: "Retour aux références",
+    search: "Rechercher",
+    searchPlaceholder: "Titre, auteur, journal, DOI…",
+    filterTheme: "Thème",
+    filterValidation: "Validation",
+    filterAccess: "Accès",
+    allThemes: "Tous les thèmes",
+    allStatuses: "Tous les statuts",
+    allAccess: "Tous les accès",
+    statusPending: "À valider",
+    statusValidated: "Validé",
+    statusRevision: "À réviser",
+    statusRejected: "Rejeté",
+    accessOpen: "Open access",
+    accessAbstract: "Résumé seul",
+    accessAuthor: "Version auteur",
+    accessPreprint: "Préprint",
+    accessPaywall: "Accès payant",
+    accessUnknown: "Inconnu",
+    loading: "Chargement des références…",
+    loadingReference: "Chargement de la référence…",
+    notFound: "Référence introuvable.",
+    sectionMetadata: "Métadonnées",
+    sectionSummary: "Résumé",
+    shortSummary: "Résumé court",
+    detailedSummary: "Résumé détaillé",
+    keyPoints: "Points clés",
+    projectRelevance: "Intérêt pour le projet",
+    limitations: "Limites",
+    pending: "À compléter."
   },
   en: {
     references: "References",
@@ -39,15 +70,46 @@ const REFSCILINK_I18N = {
     noReferences: "No references found",
     count: count => `${count} reference${count > 1 ? "s" : ""}`,
     error: "Unable to load references.",
-    referenceNotFound: "Reference not found",
+    referenceNotFound: "Reference not found.",
     copied: "Reference copied",
-    validated: "Summary locally validated"
+    validated: "Summary locally validated",
+    backToSite: "Back to site",
+    backToList: "Back to references",
+    search: "Search",
+    searchPlaceholder: "Title, author, journal, DOI…",
+    filterTheme: "Theme",
+    filterValidation: "Validation",
+    filterAccess: "Access",
+    allThemes: "All themes",
+    allStatuses: "All statuses",
+    allAccess: "All access",
+    statusPending: "Pending validation",
+    statusValidated: "Validated",
+    statusRevision: "Needs revision",
+    statusRejected: "Rejected",
+    accessOpen: "Open access",
+    accessAbstract: "Abstract only",
+    accessAuthor: "Accepted author version",
+    accessPreprint: "Preprint",
+    accessPaywall: "Paywalled",
+    accessUnknown: "Unknown",
+    loading: "Loading references…",
+    loadingReference: "Loading reference…",
+    notFound: "Reference not found.",
+    sectionMetadata: "Metadata",
+    sectionSummary: "Summary",
+    shortSummary: "Short summary",
+    detailedSummary: "Detailed summary",
+    keyPoints: "Key points",
+    projectRelevance: "Project relevance",
+    limitations: "Limitations",
+    pending: "To be completed."
   }
 };
 
 let refscilinkState = {
   references: [],
-  labels: REFSCILINK_I18N.fr,
+  labels: REFSCILINK_I18N.en,
   validation: {}
 };
 
@@ -69,8 +131,8 @@ function detectCurrentPage() {
 }
 
 function detectLanguage() {
-  const lang = document.documentElement.lang || "fr";
-  return lang.toLowerCase().startsWith("en") ? "en" : "fr";
+  const lang = document.documentElement.lang || "en";
+  return lang.toLowerCase().startsWith("fr") ? "fr" : "en";
 }
 
 function getLocalizedLabels() {
@@ -203,11 +265,12 @@ function renderMetadata(reference) {
 }
 
 function renderSummarySections(reference) {
-  setSectionText("[data-refscilink-short-summary]", "Résumé court", reference.short_summary);
-  setSectionText("[data-refscilink-detailed-summary]", "Résumé détaillé", reference.detailed_summary);
-  setSectionList("[data-refscilink-key-points]", "Points clés", reference.key_points || []);
-  setSectionText("[data-refscilink-project-relevance]", "Intérêt pour le projet", reference.project_relevance);
-  setSectionText("[data-refscilink-limitations]", "Limites", reference.limitations);
+  const l = refscilinkState.labels;
+  setSectionText("[data-refscilink-short-summary]", l.shortSummary, reference.short_summary);
+  setSectionText("[data-refscilink-detailed-summary]", l.detailedSummary, reference.detailed_summary);
+  setSectionList("[data-refscilink-key-points]", l.keyPoints, reference.key_points || []);
+  setSectionText("[data-refscilink-project-relevance]", l.projectRelevance, reference.project_relevance);
+  setSectionText("[data-refscilink-limitations]", l.limitations, reference.limitations);
 }
 
 function setSectionText(selector, title, value) {
@@ -217,7 +280,7 @@ function setSectionText(selector, title, value) {
   const heading = document.createElement("h3");
   const paragraph = document.createElement("p");
   heading.textContent = title;
-  paragraph.textContent = value || "À compléter.";
+  paragraph.textContent = value || refscilinkState.labels.pending;
   section.append(heading, paragraph);
 }
 
@@ -228,7 +291,7 @@ function setSectionList(selector, title, values) {
   const heading = document.createElement("h3");
   const list = document.createElement("ul");
   heading.textContent = title;
-  (values.length ? values : ["À compléter."]).forEach(value => {
+  (values.length ? values : [refscilinkState.labels.pending]).forEach(value => {
     const item = document.createElement("li");
     item.textContent = value;
     list.appendChild(item);

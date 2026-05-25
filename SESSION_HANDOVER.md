@@ -59,13 +59,14 @@ Continue roadmap-driven module improvements after examples/basic-site validation
 Last completed test sequence:
 
 ```text
-- npm run test:basic-site passed with 80 checks.
+- npm run test:basic-site passed with 81 checks.
+- npm run test:extract passed with 19 checks.
 - npm run test:theme passed with 16 checks.
 - Temporary static-site HTTP checks passed for main pages, CSS, JS and JSON.
 - Fresh-install simulation extracted 10 references from examples/basic-site/bibliographie.md.
 - Fresh generated references.json includes module_version 0.2.0-dev, schema_version 1.0.0 and sequential ref001..ref010 IDs.
 - Browser visual inspection was completed: home navigation contains Références, the list page renders 10 French references, card #1 links to reference.html?id=ref001, and the ref001 detail page renders French metadata/actions.
-- Roadmap items 1, 2, 3, 4, 5, 6, 7, 8 and 9 are validated.
+- Roadmap items 1, 2, 3, 4, 5, 6, 7, 8, 9 and 10 are validated.
 ```
 
 ---
@@ -201,7 +202,8 @@ Current state:
 SH-000 to SH-030 completed and validated.
 Generated-file contracts are externalized in skills/contracts/.
 First examples/basic-site test passed:
-- npm run test:basic-site => pass, 80 checks.
+- npm run test:basic-site => pass, 81 checks.
+- npm run test:extract => pass, 19 checks.
 - npm run test:theme => pass, 16 checks.
 - Static HTTP checks => all tested pages/assets/JSON returned 200.
 - Fresh install simulation => 10 references extracted with ref001..ref010.
@@ -214,6 +216,7 @@ First examples/basic-site test passed:
 - theme_refscilink.json editable overrides => reference.js applies safe --refscilink-* variables at runtime; manual_overrides and unknown maintainer keys are preserved during theme regeneration.
 - tests/theme_detection.test.mjs => dedicated fixtures cover CSS variables, selector extraction, nested stylesheet paths, fallback, ignored external stylesheets, dark inference and manual override preservation.
 - Markdown extraction now handles mixed numbered, bracketed, bullet and free-form bibliography entries in the same section, preserves subsection metadata and stops at explicit non-bibliographic headings.
+- tests/extract_references.test.mjs => dedicated fixtures cover DOI, PMID, PMCID, URL/PDF URL extraction, stable rerun IDs, source-order numbering, no-heading fallback and dry-run safety.
 
 Current task:
 Continue roadmap-driven module improvements.

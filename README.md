@@ -56,6 +56,12 @@ Run the dedicated theme-detection validation:
 npm run test:theme
 ```
 
+Run the dedicated Markdown extraction validation:
+
+```bash
+npm run test:extract
+```
+
 To install RefSciLink into another local static site:
 
 ```bash
@@ -278,6 +284,7 @@ Common local commands are:
 npm run build:refs
 npm run install:module -- --target examples/basic-site --markdown bibliographie.md --html index.html
 npm run theme:detect
+npm run test:extract
 npm run test:theme
 npm run serve
 npm run demo
@@ -327,7 +334,15 @@ From the repository root, run:
 npm run test:basic-site
 ```
 
-This validates the canonical `examples/basic-site/bibliographie.md` fixture, checks required JSON files, verifies `refscilink.config.json` source/output/display/theme/language settings, verifies `build_references.mjs`, `install_refscilink.mjs`, `theme_detector.mjs` and `serve_static.mjs` syntax, tests the local installer and npm scripts on temporary sites, confirms generated version metadata, checks automatic theme detection from the host CSS, checks runtime application and preservation of editable theme overrides, runs the dedicated theme detection suite, checks mixed-format Markdown extraction, checks the localized navigation entry and French generated pages, verifies stable `ref001` to `ref010` fresh-install IDs and detail links, checks external-link safety guards, confirms the expected 10 extracted references, and ensures dry-run mode does not write generated files.
+This validates the canonical `examples/basic-site/bibliographie.md` fixture, checks required JSON files, verifies `refscilink.config.json` source/output/display/theme/language settings, verifies `build_references.mjs`, `install_refscilink.mjs`, `theme_detector.mjs` and `serve_static.mjs` syntax, tests the local installer and npm scripts on temporary sites, confirms generated version metadata, checks automatic theme detection from the host CSS, checks runtime application and preservation of editable theme overrides, runs the dedicated theme and Markdown extraction suites, checks mixed-format Markdown extraction, checks the localized navigation entry and French generated pages, verifies stable `ref001` to `ref010` fresh-install IDs and detail links, checks external-link safety guards, confirms the expected 10 extracted references, and ensures dry-run mode does not write generated files.
+
+The dedicated extraction suite runs:
+
+```bash
+npm run test:extract
+```
+
+It verifies DOI, PMID, PMCID, URL/PDF URL extraction, stable rerun IDs, source-order numbering, free-form bibliography paragraphs, no-heading identifier fallback and dry-run safety.
 
 The dedicated theme suite runs:
 

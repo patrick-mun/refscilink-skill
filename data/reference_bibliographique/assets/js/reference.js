@@ -54,6 +54,16 @@ const REFSCILINK_I18N = {
     notFound: "Référence introuvable.",
     sectionMetadata: "Métadonnées",
     sectionSummary: "Résumé",
+    fieldId: "ID",
+    fieldNumber: "Numéro",
+    fieldAuthors: "Auteurs",
+    fieldYear: "Année",
+    fieldJournal: "Revue",
+    fieldDoi: "DOI",
+    fieldPmid: "PMID",
+    fieldPmcid: "PMCID",
+    fieldAccess: "Accès",
+    fieldValidation: "Validation",
     shortSummary: "Résumé court",
     detailedSummary: "Résumé détaillé",
     keyPoints: "Points clés",
@@ -103,6 +113,16 @@ const REFSCILINK_I18N = {
     notFound: "Reference not found.",
     sectionMetadata: "Metadata",
     sectionSummary: "Summary",
+    fieldId: "ID",
+    fieldNumber: "Number",
+    fieldAuthors: "Authors",
+    fieldYear: "Year",
+    fieldJournal: "Journal",
+    fieldDoi: "DOI",
+    fieldPmid: "PMID",
+    fieldPmcid: "PMCID",
+    fieldAccess: "Access",
+    fieldValidation: "Validation",
     shortSummary: "Short summary",
     detailedSummary: "Detailed summary",
     keyPoints: "Key points",
@@ -301,17 +321,18 @@ function renderMetadata(reference) {
   const target = document.querySelector("[data-refscilink-metadata]");
   if (!target) return;
   target.textContent = "";
+  const l = refscilinkState.labels;
   [
-    ["ID", reference.id],
-    ["Number", reference.number],
-    ["Authors", reference.authors?.join(", ")],
-    ["Year", reference.year],
-    ["Journal", reference.journal],
-    ["DOI", reference.doi],
-    ["PMID", reference.pmid],
-    ["PMCID", reference.pmcid],
-    ["Access", reference.access_type],
-    ["Validation", getValidationStatus(reference)]
+    [l.fieldId, reference.id],
+    [l.fieldNumber, reference.number],
+    [l.fieldAuthors, reference.authors?.join(", ")],
+    [l.fieldYear, reference.year],
+    [l.fieldJournal, reference.journal],
+    [l.fieldDoi, reference.doi],
+    [l.fieldPmid, reference.pmid],
+    [l.fieldPmcid, reference.pmcid],
+    [l.fieldAccess, translateBadgeValue("access", reference.access_type || "unknown")],
+    [l.fieldValidation, translateBadgeValue("validation", getValidationStatus(reference))]
   ].forEach(([label, value]) => {
     if (!value) return;
     const dt = document.createElement("dt");

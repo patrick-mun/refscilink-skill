@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bibliographic references</title>
+  <title>Références bibliographiques</title>
   <link rel="stylesheet" href="./assets/css/reference.css" />
 </head>
 <body>
@@ -11,46 +11,46 @@
   <main class="refscilink-page" data-refscilink-page="index">
     <!-- Header keeps navigation back to the host website separate from dynamic reference content. -->
     <header class="refscilink-header">
-      <a class="refscilink-back-link" href="../../index.html" data-refscilink-back-link data-refscilink-i18n="backToSite">Back to site</a>
-      <h1 class="refscilink-title" data-refscilink-title data-refscilink-i18n="pageTitle">Bibliographic references</h1>
+      <a class="refscilink-back-link" href="../../index.html" data-refscilink-back-link data-refscilink-i18n="backToSite">Retour au site</a>
+      <h1 class="refscilink-title" data-refscilink-title data-refscilink-i18n="pageTitle">Références bibliographiques</h1>
       <p class="refscilink-subtitle" data-refscilink-subtitle></p>
     </header>
 
     <!-- Search and filters expose stable data hooks for the JavaScript engine. -->
-    <section class="refscilink-controls" data-refscilink-i18n-aria="filtersLabel" aria-label="Bibliography filters">
+    <section class="refscilink-controls" data-refscilink-i18n-aria="filtersLabel" aria-label="Filtres bibliographiques">
       <div class="refscilink-control-group">
-        <label class="refscilink-label" for="refscilink-search" data-refscilink-i18n="search">Search</label>
+        <label class="refscilink-label" for="refscilink-search" data-refscilink-i18n="search">Rechercher</label>
         <input class="refscilink-input" id="refscilink-search" type="search"
-          placeholder="Title, author, journal, DOI…"
+          placeholder="Titre, auteur, journal, DOI…"
           data-refscilink-search
           data-refscilink-i18n-placeholder="searchPlaceholder" />
       </div>
       <div class="refscilink-control-group">
-        <label class="refscilink-label" for="refscilink-theme-filter" data-refscilink-i18n="filterTheme">Theme</label>
+        <label class="refscilink-label" for="refscilink-theme-filter" data-refscilink-i18n="filterTheme">Thème</label>
         <select class="refscilink-select" id="refscilink-theme-filter" data-refscilink-theme-filter>
-          <option value="all" data-refscilink-i18n="allThemes">All themes</option>
+          <option value="all" data-refscilink-i18n="allThemes">Tous les thèmes</option>
         </select>
       </div>
       <div class="refscilink-control-group">
         <label class="refscilink-label" for="refscilink-validation-filter" data-refscilink-i18n="filterValidation">Validation</label>
         <select class="refscilink-select" id="refscilink-validation-filter" data-refscilink-validation-filter>
-          <option value="all" data-refscilink-i18n="allStatuses">All statuses</option>
-          <option value="pending_validation" data-refscilink-i18n="statusPending">Pending validation</option>
-          <option value="validated" data-refscilink-i18n="statusValidated">Validated</option>
-          <option value="needs_revision" data-refscilink-i18n="statusRevision">Needs revision</option>
-          <option value="rejected" data-refscilink-i18n="statusRejected">Rejected</option>
+          <option value="all" data-refscilink-i18n="allStatuses">Tous les statuts</option>
+          <option value="pending_validation" data-refscilink-i18n="statusPending">À valider</option>
+          <option value="validated" data-refscilink-i18n="statusValidated">Validé</option>
+          <option value="needs_revision" data-refscilink-i18n="statusRevision">À réviser</option>
+          <option value="rejected" data-refscilink-i18n="statusRejected">Rejeté</option>
         </select>
       </div>
       <div class="refscilink-control-group">
-        <label class="refscilink-label" for="refscilink-access-filter" data-refscilink-i18n="filterAccess">Access</label>
+        <label class="refscilink-label" for="refscilink-access-filter" data-refscilink-i18n="filterAccess">Accès</label>
         <select class="refscilink-select" id="refscilink-access-filter" data-refscilink-access-filter>
-          <option value="all" data-refscilink-i18n="allAccess">All access</option>
+          <option value="all" data-refscilink-i18n="allAccess">Tous les accès</option>
           <option value="open_access" data-refscilink-i18n="accessOpen">Open access</option>
-          <option value="abstract_only" data-refscilink-i18n="accessAbstract">Abstract only</option>
-          <option value="accepted_author_version" data-refscilink-i18n="accessAuthor">Accepted author version</option>
-          <option value="preprint" data-refscilink-i18n="accessPreprint">Preprint</option>
-          <option value="paywalled" data-refscilink-i18n="accessPaywall">Paywalled</option>
-          <option value="unknown" data-refscilink-i18n="accessUnknown">Unknown</option>
+          <option value="abstract_only" data-refscilink-i18n="accessAbstract">Résumé seul</option>
+          <option value="accepted_author_version" data-refscilink-i18n="accessAuthor">Version auteur</option>
+          <option value="preprint" data-refscilink-i18n="accessPreprint">Préprint</option>
+          <option value="paywalled" data-refscilink-i18n="accessPaywall">Accès payant</option>
+          <option value="unknown" data-refscilink-i18n="accessUnknown">Inconnu</option>
         </select>
       </div>
     </section>
@@ -61,8 +61,8 @@
     </section>
 
     <section class="refscilink-state-area" aria-live="polite">
-      <p class="refscilink-loading" data-refscilink-loading data-refscilink-i18n="loading">Loading references…</p>
-      <p class="refscilink-empty" data-refscilink-empty data-refscilink-i18n="noReferences" hidden>No references found.</p>
+      <p class="refscilink-loading" data-refscilink-loading data-refscilink-i18n="loading">Chargement des références…</p>
+      <p class="refscilink-empty" data-refscilink-empty data-refscilink-i18n="noReferences" hidden>Aucune référence trouvée.</p>
       <p class="refscilink-error" data-refscilink-error role="alert" hidden></p>
     </section>
 

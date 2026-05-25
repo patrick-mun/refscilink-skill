@@ -21,6 +21,9 @@ const checks = [];
 async function main() {
   await checkRequiredFiles();
   await checkJsonFiles();
+  await checkBasicSiteNavigation();
+  await checkGeneratedHtmlLanguage();
+  await checkGeneratedJsLocalization();
   await checkBuildToolSyntax();
   await checkRootReferencesStructure();
   await checkGeneratedMetadata();
@@ -28,6 +31,29 @@ async function main() {
   await checkOfficialExtraction();
   await checkDryRunNoMutation();
   printReport();
+}
+
+async function checkBasicSiteNavigation() {
+  const html = await fs.readFile(path.join(repoRoot, 'examples/basic-site/index.html'), 'utf8');
+  const hasRefSciLinkNavigation = html.includes('data-refscilink-nav-link')
+    && html.includes('data/reference_bibliographique/index_ref.html')
+    && html.includes('Références');
+  record('ui.basic_site.navigation_link', hasRefSciLinkNavigation ? 'pass' : 'fail', hasRefSciLinkNavigation ? 'Basic site includes a localized RefSciLink navigation link.' : 'Basic site is missing the localized RefSciLink navigation link.');
+}
+
+async function checkGeneratedHtmlLanguage() {
+  const indexHtml = await fs.readFile(path.join(repoRoot, 'data/reference_bibliographique/index_ref.html'), 'utf8');
+  const detailHtml = await fs.readFile(path.join(repoRoot, 'data/reference_bibliographique/reference.html'), 'utf8');
+  record('ui.index.language.fr', indexHtml.includes('<html lang="fr">') && indexHtml.includes('Références bibliographiques') ? 'pass' : 'fail', 'index_ref.html uses French defaults for the official French example.');
+  record('ui.detail.language.fr', detailHtml.includes('<html lang="fr">') && detailHtml.includes('Retour aux références') ? 'pass' : 'fail', 'reference.html uses French defaults for the official French example.');
+}
+
+async function checkGeneratedJsLocalization() {
+  const script = await fs.readFile(path.join(repoRoot, 'data/reference_bibliographique/assets/js/reference.js'), 'utf8');
+  const localizesMetadata = script.includes('fieldNumber: "Numéro"')
+    && script.includes('fieldAccess: "Accès"')
+    && script.includes('translateBadgeValue("validation", getValidationStatus(reference))');
+  record('ui.detail.metadata_i18n', localizesMetadata ? 'pass' : 'fail', localizesMetadata ? 'Detail metadata labels and status values are localized.' : 'Detail metadata labels or status values are not localized.');
 }
 
 async function checkRequiredFiles() {
@@ -111,6 +137,8 @@ async function checkOfficialExtraction() {
   const payload = JSON.parse(await fs.readFile(outputPath, 'utf8'));
   validateReferencesPayload(payload, 'example.extract.references');
   record('example.extract.count', payload.references.length === expectedReferenceCount ? 'pass' : 'fail', `Expected ${expectedReferenceCount} references, got ${payload.references.length}.`);
+  record('example.extract.first_id', payload.references[0]?.id === 'ref001' && payload.references[0]?.number === 1 ? 'pass' : 'fail', 'Fresh extraction starts with id ref001 and number 1.');
+  record('example.extract.last_id', payload.references.at(-1)?.id === 'ref010' && payload.references.at(-1)?.number === expectedReferenceCount ? 'pass' : 'fail', 'Fresh extraction ends with id ref010 and number 10.');
   record('example.extract.diagnostics', hasDiagnostic(payload, 'REFSCILINK_EXTRACT_OK') ? 'pass' : 'fail', 'Extraction diagnostics include REFSCILINK_EXTRACT_OK.');
 }
 

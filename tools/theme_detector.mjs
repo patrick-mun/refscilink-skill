@@ -201,7 +201,7 @@ function buildTheme({ variables, selectors, html, detectedFrom, targetRoot, html
     border: firstCssValue(resolved, ['border', 'color-border', 'border-color'], selectors, ['.navbar', '.info-card'], ['border-color', 'border']),
     radius: firstCssValue(resolved, ['radius', 'border-radius'], selectors, ['.card', '.info-card', '.hero-content'], ['border-radius']),
     button_radius: firstCssValue(resolved, ['button-radius', 'radius-button'], selectors, ['.button', '.nav-links a'], ['border-radius']),
-    shadow: firstCssValue(resolved, ['shadow', 'card-shadow', 'shadow-card'], selectors, ['.card', '.info-card', '.navbar'], ['box-shadow']),
+    shadow: firstCssValue(resolved, ['shadow', 'card-shadow', 'shadow-card'], selectors, ['.card', '.info-card', '.hero-content', '.navbar'], ['box-shadow']),
     font_family: firstCssValue(resolved, ['font-main', 'font-family', 'font-sans', 'body-font'], selectors, ['body'], ['font-family']),
     line_height: firstCssValue(resolved, ['line-height', 'line-height-base'], selectors, ['body'], ['line-height'])
   };

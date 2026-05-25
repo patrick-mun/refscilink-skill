@@ -23,7 +23,7 @@ Légende :
 | 5 | v0.2.0 | Documenter le quick start développeur | Réduire la friction d'installation | `README.md` | Un développeur peut installer et tester le module en moins de 5 minutes | Oui |
 | 6 | v0.3.0 | Renforcer la détection automatique de thème | Améliorer l'intégration graphique au site hôte | `tools/theme_detector.mjs`, `theme_refscilink.json`, `reference.css` | Le module détecte couleurs, typographie, boutons, radius et génère un thème cohérent | Oui |
 | 7 | v0.3.0 | Ajouter le mode `theme_refscilink.json` éditable | Permettre une surcharge manuelle propre | `data/reference_bibliographique/json/theme_refscilink.json` | Modifier le JSON permet d'ajuster le rendu sans toucher au CSS principal | Oui |
-| 8 | v0.3.0 | Ajouter tests de détection thème | Éviter les régressions visuelles | `tests/theme_detection.test.mjs` | Les tests vérifient l'extraction des couleurs, polices et radius | Non |
+| 8 | v0.3.0 | Ajouter tests de détection thème | Éviter les régressions visuelles | `tests/theme_detection.test.mjs` | Les tests vérifient l'extraction des couleurs, polices et radius | Oui |
 | 9 | v0.3.0 | Améliorer l'extraction des références Markdown | Gérer références mal formatées ou dispersées | `tools/extract_references.mjs`, `build_references.mjs` | Le parseur détecte plusieurs formats de bibliographie dans un même fichier | Non |
 | 10 | v0.3.0 | Ajouter tests d'extraction | Fiabiliser la détection bibliographique | `tests/extract_references.test.mjs` | Les tests couvrent DOI, PMID, URL, numérotation et formats libres | Non |
 | 11 | v0.4.0 | Ajouter validation persistante locale | Ne pas dépendre uniquement de `localStorage` | `tools/validate_reference.mjs` | Une validation utilisateur peut être réécrite dans `references.json` | Non |

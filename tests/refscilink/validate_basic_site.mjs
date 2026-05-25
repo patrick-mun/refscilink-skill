@@ -102,6 +102,7 @@ async function checkReadmeQuickStart() {
     'npm run demo',
     'http://127.0.0.1:8000/index.html',
     'npm run test:basic-site',
+    'npm run test:theme',
     'npm run install:module',
     'npm run build:refs',
     'npm run theme:detect',
@@ -114,8 +115,8 @@ async function checkReadmeQuickStart() {
 async function checkPackageScripts() {
   const pkg = JSON.parse(await fs.readFile(path.join(repoRoot, 'package.json'), 'utf8'));
   const scripts = pkg.scripts || {};
-  const required = ['build:refs', 'install:module', 'theme:detect', 'serve', 'demo'];
-  record('npm.scripts.required', required.every(name => typeof scripts[name] === 'string' && scripts[name].length > 0) ? 'pass' : 'fail', 'package.json exposes build:refs, install:module, theme:detect, serve and demo scripts.');
+  const required = ['build:refs', 'install:module', 'theme:detect', 'test:theme', 'serve', 'demo'];
+  record('npm.scripts.required', required.every(name => typeof scripts[name] === 'string' && scripts[name].length > 0) ? 'pass' : 'fail', 'package.json exposes build:refs, install:module, theme:detect, test:theme, serve and demo scripts.');
   record('npm.scripts.local_only', !Object.values(scripts).some(script => script.includes('npx serve')) ? 'pass' : 'fail', 'npm serve/demo scripts use local Node tooling instead of npx serve.');
   record('npm.scripts.install_module', scripts['install:module']?.includes('tools/install_refscilink.mjs') ? 'pass' : 'fail', 'install:module calls the local installer.');
   record('npm.scripts.theme_detect', scripts['theme:detect']?.includes('tools/theme_detector.mjs') ? 'pass' : 'fail', 'theme:detect calls the local theme detector.');
@@ -136,6 +137,9 @@ async function checkNpmScriptExecution() {
 
   const themeResult = await run('npm', ['run', 'theme:detect', '--', '--check'], repoRoot);
   record('npm.script.theme_detect', themeResult.code === 0 && themeResult.stdout.includes('REFSCILINK_THEME_DETECTED') ? 'pass' : 'fail', themeResult.code === 0 ? 'npm run theme:detect detects the official example theme in check mode.' : themeResult.stderr || themeResult.stdout);
+
+  const themeTestResult = await run('npm', ['run', 'test:theme'], repoRoot);
+  record('npm.script.test_theme', themeTestResult.code === 0 && themeTestResult.stdout.includes('"pass": 16') ? 'pass' : 'fail', themeTestResult.code === 0 ? 'npm run test:theme passes dedicated theme detection tests.' : themeTestResult.stderr || themeTestResult.stdout);
 
   const serveResult = await run('npm', ['run', 'serve', '--', '--check'], repoRoot);
   record('npm.script.serve', serveResult.code === 0 ? 'pass' : 'fail', serveResult.code === 0 ? 'npm run serve passes static server check mode.' : serveResult.stderr || serveResult.stdout);

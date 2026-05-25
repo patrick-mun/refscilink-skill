@@ -4,13 +4,17 @@
     "module_version": "0.2.0-dev",
     "schema_version": "1.0.0",
     "created_at": "2026-05-24T12:00:00+04:00",
-    "updated_at": "2026-05-24T12:00:00+04:00"
+    "updated_at": "2026-05-25T15:10:00+04:00"
   },
   "source": {
-    "markdown_file": "",
-    "markdown_candidates": [],
-    "html_entrypoint": "",
-    "html_entrypoint_candidates": []
+    "markdown_file": "examples/basic-site/bibliographie.md",
+    "markdown_candidates": [
+      "examples/basic-site/bibliographie.md"
+    ],
+    "html_entrypoint": "examples/basic-site/index.html",
+    "html_entrypoint_candidates": [
+      "examples/basic-site/index.html"
+    ]
   },
   "output": {
     "module_dir": "data/reference_bibliographique",

@@ -231,7 +231,7 @@ Current known functional state:
 - A temporary static-site copy served all main pages, assets and JSON files with HTTP 200.
 - A fresh-install simulation extracted 10 references from `examples/basic-site/bibliographie.md`.
 - Browser visual inspection has been completed in Codex for the official example flow: home page navigation, bibliography list, `ref001` detail page and French labels.
-- Roadmap item 1 (`examples/basic-site/`) is validated.
+- Roadmap items 1 (`examples/basic-site/`) and 2 (`refscilink.config.json`) are validated.
 
 Before changing roadmap statuses, inspect the actual repository state and update `ROADMAP_UPGRADES.md` deliberately.
 
@@ -305,17 +305,17 @@ Continue roadmap-driven module improvements after validating `examples/basic-sit
 
 Latest completed checks:
 
-- `npm run test:basic-site` passed with 39 checks.
+- `npm run test:basic-site` passed with 44 checks.
 - Temporary static-site HTTP checks returned 200 for `/`, `index.html`, `index_ref.html`, `reference.html`, CSS, JS, `references.json` and `theme_refscilink.json`.
 - Fresh-install simulation in `/tmp/refscilink-basic-site-fresh` extracted 10 references.
 - Fresh install produced `module_version: 0.2.0-dev`, `schema_version: 1.0.0`, `ref001` through `ref010` and `REFSCILINK_EXTRACT_OK`.
-- Static checks confirmed navigation integration, French generated pages, localized detail metadata, stable detail links and external-link safety guards.
+- Static checks confirmed `refscilink.config.json` source/output/display/theme/language settings, navigation integration, French generated pages, localized detail metadata, stable detail links and external-link safety guards.
 - Browser review confirmed the flow `index.html` -> `Références` -> bibliography list -> `reference.html?id=ref001`.
 
 Expected next focus:
 
 - continue the module roadmap in `ROADMAP_UPGRADES.md`;
-- next likely targets are `refscilink.config.json` completeness, local installer behaviour and npm script standardization.
+- next likely targets are local installer behaviour and npm script standardization.
 
 Latest deep-analysis correction sequence:
 

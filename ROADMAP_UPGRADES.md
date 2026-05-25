@@ -17,7 +17,7 @@ Légende :
 | Priorité | Version cible | Amélioration | Objectif | Fichiers / dossiers concernés | Critère de validation | Validé |
 |---:|---|---|---|---|---|---|
 | 1 | v0.2.0 | Créer un exemple complet `examples/basic-site/` | Permettre à un développeur de tester RefSciLink immédiatement après clonage | `examples/basic-site/index.html`, `style.css`, `bibliographie.md`, `data/reference_bibliographique/` | `npm run demo` ou serveur local permet d'ouvrir une page fonctionnelle avec références | Oui |
-| 2 | v0.2.0 | Ajouter `refscilink.config.json` | Éviter de redemander les mêmes paramètres à chaque exécution | `refscilink.config.json` | Le fichier contient source Markdown, dossier de sortie, mode d'affichage, mode thème et langue | Non |
+| 2 | v0.2.0 | Ajouter `refscilink.config.json` | Éviter de redemander les mêmes paramètres à chaque exécution | `refscilink.config.json` | Le fichier contient source Markdown, dossier de sortie, mode d'affichage, mode thème et langue | Oui |
 | 3 | v0.2.0 | Créer un installateur local | Installer automatiquement le module dans un site existant | `tools/install_refscilink.mjs` | La commande crée l'arborescence et ajoute le bouton `Références` sans casser `index.html` | Non |
 | 4 | v0.2.0 | Standardiser les scripts npm | Rendre les commandes simples et mémorisables | `package.json` | Les commandes `npm run build:refs`, `npm run install:module`, `npm run serve`, `npm run demo` fonctionnent | Non |
 | 5 | v0.2.0 | Documenter le quick start développeur | Réduire la friction d'installation | `README.md` | Un développeur peut installer et tester le module en moins de 5 minutes | Non |

@@ -21,6 +21,7 @@ const checks = [];
 async function main() {
   await checkRequiredFiles();
   await checkJsonFiles();
+  await checkConfigContract();
   await checkBasicSiteNavigation();
   await checkGeneratedHtmlLanguage();
   await checkGeneratedJsLocalization();
@@ -96,6 +97,43 @@ async function checkJsonFiles() {
       record(`json.parse.${file}`, 'fail', `${file} is invalid JSON: ${error.message}`);
     }
   }
+}
+
+async function checkConfigContract() {
+  const config = JSON.parse(await fs.readFile(path.join(repoRoot, 'refscilink.config.json'), 'utf8'));
+  const requiredRoots = ['metadata', 'source', 'output', 'display', 'theme', 'language', 'enrichment', 'safety', 'runtime'];
+  record('config.root.required_sections', requiredRoots.every(key => config[key] && typeof config[key] === 'object') ? 'pass' : 'fail', 'refscilink.config.json includes all required root sections.');
+
+  const hasSource = config.source?.markdown_file === 'examples/basic-site/bibliographie.md'
+    && Array.isArray(config.source?.markdown_candidates)
+    && config.source.markdown_candidates.includes('examples/basic-site/bibliographie.md')
+    && config.source?.html_entrypoint === 'examples/basic-site/index.html'
+    && Array.isArray(config.source?.html_entrypoint_candidates)
+    && config.source.html_entrypoint_candidates.includes('examples/basic-site/index.html');
+  record('config.source.official_example', hasSource ? 'pass' : 'fail', 'Config records the official Markdown source and HTML entry point.');
+
+  const outputPaths = [
+    ['module_dir', 'data/reference_bibliographique'],
+    ['index_file', 'data/reference_bibliographique/index_ref.html'],
+    ['detail_file', 'data/reference_bibliographique/reference.html'],
+    ['references_json', 'data/reference_bibliographique/json/references.json'],
+    ['theme_json', 'data/reference_bibliographique/json/theme_refscilink.json']
+  ];
+  const hasOutput = outputPaths.every(([key, value]) => config.output?.[key] === value);
+  record('config.output.paths', hasOutput ? 'pass' : 'fail', 'Config records the generated module output paths.');
+
+  const hasDisplay = ['page', 'panel', 'both', 'none'].includes(config.display?.mode)
+    && ['auto', 'navbar', 'floating_button', 'manual', 'skip'].includes(config.display?.navigation_integration)
+    && config.display?.navigation_target === 'data/reference_bibliographique/index_ref.html';
+  record('config.display.mode_navigation', hasDisplay ? 'pass' : 'fail', 'Config records display mode and navigation integration settings.');
+
+  const hasThemeAndLanguage = config.theme?.mode === 'auto_override'
+    && config.theme?.config_file === 'data/reference_bibliographique/json/theme_refscilink.json'
+    && config.theme?.preserve_host_identity === true
+    && config.language?.mode === 'auto'
+    && config.language?.detected === 'fr'
+    && config.language?.generated_ui === 'fr';
+  record('config.theme_language', hasThemeAndLanguage ? 'pass' : 'fail', 'Config records theme mode and generated UI language.');
 }
 
 async function checkBuildToolSyntax() {

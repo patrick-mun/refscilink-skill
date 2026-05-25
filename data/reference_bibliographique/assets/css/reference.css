@@ -35,6 +35,7 @@
   width: min(1120px, calc(100% - 2rem));
   margin: 0 auto;
   padding: var(--refscilink-spacing-xl) 0;
+  background-color: var(--refscilink-color-background);
   color: var(--refscilink-color-text);
   font-family: var(--refscilink-font-family);
   line-height: 1.6;

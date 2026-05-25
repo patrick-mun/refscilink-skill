@@ -30,6 +30,7 @@ async function main() {
   await checkGeneratedHtmlLanguage();
   await checkGeneratedJsLocalization();
   await checkGeneratedJsDetailLinks();
+  await checkReadmeQuickStart();
   await checkPackageScripts();
   await checkNpmScriptExecution();
   await checkBuildToolSyntax();
@@ -73,6 +74,22 @@ async function checkGeneratedJsDetailLinks() {
   const usesStableIds = script.includes('reference.html?id=${encodeURIComponent(reference.id)}');
   const doesNotUseDisplayNumber = !script.includes('reference.html?id=${encodeURIComponent(reference.number)}');
   record('ui.index.detail_links_use_ids', usesStableIds && doesNotUseDisplayNumber ? 'pass' : 'fail', usesStableIds && doesNotUseDisplayNumber ? 'Detail links use stable reference IDs, not display numbers.' : 'Detail links must use stable reference IDs.');
+}
+
+async function checkReadmeQuickStart() {
+  const readme = await fs.readFile(path.join(repoRoot, 'README.md'), 'utf8');
+  const requiredText = [
+    'Quick Start in Under 5 Minutes',
+    'Node.js 18 or newer',
+    'npm run demo',
+    'http://127.0.0.1:8000/index.html',
+    'npm run test:basic-site',
+    'npm run install:module',
+    'npm run build:refs',
+    'npm run serve'
+  ];
+  const missing = requiredText.filter(text => !readme.includes(text));
+  record('docs.readme.quick_start', missing.length ? 'fail' : 'pass', missing.length ? `README quick start is missing: ${missing.join(', ')}` : 'README includes a five-minute developer quick start with install, demo and test commands.');
 }
 
 async function checkPackageScripts() {

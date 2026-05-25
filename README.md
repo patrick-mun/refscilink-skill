@@ -19,6 +19,57 @@ The module helps readers, reviewers and scientific collaborators verify the lite
 - short summary, detailed summary, key points, limitations and relevance for the project;
 - validation status with a user action button.
 
+## Quick Start in Under 5 Minutes
+
+Requirements:
+
+- Node.js 18 or newer;
+- no external service, API key or framework required for the local demo.
+
+From the repository root:
+
+```bash
+npm run demo
+```
+
+Open:
+
+```txt
+http://127.0.0.1:8000/index.html
+```
+
+The demo command assembles a temporary copy of `examples/basic-site/` with the RefSciLink module already available. Use the `Références` navigation link to open:
+
+```txt
+http://127.0.0.1:8000/data/reference_bibliographique/index_ref.html
+```
+
+Run the official local validation:
+
+```bash
+npm run test:basic-site
+```
+
+To install RefSciLink into another local static site:
+
+```bash
+npm run install:module -- --target /path/to/site --markdown bibliographie.md --html index.html
+```
+
+The installer copies `data/reference_bibliographique/`, creates `refscilink.config.json`, backs up the selected HTML entry point, and adds one localized `Références` navigation link when needed.
+
+To rebuild the official example references from Markdown:
+
+```bash
+npm run build:refs
+```
+
+For a root-level static preview instead of the assembled demo:
+
+```bash
+npm run serve
+```
+
 ## AI-Assisted Installation
 
 RefSciLink can be installed automatically by an AI coding assistant such as:
@@ -143,14 +194,13 @@ The example intentionally includes:
 ### Run the example locally
 
 ```bash
-cd examples/basic-site
-python3 -m http.server 8000
+npm run demo
 ```
 
 Open:
 
 ```txt
-http://localhost:8000
+http://127.0.0.1:8000/index.html
 ```
 
 ### Test the installation skill

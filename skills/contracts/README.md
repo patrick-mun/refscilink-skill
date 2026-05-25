@@ -51,6 +51,7 @@ If no dedicated contract exists for a file yet, use the relevant section in `ski
 | SH-027 | Responsive design strategy | `responsive_design_strategy.md` |
 | SH-028 | External links security strategy | `external_links_security_strategy.md` |
 | SH-029 | Module versioning strategy | `module_versioning_strategy.md` |
+| SH-030 | Post-install validation checklist | `post_install_validation_checklist.md` |
 
 ---
 
@@ -86,6 +87,7 @@ If no dedicated contract exists for a file yet, use the relevant section in `ski
 | Mobile, tablet and narrow viewport responsive behaviour | `responsive_design_strategy.md` |
 | External links, safe URL schemes and `noopener noreferrer` rules | `external_links_security_strategy.md` |
 | Generated module version metadata, schema versions and migration compatibility | `module_versioning_strategy.md` |
+| Post-install validation checklist and final machine-readable review | `post_install_validation_checklist.md` |
 | Generated module structure or backup behaviour | `generated_files_contract.md` |
 
 ---

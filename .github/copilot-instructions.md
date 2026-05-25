@@ -271,3 +271,11 @@ skills/contracts/module_versioning_strategy.md
 ```
 
 Generated JSON metadata must distinguish `module_version` from `schema_version`, tolerate legacy `version` fields and preserve scientific validation content during migration.
+
+Post-install validation checklist is defined in:
+
+```text
+skills/contracts/post_install_validation_checklist.md
+```
+
+Final reports must distinguish `pass`, `fail`, `warning` and `manual_review_required`, and keep scientific uncertainty visible.

@@ -182,6 +182,12 @@ Recommended baseline codes:
 | `REFSCILINK_LEGACY_VERSION_FIELD_DETECTED` | `info` | Legacy `version` field was detected and tolerated. |
 | `REFSCILINK_VERSION_MIGRATION_RECOMMENDED` | `review_required` | Version metadata can be migrated safely with user approval. |
 | `REFSCILINK_VERSION_METADATA_MISSING` | `warning` | Required version metadata is missing. |
+| `REFSCILINK_VALIDATION_CHECKLIST_STARTED` | `info` | Post-install validation checklist started. |
+| `REFSCILINK_VALIDATION_CHECKLIST_PASS` | `success` | Checklist completed without failures, warnings or manual-review items. |
+| `REFSCILINK_VALIDATION_CHECKLIST_WARNING` | `warning` | Checklist completed with warnings. |
+| `REFSCILINK_VALIDATION_CHECKLIST_FAILED` | `error` | Checklist found at least one failure. |
+| `REFSCILINK_VALIDATION_CHECKLIST_REVIEW_REQUIRED` | `review_required` | Checklist found at least one human-review item. |
+| `REFSCILINK_VALIDATION_CHECKLIST_OFFICIAL_TESTS_MISSING` | `review_required` | Official tests were not run or not reported. |
 | `REFSCILINK_ROLLBACK_STARTED` | `info` | Rollback planning or execution started. |
 | `REFSCILINK_ROLLBACK_BACKUP_SELECTED` | `info` | A backup was selected. |
 | `REFSCILINK_ROLLBACK_PLAN_CREATED` | `info` | A rollback plan was created. |

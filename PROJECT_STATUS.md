@@ -167,22 +167,23 @@ Completed and validated:
 | SH-027 | Done | Responsive design strategy defined for mobile and tablet usability. |
 | SH-028 | Done | External links security strategy defined for safe scientific source navigation. |
 | SH-029 | Done | Module versioning strategy defined for generated module and schema metadata. |
+| SH-030 | Done | Post-install validation checklist defined for machine-readable final review. |
 
-Next recommended hardening task:
+Next recommended phase:
 
 ```text
-SH-030 — Validation checklist
+Deep construction analysis before full module testing
 ```
 
 ---
 
 ## Remaining hardening tasks
 
-The next hardening item is:
+All SH-001 to SH-030 hardening items are complete.
 
 | ID | Topic | Status |
 |---|---|---|
-| SH-030 | Validation checklist | Pending |
+| SH-001..SH-030 | Skill hardening checklist | Complete |
 
 Do not modify completed SH items unless a bug or inconsistency is discovered.
 
@@ -295,13 +296,13 @@ For each new correction:
 Recommended next task:
 
 ```text
-SH-030 — Validation checklist
+Deep construction analysis before full module testing
 ```
 
 Expected focus:
 
-- define a machine-readable post-install validation checklist;
-- align checklist checks with official tests and success criteria;
-- identify required files, JSON metadata and static UI checks;
-- define pass, warning, fail and review-required outcomes;
-- prepare final pre-test hardening closure before full module testing.
+- verify consistency across all contracts and AI instructions;
+- inspect `/create_module_ref` workflow against generated files;
+- inspect JSON contracts, schemas and example output;
+- inspect Node extraction tool and official basic-site fixture;
+- identify contradictions, missing files or implementation gaps before full module testing.

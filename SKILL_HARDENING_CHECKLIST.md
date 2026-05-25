@@ -52,7 +52,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 | SH-027 | Responsive design | Define minimum responsive behaviour | Mobile compatibility guaranteed | Medium | Oui |
 | SH-028 | External links security | Define `noopener`, `noreferrer`, target rules | Safer external navigation | Medium | Oui |
 | SH-029 | Module versioning | Define generated module version metadata | Easier maintenance and upgrades | Medium | Oui |
-| SH-030 | Validation checklist | Define machine-readable post-install checklist | Automated verification possible | High | Non |
+| SH-030 | Validation checklist | Define machine-readable post-install checklist | Automated verification possible | High | Oui |
 
 ---
 
@@ -758,9 +758,28 @@ Version metadata migration must never be used as a reason to renumber references
 
 ---
 
+### SH-030 — Post-Install Validation Checklist
+
+Implemented in `skills/contracts/post_install_validation_checklist.md` and used as the normative checklist before declaring installation, extraction or generated module updates complete.
+
+The post-install validation checklist defines:
+
+- a machine-readable validation report shape with `status`, `checklist_version`, `module_version`, `checks` and `summary`;
+- allowed statuses: `pass`, `fail`, `warning` and `manual_review_required`;
+- required categories for files, JSON, metadata, references, statuses, safety, static hosting, UI, accessibility, responsive behaviour, external links, diagnostics, official tests and manual review;
+- stable check IDs such as `files.required`, `json.parse.references`, `metadata.module_version`, `references.no_auto_validation`, `external_links.noopener_noreferrer` and `official_tests.basic_site`;
+- status mapping for failures, warnings and manual-review situations;
+- manual-review requirements for scientific uncertainty, AI summaries, access classification, accessibility, responsive behaviour and version migration;
+- stable diagnostics including `REFSCILINK_VALIDATION_CHECKLIST_STARTED`, `REFSCILINK_VALIDATION_CHECKLIST_PASS`, `REFSCILINK_VALIDATION_CHECKLIST_WARNING`, `REFSCILINK_VALIDATION_CHECKLIST_FAILED`, `REFSCILINK_VALIDATION_CHECKLIST_REVIEW_REQUIRED` and `REFSCILINK_VALIDATION_CHECKLIST_OFFICIAL_TESTS_MISSING`;
+- final report requirements before deep construction analysis or full module testing.
+
+The checklist separates technical validation from scientific approval: a module can be technically usable while still requiring human scientific review.
+
+---
+
 ## Contract externalization note
 
-The normative contracts for completed hardening items SH-001 to SH-029 are now externalized in:
+The normative contracts for completed hardening items SH-001 to SH-030 are now externalized in:
 
 ```text
 skills/contracts/
@@ -807,15 +826,16 @@ Current externalized contracts:
 | SH-027 | `skills/contracts/responsive_design_strategy.md` |
 | SH-028 | `skills/contracts/external_links_security_strategy.md` |
 | SH-029 | `skills/contracts/module_versioning_strategy.md` |
+| SH-030 | `skills/contracts/post_install_validation_checklist.md` |
 
 ---
 
-## Recommended implementation order
+## Recommended next phase
 
-### Phase 2 — Reliability and execution modes
+### Deep construction analysis
 
-- SH-030
+All SH-001 to SH-030 hardening contracts are complete.
 
 Goal:
 
-Define machine-readable post-install validation checklist.
+Perform a deep construction analysis of the module before full module testing.

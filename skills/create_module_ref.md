@@ -507,6 +507,14 @@ skills/contracts/success_criteria_strategy.md
 
 The assistant must read that strategy before declaring an installation, extraction or generated module update successful.
 
+Post-install validation checklist rules are externalized in:
+
+```text
+skills/contracts/post_install_validation_checklist.md
+```
+
+The assistant must read that checklist before declaring a RefSciLink installation, extraction or generated module update complete.
+
 Offline mode rules are externalized in:
 
 ```text

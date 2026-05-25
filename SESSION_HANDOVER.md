@@ -47,13 +47,14 @@ SH-026
 SH-027
 SH-028
 SH-029
+SH-030
 ```
 
 Current task:
 
 ```text
-SH-030
-Validation checklist
+Deep construction analysis
+Before full module testing
 ```
 
 ---
@@ -154,13 +155,13 @@ Do not confuse roadmap upgrades with hardening tasks.
 
 ## Recommended next action
 
-Implement:
+Next action:
 
 ```text
-SH-030 — Validation checklist
+Deep construction analysis before full module testing
 ```
 
-Then continue validation hardening:
+Then continue with:
 
 ```text
 Full module testing after SH-030
@@ -186,11 +187,11 @@ Repository:
 refscilink-skill
 
 Current state:
-SH-000 to SH-029 completed and validated.
+SH-000 to SH-030 completed and validated.
 Generated-file contracts are externalized in skills/contracts/.
 
 Current task:
-SH-030 Validation checklist.
+Deep construction analysis before full module testing.
 
 Do not modify completed SH items without justification.
 Keep technical specifications in English.

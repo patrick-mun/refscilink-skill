@@ -394,6 +394,23 @@ The normative module versioning strategy is defined in:
 skills/contracts/module_versioning_strategy.md
 ```
 
+## Post-Install Validation Checklist
+
+RefSciLink completion reports must separate technical success from scientific and visual review.
+
+Minimum expectations:
+
+- validation reports use `pass`, `fail`, `warning` and `manual_review_required`;
+- required files, JSON structure, metadata, statuses, static UI, accessibility, responsive behaviour and external links are checked;
+- official tests are reported explicitly;
+- AI summaries, uncertain metadata and visual/accessibility limits remain visible as manual-review items.
+
+The normative post-install checklist is defined in:
+
+```text
+skills/contracts/post_install_validation_checklist.md
+```
+
 The official example must be used whenever a major change is made to:
 
 - bibliography extraction;
@@ -435,6 +452,7 @@ The current version includes:
 - rollback recovery contract for safe restore planning after failed operations;
 - machine-verifiable success criteria for validating generated modules;
 - explicit module and schema version metadata for generated JSON;
+- post-install validation checklist for final review;
 - DOI detection;
 - metadata lookup through Crossref when a DOI is present;
 - JSON schema for AI-enriched summaries;

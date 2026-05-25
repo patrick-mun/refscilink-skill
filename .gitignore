@@ -19,4 +19,4 @@ backup/
 # The canonical copy lives in data/reference_bibliographique/json/references.json
 # and is committed intentionally when it represents a stable fixture state.
 # Uncomment the line below only if you want to exclude it entirely:
-# data/reference_bibliographique/json/references.json
+data/reference_bibliographique/json/references.json

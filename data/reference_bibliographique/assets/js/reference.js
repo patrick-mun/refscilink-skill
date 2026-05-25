@@ -60,6 +60,7 @@ const REFSCILINK_I18N = {
     projectRelevance: "Intérêt pour le projet",
     limitations: "Limites",
     pending: "À compléter.",
+    themeUnclassified: "Non classé",
     pageTitle: "Références bibliographiques",
     filtersLabel: "Filtres bibliographiques",
     actionsLabel: "Actions sur la référence",
@@ -108,6 +109,7 @@ const REFSCILINK_I18N = {
     projectRelevance: "Project relevance",
     limitations: "Limitations",
     pending: "To be completed.",
+    themeUnclassified: "Unclassified",
     pageTitle: "Bibliographic references",
     filtersLabel: "Bibliography filters",
     actionsLabel: "Reference actions",
@@ -132,6 +134,32 @@ async function loadReferences() {
   }
   const data = await response.json();
   return Array.isArray(data) ? data : data.references || [];
+}
+
+// Maps internal JSON values to i18n keys for badge display.
+const REFSCILINK_BADGE_I18N = {
+  validation: {
+    pending_validation: "statusPending",
+    validated:          "statusValidated",
+    needs_revision:     "statusRevision",
+    rejected:           "statusRejected"
+  },
+  access: {
+    open_access:             "accessOpen",
+    abstract_only:           "accessAbstract",
+    accepted_author_version: "accessAuthor",
+    preprint:                "accessPreprint",
+    paywalled:               "accessPaywall",
+    unknown:                 "accessUnknown"
+  },
+  theme: {
+    unclassified: "themeUnclassified"
+  }
+};
+
+function translateBadgeValue(type, value) {
+  const key = REFSCILINK_BADGE_I18N[type]?.[value];
+  return key ? (refscilinkState.labels[key] || value) : value;
 }
 
 function applyI18n() {
@@ -192,12 +220,16 @@ function renderReferenceCard(reference) {
   card.className = "refscilink-reference-card";
   card.dataset.refscilinkReferenceCard = reference.id;
 
+  const validationStatus = getValidationStatus(reference);
+  const accessType = reference.access_type || "unknown";
+  const theme = reference.theme || "unclassified";
+
   const badges = document.createElement("div");
   badges.append(
     createBadge(`#${reference.number}`, "refscilink-badge"),
-    createBadge(reference.theme || "unclassified", "refscilink-badge refscilink-badge-theme"),
-    createBadge(reference.access_type || "unknown", `refscilink-badge refscilink-badge-access refscilink-access-${normalizeClass(reference.access_type)}`),
-    createBadge(getValidationStatus(reference), `refscilink-badge refscilink-badge-validation refscilink-status-${normalizeClass(getValidationStatus(reference))}`)
+    createBadge(translateBadgeValue("theme", theme), "refscilink-badge refscilink-badge-theme"),
+    createBadge(translateBadgeValue("access", accessType), `refscilink-badge refscilink-badge-access refscilink-access-${normalizeClass(accessType)}`),
+    createBadge(translateBadgeValue("validation", validationStatus), `refscilink-badge refscilink-badge-validation refscilink-status-${normalizeClass(validationStatus)}`)
   );
 
   const title = document.createElement("h2");

@@ -4,10 +4,11 @@
   "description": "Vanilla HTML/CSS/JS module for extracting, enriching and displaying scientific bibliographic references.",
   "type": "module",
   "scripts": {
-    "build:refs": "node data/reference_bibliographique/tools/build_references.mjs",
+    "build:refs": "node data/reference_bibliographique/tools/build_references.mjs examples/basic-site/bibliographie.md",
+    "install:module": "node tools/install_refscilink.mjs",
     "test:basic-site": "node tests/refscilink/validate_basic_site.mjs",
-    "serve": "npx serve . --config serve.json --listen 8000",
-    "demo": "npx serve . --config serve.json --listen 8000 --open"
+    "serve": "node tools/serve_static.mjs . --port 8000",
+    "demo": "node tools/serve_static.mjs --demo-basic-site --port 8000"
   },
   "keywords": ["bibliography", "scientific-references", "vanilla-js", "open-access", "markdown", "json"],
   "license": "MIT",

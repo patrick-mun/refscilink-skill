@@ -59,12 +59,12 @@ Continue roadmap-driven module improvements after examples/basic-site validation
 Last completed test sequence:
 
 ```text
-- npm run test:basic-site passed with 51 checks.
+- npm run test:basic-site passed with 61 checks.
 - Temporary static-site HTTP checks passed for main pages, CSS, JS and JSON.
 - Fresh-install simulation extracted 10 references from examples/basic-site/bibliographie.md.
 - Fresh generated references.json includes module_version 0.2.0-dev, schema_version 1.0.0 and sequential ref001..ref010 IDs.
 - Browser visual inspection was completed: home navigation contains Références, the list page renders 10 French references, card #1 links to reference.html?id=ref001, and the ref001 detail page renders French metadata/actions.
-- Roadmap items 1, 2 and 3 are validated.
+- Roadmap items 1, 2, 3 and 4 are validated.
 ```
 
 ---
@@ -200,12 +200,13 @@ Current state:
 SH-000 to SH-030 completed and validated.
 Generated-file contracts are externalized in skills/contracts/.
 First examples/basic-site test passed:
-- npm run test:basic-site => pass, 51 checks.
+- npm run test:basic-site => pass, 61 checks.
 - Static HTTP checks => all tested pages/assets/JSON returned 200.
 - Fresh install simulation => 10 references extracted with ref001..ref010.
 - Browser review => home Références link, list page and ref001 detail page validated.
 - refscilink.config.json => official source Markdown, HTML entry point, output paths, display, theme and language validated.
 - tools/install_refscilink.mjs => module creation, backup, navigation insertion, config writing and idempotent rerun validated on a temporary site.
+- package.json npm scripts => build:refs, install:module, serve and demo validated with local-only tooling.
 
 Current task:
 Continue roadmap-driven module improvements.
@@ -223,5 +224,5 @@ Recent deep-analysis corrections:
 - module_version metadata aligned in generated JSON and extraction output;
 - external links are filtered to safe http/https URLs before rendering;
 - create_module_ref contract table includes all SH-001 to SH-030 contracts;
-- official tests include config completeness, local installer behaviour, navigation integration, French UI, stable fresh-install IDs, detail-link ID usage, versioning and external-link safety checks.
+- official tests include config completeness, local installer behaviour, npm script execution, local static server checks, navigation integration, French UI, stable fresh-install IDs, detail-link ID usage, versioning and external-link safety checks.
 ```

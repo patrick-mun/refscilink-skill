@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url';
 const repoRoot = path.resolve(fileURLToPath(new URL('../..', import.meta.url)));
 const buildTool = path.join(repoRoot, 'data/reference_bibliographique/tools/build_references.mjs');
 const installTool = path.join(repoRoot, 'tools/install_refscilink.mjs');
+const serveTool = path.join(repoRoot, 'tools/serve_static.mjs');
 const exampleMarkdown = path.join(repoRoot, 'examples/basic-site/bibliographie.md');
 const exampleIndex = path.join(repoRoot, 'examples/basic-site/index.html');
 const exampleStyle = path.join(repoRoot, 'examples/basic-site/style.css');
@@ -29,13 +30,17 @@ async function main() {
   await checkGeneratedHtmlLanguage();
   await checkGeneratedJsLocalization();
   await checkGeneratedJsDetailLinks();
+  await checkPackageScripts();
+  await checkNpmScriptExecution();
   await checkBuildToolSyntax();
   await checkInstallToolSyntax();
+  await checkServeToolSyntax();
   await checkRootReferencesStructure();
   await checkGeneratedMetadata();
   await checkExternalLinkSafety();
   await checkOfficialExtraction();
   await checkLocalInstaller();
+  await checkStaticServer();
   await checkDryRunNoMutation();
   printReport();
 }
@@ -68,6 +73,35 @@ async function checkGeneratedJsDetailLinks() {
   const usesStableIds = script.includes('reference.html?id=${encodeURIComponent(reference.id)}');
   const doesNotUseDisplayNumber = !script.includes('reference.html?id=${encodeURIComponent(reference.number)}');
   record('ui.index.detail_links_use_ids', usesStableIds && doesNotUseDisplayNumber ? 'pass' : 'fail', usesStableIds && doesNotUseDisplayNumber ? 'Detail links use stable reference IDs, not display numbers.' : 'Detail links must use stable reference IDs.');
+}
+
+async function checkPackageScripts() {
+  const pkg = JSON.parse(await fs.readFile(path.join(repoRoot, 'package.json'), 'utf8'));
+  const scripts = pkg.scripts || {};
+  const required = ['build:refs', 'install:module', 'serve', 'demo'];
+  record('npm.scripts.required', required.every(name => typeof scripts[name] === 'string' && scripts[name].length > 0) ? 'pass' : 'fail', 'package.json exposes build:refs, install:module, serve and demo scripts.');
+  record('npm.scripts.local_only', !Object.values(scripts).some(script => script.includes('npx serve')) ? 'pass' : 'fail', 'npm serve/demo scripts use local Node tooling instead of npx serve.');
+  record('npm.scripts.install_module', scripts['install:module']?.includes('tools/install_refscilink.mjs') ? 'pass' : 'fail', 'install:module calls the local installer.');
+}
+
+async function checkNpmScriptExecution() {
+  const buildResult = await run('npm', ['run', 'build:refs', '--', '--dry-run'], repoRoot);
+  record('npm.script.build_refs', buildResult.code === 0 && buildResult.stdout.includes('REFSCILINK_DRY_RUN_NO_WRITE') ? 'pass' : 'fail', buildResult.code === 0 ? 'npm run build:refs supports safe dry-run execution.' : buildResult.stderr || buildResult.stdout);
+
+  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'refscilink-npm-install-'));
+  const indexHtml = (await fs.readFile(exampleIndex, 'utf8'))
+    .replace(/\n\s*<a href="data\/reference_bibliographique\/index_ref\.html" data-refscilink-nav-link>Références<\/a>/, '');
+  await fs.writeFile(path.join(tempDir, 'index.html'), indexHtml, 'utf8');
+  await fs.copyFile(exampleStyle, path.join(tempDir, 'style.css'));
+  await fs.copyFile(exampleMarkdown, path.join(tempDir, 'bibliographie.md'));
+  const installResult = await run('npm', ['run', 'install:module', '--', '--target', tempDir, '--markdown', 'bibliographie.md', '--html', 'index.html'], repoRoot);
+  record('npm.script.install_module', installResult.code === 0 && existsSync(path.join(tempDir, 'data/reference_bibliographique/index_ref.html')) ? 'pass' : 'fail', installResult.code === 0 ? 'npm run install:module installs into a temporary site.' : installResult.stderr || installResult.stdout);
+
+  const serveResult = await run('npm', ['run', 'serve', '--', '--check'], repoRoot);
+  record('npm.script.serve', serveResult.code === 0 ? 'pass' : 'fail', serveResult.code === 0 ? 'npm run serve passes static server check mode.' : serveResult.stderr || serveResult.stdout);
+
+  const demoResult = await run('npm', ['run', 'demo', '--', '--check'], repoRoot);
+  record('npm.script.demo', demoResult.code === 0 ? 'pass' : 'fail', demoResult.code === 0 ? 'npm run demo prepares the assembled basic-site demo in check mode.' : demoResult.stderr || demoResult.stdout);
 }
 
 async function checkRequiredFiles() {
@@ -150,6 +184,11 @@ async function checkBuildToolSyntax() {
 async function checkInstallToolSyntax() {
   const result = await run('node', ['--check', installTool], repoRoot);
   record('tool.syntax.install_refscilink', result.code === 0 ? 'pass' : 'fail', result.code === 0 ? 'install_refscilink.mjs syntax is valid.' : result.stderr || result.stdout);
+}
+
+async function checkServeToolSyntax() {
+  const result = await run('node', ['--check', serveTool], repoRoot);
+  record('tool.syntax.serve_static', result.code === 0 ? 'pass' : 'fail', result.code === 0 ? 'serve_static.mjs syntax is valid.' : result.stderr || result.stdout);
 }
 
 async function checkRootReferencesStructure() {
@@ -252,6 +291,14 @@ async function checkLocalInstaller() {
   const rerunIndex = await fs.readFile(path.join(tempDir, 'index.html'), 'utf8');
   const rerunLinkCount = (rerunIndex.match(/data-refscilink-nav-link/g) || []).length;
   record('installer.idempotent.navigation', secondRun.code === 0 && rerunLinkCount === 1 ? 'pass' : 'fail', 'Installer rerun does not duplicate the References link.');
+}
+
+async function checkStaticServer() {
+  const serveCheck = await run('node', [serveTool, '.', '--check'], repoRoot);
+  record('serve.check.root', serveCheck.code === 0 ? 'pass' : 'fail', serveCheck.code === 0 ? 'Static server check succeeds for repository root.' : serveCheck.stderr || serveCheck.stdout);
+
+  const demoCheck = await run('node', [serveTool, '--demo-basic-site', '--check'], repoRoot);
+  record('serve.check.demo', demoCheck.code === 0 ? 'pass' : 'fail', demoCheck.code === 0 ? 'Static server check prepares the basic-site demo.' : demoCheck.stderr || demoCheck.stdout);
 }
 
 function validateReferencesPayload(payload, prefix) {

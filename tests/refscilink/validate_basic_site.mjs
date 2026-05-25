@@ -31,6 +31,7 @@ async function main() {
   await checkGeneratedHtmlLanguage();
   await checkGeneratedJsLocalization();
   await checkGeneratedJsDetailLinks();
+  await checkGeneratedJsThemeRuntime();
   await checkReadmeQuickStart();
   await checkPackageScripts();
   await checkNpmScriptExecution();
@@ -40,6 +41,7 @@ async function main() {
   await checkThemeToolSyntax();
   await checkRootReferencesStructure();
   await checkThemeDetection();
+  await checkThemeManualOverrides();
   await checkGeneratedMetadata();
   await checkExternalLinkSafety();
   await checkOfficialExtraction();
@@ -77,6 +79,19 @@ async function checkGeneratedJsDetailLinks() {
   const usesStableIds = script.includes('reference.html?id=${encodeURIComponent(reference.id)}');
   const doesNotUseDisplayNumber = !script.includes('reference.html?id=${encodeURIComponent(reference.number)}');
   record('ui.index.detail_links_use_ids', usesStableIds && doesNotUseDisplayNumber ? 'pass' : 'fail', usesStableIds && doesNotUseDisplayNumber ? 'Detail links use stable reference IDs, not display numbers.' : 'Detail links must use stable reference IDs.');
+}
+
+async function checkGeneratedJsThemeRuntime() {
+  const script = await fs.readFile(path.join(repoRoot, 'data/reference_bibliographique/assets/js/reference.js'), 'utf8');
+  const loadsTheme = script.includes('REFSCILINK_THEME_PATH = "./json/theme_refscilink.json"')
+    && script.includes('async function loadTheme()')
+    && script.includes('applyTheme(await loadTheme())');
+  record('theme.runtime.loads_json', loadsTheme ? 'pass' : 'fail', loadsTheme ? 'reference.js loads theme_refscilink.json before rendering.' : 'reference.js must load theme_refscilink.json at runtime.');
+
+  const appliesVariables = script.includes('page.style.setProperty(name, value)')
+    && script.includes('theme.manual_overrides?.css_variables')
+    && script.includes('isSafeRefSciLinkCssVariable');
+  record('theme.runtime.applies_css_variables', appliesVariables ? 'pass' : 'fail', appliesVariables ? 'reference.js applies safe RefSciLink CSS variables from editable JSON.' : 'reference.js must apply safe CSS variables from theme_refscilink.json.');
 }
 
 async function checkReadmeQuickStart() {
@@ -243,6 +258,39 @@ async function checkThemeDetection() {
 
   const result = await run('node', [themeTool, '--target', '.', '--html', 'examples/basic-site/index.html', '--output', 'data/reference_bibliographique/json/theme_refscilink.json', '--check'], repoRoot);
   record('theme.detect.check_mode', result.code === 0 && result.stdout.includes('REFSCILINK_THEME_DETECTED') ? 'pass' : 'fail', result.code === 0 ? 'Theme detector check mode detects host styles without writing.' : result.stderr || result.stdout);
+}
+
+async function checkThemeManualOverrides() {
+  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'refscilink-theme-override-'));
+  await fs.copyFile(exampleIndex, path.join(tempDir, 'index.html'));
+  await fs.copyFile(exampleStyle, path.join(tempDir, 'style.css'));
+  const themeDir = path.join(tempDir, 'data/reference_bibliographique/json');
+  await fs.mkdir(themeDir, { recursive: true });
+  const existingTheme = {
+    metadata: {
+      generated_by: 'RefSciLink Theme Detector',
+      module_version: '0.2.0-dev',
+      schema_version: '1.0.0',
+      generated_at: '2026-05-24T12:00:00.000Z',
+      updated_at: '2026-05-24T12:00:00.000Z'
+    },
+    manual_overrides: {
+      primary: '#123456',
+      radius: '6px',
+      css_variables: {
+        '--refscilink-color-primary': '#123456'
+      }
+    },
+    maintainer_note: 'preserve me'
+  };
+  await fs.writeFile(path.join(themeDir, 'theme_refscilink.json'), `${JSON.stringify(existingTheme, null, 2)}\n`, 'utf8');
+  const result = await run('node', [themeTool, '--target', tempDir, '--html', 'index.html', '--output', 'data/reference_bibliographique/json/theme_refscilink.json'], repoRoot);
+  record('theme.override.command', result.code === 0 ? 'pass' : 'fail', result.code === 0 ? 'Theme detector rewrites a theme file with backup support.' : result.stderr || result.stdout);
+  if (result.code !== 0) return;
+
+  const theme = JSON.parse(await fs.readFile(path.join(themeDir, 'theme_refscilink.json'), 'utf8'));
+  record('theme.override.manual_values', theme.primary === '#123456' && theme.radius === '6px' && theme.css_variables?.['--refscilink-color-primary'] === '#123456' ? 'pass' : 'fail', 'Manual overrides preserve editable theme values during regeneration.');
+  record('theme.override.unknown_keys', theme.maintainer_note === 'preserve me' ? 'pass' : 'fail', 'Unknown theme keys are preserved during regeneration.');
 }
 
 async function checkGeneratedMetadata() {

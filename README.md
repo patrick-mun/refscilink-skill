@@ -70,6 +70,28 @@ To regenerate the official example theme from the host HTML/CSS:
 npm run theme:detect
 ```
 
+To fine-tune the rendered theme without editing CSS, update:
+
+```txt
+data/reference_bibliographique/json/theme_refscilink.json
+```
+
+Durable manual overrides should go under:
+
+```json
+{
+  "manual_overrides": {
+    "primary": "#123456",
+    "radius": "6px",
+    "css_variables": {
+      "--refscilink-color-primary": "#123456"
+    }
+  }
+}
+```
+
+`reference.js` applies safe `--refscilink-*` variables from this JSON at runtime. `theme_detector.mjs` preserves `manual_overrides` and unknown maintainer keys when the theme is regenerated.
+
 For a root-level static preview instead of the assembled demo:
 
 ```bash
@@ -296,7 +318,7 @@ From the repository root, run:
 npm run test:basic-site
 ```
 
-This validates the canonical `examples/basic-site/bibliographie.md` fixture, checks required JSON files, verifies `refscilink.config.json` source/output/display/theme/language settings, verifies `build_references.mjs`, `install_refscilink.mjs`, `theme_detector.mjs` and `serve_static.mjs` syntax, tests the local installer and npm scripts on temporary sites, confirms generated version metadata, checks automatic theme detection from the host CSS, checks the localized navigation entry and French generated pages, verifies stable `ref001` to `ref010` fresh-install IDs and detail links, checks external-link safety guards, confirms the expected 10 extracted references, and ensures dry-run mode does not write generated files.
+This validates the canonical `examples/basic-site/bibliographie.md` fixture, checks required JSON files, verifies `refscilink.config.json` source/output/display/theme/language settings, verifies `build_references.mjs`, `install_refscilink.mjs`, `theme_detector.mjs` and `serve_static.mjs` syntax, tests the local installer and npm scripts on temporary sites, confirms generated version metadata, checks automatic theme detection from the host CSS, checks runtime application and preservation of editable theme overrides, checks the localized navigation entry and French generated pages, verifies stable `ref001` to `ref010` fresh-install IDs and detail links, checks external-link safety guards, confirms the expected 10 extracted references, and ensures dry-run mode does not write generated files.
 
 ### Validation goal
 

@@ -13,6 +13,7 @@
 // ==========================================================
 
 const REFSCILINK_REFERENCES_PATH = "./json/references.json";
+const REFSCILINK_THEME_PATH = "./json/theme_refscilink.json";
 const REFSCILINK_VALIDATION_STORAGE_KEY = "refscilink.validation.v1";
 const REFSCILINK_ALLOWED_EXTERNAL_PROTOCOLS = new Set(["http:", "https:"]);
 
@@ -154,6 +155,32 @@ async function loadReferences() {
   }
   const data = await response.json();
   return Array.isArray(data) ? data : data.references || [];
+}
+
+async function loadTheme() {
+  const response = await fetch(REFSCILINK_THEME_PATH);
+  if (!response.ok) return null;
+  return response.json();
+}
+
+function applyTheme(theme) {
+  const page = document.querySelector(".refscilink-page");
+  if (!page || !theme || theme.theme_mode === "disabled") return;
+  const cssVariables = {
+    ...(theme.css_variables || {}),
+    ...(theme.manual_overrides?.css_variables || {})
+  };
+  Object.entries(cssVariables).forEach(([name, value]) => {
+    if (!isSafeRefSciLinkCssVariable(name, value)) return;
+    page.style.setProperty(name, value);
+  });
+}
+
+function isSafeRefSciLinkCssVariable(name, value) {
+  return /^--refscilink-[a-z0-9-]+$/i.test(String(name || ""))
+    && typeof value === "string"
+    && value.length <= 240
+    && !/[{}<>;]/.test(value);
 }
 
 // Maps internal JSON values to i18n keys for badge display.
@@ -582,6 +609,7 @@ async function initRefSciLink() {
     setPageState("loading");
     refscilinkState.labels = getLocalizedLabels();
     applyI18n();
+    applyTheme(await loadTheme());
     refscilinkState.validation = loadValidationState();
     refscilinkState.references = await loadReferences();
     renderCurrentPage();

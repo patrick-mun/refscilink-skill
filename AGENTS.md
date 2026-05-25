@@ -251,6 +251,8 @@ data/reference_bibliographique/json/theme_refscilink.json
 
 It must remain dependency-free, local-only and safe for static projects.
 
+`reference.js` applies safe `--refscilink-*` variables from `theme_refscilink.json` at runtime. Durable manual visual edits should live in `manual_overrides`, which the detector must preserve during regeneration.
+
 ## Documentation checklist
 
 When behaviour changes, update:

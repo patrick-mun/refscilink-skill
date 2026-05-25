@@ -48,6 +48,7 @@
     "--refscilink-radius-card": "18px",
     "--refscilink-shadow-card": "0 16px 40px rgba(0, 65, 70, 0.12)"
   },
+  "manual_overrides": {},
   "detection": {
     "status": "detected",
     "confidence": "high",

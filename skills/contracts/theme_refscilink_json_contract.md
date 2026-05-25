@@ -57,6 +57,7 @@ The official generated root structure is mandatory:
   "spacing_density": "normal",
   "color_scheme": "light",
   "css_variables": {},
+  "manual_overrides": {},
   "detection": {},
   "notes": "Auto-detected values. Edit manually if needed."
 }
@@ -130,6 +131,7 @@ skills/contracts/module_versioning_strategy.md
 | `spacing_density` | string | Must use one of the allowed controlled values. |
 | `color_scheme` | string | Must use one of the allowed controlled values. |
 | `css_variables` | object | RefSciLink CSS variable mapping generated from root fields. |
+| `manual_overrides` | object | Optional human-maintained overrides preserved during regeneration. |
 | `detection` | object | Human-readable detection report and confidence data. |
 | `notes` | string | Short editable note for maintainers. |
 
@@ -328,6 +330,30 @@ Rules:
 - preserve unknown extra keys when safely updating an existing theme file;
 - create a backup before overwriting an existing `theme_refscilink.json`.
 
+### `manual_overrides` object
+
+Developers may edit `manual_overrides` when they want durable visual changes that survive automatic theme regeneration.
+
+Supported root override keys:
+
+```json
+"manual_overrides": {
+  "primary": "#123456",
+  "radius": "6px",
+  "css_variables": {
+    "--refscilink-color-primary": "#123456"
+  }
+}
+```
+
+Rules:
+
+- root override keys use the same names as the generated theme fields;
+- `css_variables` may override any `--refscilink-*` custom property used by `reference.css`;
+- overrides must be simple strings;
+- unsafe CSS variable names or values must be ignored by runtime code;
+- automatic regeneration must preserve `manual_overrides`.
+
 ---
 
 ## Minimal generated example
@@ -383,6 +409,7 @@ Rules:
     "--refscilink-radius-card": "18px",
     "--refscilink-shadow-card": "0 12px 30px rgba(0, 0, 0, 0.08)"
   },
+  "manual_overrides": {},
   "detection": {
     "status": "detected",
     "confidence": "medium",
@@ -407,6 +434,7 @@ A generated `theme_refscilink.json` is acceptable only if:
 - required color, typography, radius, shadow, spacing and color-scheme fields are present;
 - unknown values use empty strings or fallback values, not `null`;
 - `css_variables` maps values to `--refscilink-*` variables;
+- `manual_overrides` is preserved when present;
 - `detection` describes status, confidence and strategy;
 - the file is valid JSON with two-space indentation;
 - generated values preserve the host website visual identity when detectable;

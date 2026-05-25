@@ -731,7 +731,10 @@ When installing with Theme Mode `Auto + Override`, run the detector against the 
 - extract primary and secondary colors, background, surface, text, muted text, border, typography, radius, button radius and shadows when available;
 - write `data/reference_bibliographique/json/theme_refscilink.json`;
 - preserve host visual identity before RefSciLink fallback values;
+- preserve `manual_overrides` and unknown maintainer keys when regenerating an existing theme file;
 - report fallback mode when not enough style signals are found.
+
+Generated `reference.js` must load `json/theme_refscilink.json` at runtime and apply safe `--refscilink-*` CSS variables to `.refscilink-page`. This makes `theme_refscilink.json` the editable visual override layer, so developers can adjust the module without changing `assets/css/reference.css`.
 
 Repository validation exposes the detector through:
 

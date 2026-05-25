@@ -136,6 +136,8 @@ tools/theme_detector.mjs
 
 The detector reads the selected HTML entry point and linked CSS files, extracts host colors, typography, radius, button shape and shadows, and writes `data/reference_bibliographique/json/theme_refscilink.json`.
 
+`reference.js` applies safe `--refscilink-*` variables from `theme_refscilink.json` at runtime. Durable manual visual edits should live in `manual_overrides`, which the detector preserves during regeneration.
+
 If no theme is detected, use the sober scientific default:
 
 ```css

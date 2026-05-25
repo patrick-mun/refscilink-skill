@@ -78,6 +78,8 @@ export async function writeThemeFile({ targetRoot = repoRoot, outputRelative = d
   const normalizedOutput = normalizeRelativePath(outputRelative);
   const target = path.join(targetRoot, normalizedOutput);
   const diagnostics = [];
+  const existing = await readJsonIfValid(target);
+  const outputTheme = mergeExistingTheme(theme, existing);
   if (dryRun) {
     diagnostics.push(diagnostic('info', existsSync(target) ? 'REFSCILINK_DRY_RUN_WOULD_BACKUP' : 'REFSCILINK_DRY_RUN_WOULD_WRITE_JSON', 'Dry-run: theme JSON would be written.', { path: normalizedOutput }));
     return { diagnostics };
@@ -89,9 +91,102 @@ export async function writeThemeFile({ targetRoot = repoRoot, outputRelative = d
   }
 
   await fs.mkdir(path.dirname(target), { recursive: true });
-  await fs.writeFile(target, `${JSON.stringify(theme, null, 2)}\n`, 'utf8');
+  await fs.writeFile(target, `${JSON.stringify(outputTheme, null, 2)}\n`, 'utf8');
   diagnostics.push(diagnostic('success', 'REFSCILINK_THEME_WRITTEN', 'Theme JSON was written.', { path: normalizedOutput }));
   return { diagnostics };
+}
+
+async function readJsonIfValid(file) {
+  try {
+    return JSON.parse(await fs.readFile(file, 'utf8'));
+  } catch {
+    return null;
+  }
+}
+
+function mergeExistingTheme(theme, existing) {
+  if (!existing || typeof existing !== 'object' || Array.isArray(existing)) return theme;
+  const merged = {
+    ...preserveUnknownThemeKeys(existing),
+    ...theme,
+    metadata: {
+      ...(existing.metadata || {}),
+      ...theme.metadata,
+      generated_at: existing.metadata?.generated_at || theme.metadata.generated_at
+    },
+    manual_overrides: normalizeManualOverrides(existing.manual_overrides),
+    detection: {
+      ...theme.detection,
+      preserved_manual_overrides: Boolean(existing.manual_overrides && Object.keys(existing.manual_overrides).length)
+    }
+  };
+  applyManualOverrides(merged);
+  merged.css_variables = buildCssVariables(merged);
+  return merged;
+}
+
+function preserveUnknownThemeKeys(existing) {
+  const known = new Set([
+    'metadata',
+    'theme_mode',
+    'detected_from',
+    'primary',
+    'secondary',
+    'background',
+    'surface',
+    'text',
+    'muted',
+    'border',
+    'error',
+    'success',
+    'font_family',
+    'font_size_base',
+    'line_height',
+    'radius',
+    'button_radius',
+    'card_radius',
+    'shadow',
+    'spacing_density',
+    'color_scheme',
+    'css_variables',
+    'detection',
+    'notes',
+    'manual_overrides'
+  ]);
+  return Object.fromEntries(Object.entries(existing).filter(([key]) => !known.has(key)));
+}
+
+function normalizeManualOverrides(value) {
+  return value && typeof value === 'object' && !Array.isArray(value) ? value : {};
+}
+
+function applyManualOverrides(theme) {
+  const overrides = theme.manual_overrides || {};
+  const editableFields = [
+    'primary',
+    'secondary',
+    'background',
+    'surface',
+    'text',
+    'muted',
+    'border',
+    'error',
+    'success',
+    'font_family',
+    'font_size_base',
+    'line_height',
+    'radius',
+    'button_radius',
+    'card_radius',
+    'shadow',
+    'spacing_density',
+    'color_scheme'
+  ];
+  for (const field of editableFields) {
+    if (typeof overrides[field] === 'string' && sanitizeCssValue(overrides[field])) {
+      theme[field] = sanitizeCssValue(overrides[field]);
+    }
+  }
 }
 
 function buildTheme({ variables, selectors, html, detectedFrom, targetRoot, htmlEntry, outputRelative }) {
@@ -173,7 +268,13 @@ function buildTheme({ variables, selectors, html, detectedFrom, targetRoot, html
       : 'Fallback values. Edit manually or regenerate during installation.'
   };
 
-  theme.css_variables = {
+  theme.css_variables = buildCssVariables(theme);
+
+  return theme;
+}
+
+function buildCssVariables(theme) {
+  return {
     '--refscilink-color-primary': theme.primary,
     '--refscilink-color-secondary': theme.secondary,
     '--refscilink-color-background': theme.background,
@@ -189,8 +290,6 @@ function buildTheme({ variables, selectors, html, detectedFrom, targetRoot, html
     '--refscilink-radius-card': theme.card_radius,
     '--refscilink-shadow-card': theme.shadow
   };
-
-  return theme;
 }
 
 function extractStylesheetHrefs(html, htmlEntry) {

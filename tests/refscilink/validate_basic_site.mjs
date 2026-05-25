@@ -8,7 +8,10 @@ import { fileURLToPath } from 'node:url';
 
 const repoRoot = path.resolve(fileURLToPath(new URL('../..', import.meta.url)));
 const buildTool = path.join(repoRoot, 'data/reference_bibliographique/tools/build_references.mjs');
+const installTool = path.join(repoRoot, 'tools/install_refscilink.mjs');
 const exampleMarkdown = path.join(repoRoot, 'examples/basic-site/bibliographie.md');
+const exampleIndex = path.join(repoRoot, 'examples/basic-site/index.html');
+const exampleStyle = path.join(repoRoot, 'examples/basic-site/style.css');
 const expectedReferenceCount = 10;
 
 const validationStatuses = new Set(['pending_validation', 'validated', 'rejected', 'needs_revision']);
@@ -27,10 +30,12 @@ async function main() {
   await checkGeneratedJsLocalization();
   await checkGeneratedJsDetailLinks();
   await checkBuildToolSyntax();
+  await checkInstallToolSyntax();
   await checkRootReferencesStructure();
   await checkGeneratedMetadata();
   await checkExternalLinkSafety();
   await checkOfficialExtraction();
+  await checkLocalInstaller();
   await checkDryRunNoMutation();
   printReport();
 }
@@ -76,7 +81,8 @@ async function checkRequiredFiles() {
     'data/reference_bibliographique/tools/build_references.mjs',
     'data/reference_bibliographique/tools/prompt_recherche_ia.md',
     'data/reference_bibliographique/tools/schema_references.json',
-    'refscilink.config.json'
+    'refscilink.config.json',
+    'tools/install_refscilink.mjs'
   ];
   const missing = requiredFiles.filter(file => !existsSync(path.join(repoRoot, file)));
   record('files.required', missing.length ? 'fail' : 'pass', missing.length ? `Missing files: ${missing.join(', ')}` : 'All mandatory files exist.');
@@ -141,6 +147,11 @@ async function checkBuildToolSyntax() {
   record('tool.syntax.build_references', result.code === 0 ? 'pass' : 'fail', result.code === 0 ? 'build_references.mjs syntax is valid.' : result.stderr || result.stdout);
 }
 
+async function checkInstallToolSyntax() {
+  const result = await run('node', ['--check', installTool], repoRoot);
+  record('tool.syntax.install_refscilink', result.code === 0 ? 'pass' : 'fail', result.code === 0 ? 'install_refscilink.mjs syntax is valid.' : result.stderr || result.stdout);
+}
+
 async function checkRootReferencesStructure() {
   const payload = JSON.parse(await fs.readFile(path.join(repoRoot, 'data/reference_bibliographique/json/references.json'), 'utf8'));
   validateReferencesPayload(payload, 'json.references.root');
@@ -199,6 +210,48 @@ async function checkDryRunNoMutation() {
   for (const code of ['REFSCILINK_DRY_RUN_ENABLED', 'REFSCILINK_DRY_RUN_WOULD_WRITE_JSON', 'REFSCILINK_DRY_RUN_NO_WRITE']) {
     record(`example.dry_run.diagnostic.${code}`, result.stdout.includes(code) ? 'pass' : 'fail', `Dry-run console output includes ${code}.`);
   }
+}
+
+async function checkLocalInstaller() {
+  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'refscilink-basic-site-install-'));
+  const indexHtml = (await fs.readFile(exampleIndex, 'utf8'))
+    .replace(/\n\s*<a href="data\/reference_bibliographique\/index_ref\.html" data-refscilink-nav-link>Références<\/a>/, '');
+  await fs.writeFile(path.join(tempDir, 'index.html'), indexHtml, 'utf8');
+  await fs.copyFile(exampleStyle, path.join(tempDir, 'style.css'));
+  await fs.copyFile(exampleMarkdown, path.join(tempDir, 'bibliographie.md'));
+
+  const result = await run('node', [installTool, '--target', tempDir, '--markdown', 'bibliographie.md', '--html', 'index.html'], repoRoot);
+  record('installer.command', result.code === 0 ? 'pass' : 'fail', result.code === 0 ? 'Local installer command succeeded.' : result.stderr || result.stdout);
+  if (result.code !== 0) return;
+
+  const installedFiles = [
+    'data/reference_bibliographique/index_ref.html',
+    'data/reference_bibliographique/reference.html',
+    'data/reference_bibliographique/assets/css/reference.css',
+    'data/reference_bibliographique/assets/js/reference.js',
+    'data/reference_bibliographique/tools/build_references.mjs',
+    'refscilink.config.json'
+  ];
+  const missing = installedFiles.filter(file => !existsSync(path.join(tempDir, file)));
+  record('installer.files.created', missing.length ? 'fail' : 'pass', missing.length ? `Installer missing files: ${missing.join(', ')}` : 'Installer created mandatory module files.');
+
+  const installedIndex = await fs.readFile(path.join(tempDir, 'index.html'), 'utf8');
+  const linkCount = (installedIndex.match(/data-refscilink-nav-link/g) || []).length;
+  record('installer.navigation.added_once', linkCount === 1 && installedIndex.includes('Références') && installedIndex.includes('data/reference_bibliographique/index_ref.html') ? 'pass' : 'fail', 'Installer adds one localized References navigation link.');
+  record('installer.index.backup_created', existsSync(path.join(tempDir, 'backup/refscilink')) ? 'pass' : 'fail', 'Installer creates a backup before modifying index.html.');
+
+  const installedConfig = JSON.parse(await fs.readFile(path.join(tempDir, 'refscilink.config.json'), 'utf8'));
+  const configOk = installedConfig.source?.markdown_file === 'bibliographie.md'
+    && installedConfig.source?.html_entrypoint === 'index.html'
+    && installedConfig.output?.module_dir === 'data/reference_bibliographique'
+    && installedConfig.display?.navigation_target === 'data/reference_bibliographique/index_ref.html'
+    && installedConfig.language?.generated_ui === 'fr';
+  record('installer.config.created', configOk ? 'pass' : 'fail', 'Installer writes reusable project-relative config.');
+
+  const secondRun = await run('node', [installTool, '--target', tempDir, '--markdown', 'bibliographie.md', '--html', 'index.html'], repoRoot);
+  const rerunIndex = await fs.readFile(path.join(tempDir, 'index.html'), 'utf8');
+  const rerunLinkCount = (rerunIndex.match(/data-refscilink-nav-link/g) || []).length;
+  record('installer.idempotent.navigation', secondRun.code === 0 && rerunLinkCount === 1 ? 'pass' : 'fail', 'Installer rerun does not duplicate the References link.');
 }
 
 function validateReferencesPayload(payload, prefix) {

@@ -174,6 +174,16 @@ Display mode: Page dédiée + bouton Références
 Theme mode: Auto + Override
 ```
 
+### Local installer
+
+For local static sites, the repository also provides a Node.js installer:
+
+```bash
+node tools/install_refscilink.mjs --target examples/basic-site --markdown bibliographie.md --html index.html
+```
+
+The installer copies the RefSciLink module, writes `refscilink.config.json`, backs up the selected HTML entry point, and adds one localized `Références` navigation link when it is not already present. It is idempotent: rerunning it must not duplicate the navigation link.
+
 ### Expected generated structure
 
 The skill should create:
@@ -216,7 +226,7 @@ From the repository root, run:
 npm run test:basic-site
 ```
 
-This validates the canonical `examples/basic-site/bibliographie.md` fixture, checks required JSON files, verifies `refscilink.config.json` source/output/display/theme/language settings, verifies `build_references.mjs` syntax, confirms generated version metadata, checks the localized navigation entry and French generated pages, verifies stable `ref001` to `ref010` fresh-install IDs and detail links, checks external-link safety guards, confirms the expected 10 extracted references, and ensures dry-run mode does not write generated files.
+This validates the canonical `examples/basic-site/bibliographie.md` fixture, checks required JSON files, verifies `refscilink.config.json` source/output/display/theme/language settings, verifies `build_references.mjs` and `install_refscilink.mjs` syntax, tests the local installer on a temporary site, confirms generated version metadata, checks the localized navigation entry and French generated pages, verifies stable `ref001` to `ref010` fresh-install IDs and detail links, checks external-link safety guards, confirms the expected 10 extracted references, and ensures dry-run mode does not write generated files.
 
 ### Validation goal
 

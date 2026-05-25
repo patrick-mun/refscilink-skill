@@ -558,7 +558,9 @@ The official test workflow defines:
 - required generated file existence checks;
 - JSON parsing checks for `references.json`, `theme_refscilink.json`, `schema_references.json` and `refscilink.config.json`;
 - local syntax validation for `build_references.mjs` using `node --check`;
+- generated metadata checks for `module_version`, `schema_version` and timestamps;
 - structural validation for reference IDs, numbering, statuses and `metadata.reference_count`;
+- generated JavaScript external-link checks for allowed URL protocols and `noopener noreferrer`;
 - expected official extraction count of 10 references;
 - required extraction diagnostic `REFSCILINK_EXTRACT_OK`;
 - dry-run no-mutation checks for generated JSON and backup files;

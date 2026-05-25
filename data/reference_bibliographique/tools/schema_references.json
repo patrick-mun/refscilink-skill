@@ -11,9 +11,10 @@
       "type": "object",
       "required": [
         "generated_by",
-        "version",
+        "module_version",
         "schema_version",
         "generated_at",
+        "updated_at",
         "language",
         "source_markdown",
         "source_markdown_sha256",
@@ -22,9 +23,11 @@
       ],
       "properties": {
         "generated_by": { "type": "string" },
+        "module_version": { "type": "string" },
         "version": { "type": "string" },
         "schema_version": { "type": "string" },
         "generated_at": { "type": "string" },
+        "updated_at": { "type": "string" },
         "language": { "type": "string" },
         "source_markdown": { "type": "string" },
         "source_markdown_sha256": { "type": "string" },

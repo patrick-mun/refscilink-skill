@@ -74,16 +74,19 @@ The official test must verify:
 3. `build_references.mjs` passes `node --check`.
 4. Root `references.json` has `metadata` and a `references` array.
 5. `metadata.reference_count` matches the number of references.
-6. Reference IDs are unique and follow the `refNNN` pattern.
-7. Reference numbers are unique positive integers.
-8. Reference statuses use controlled values from the relevant contracts.
-9. The official fixture extraction succeeds from a clean temporary directory.
-10. The official fixture extraction produces exactly 10 references.
-11. The extraction output includes `REFSCILINK_EXTRACT_OK`.
-12. Dry-run execution succeeds.
-13. Dry-run execution does not write `references.json`.
-14. Dry-run execution does not create backup files.
-15. Dry-run output includes `REFSCILINK_DRY_RUN_ENABLED`, `REFSCILINK_DRY_RUN_WOULD_WRITE_JSON` and `REFSCILINK_DRY_RUN_NO_WRITE`.
+6. Generated JSON metadata includes `module_version`, `schema_version` and timestamps.
+7. Reference IDs are unique and follow the `refNNN` pattern.
+8. Reference numbers are unique positive integers.
+9. Reference statuses use controlled values from the relevant contracts.
+10. `reference.js` validates external hrefs against allowed protocols.
+11. External new-tab links use `rel="noopener noreferrer"`.
+12. The official fixture extraction succeeds from a clean temporary directory.
+13. The official fixture extraction produces exactly 10 references.
+14. The extraction output includes `REFSCILINK_EXTRACT_OK`.
+15. Dry-run execution succeeds.
+16. Dry-run execution does not write `references.json`.
+17. Dry-run execution does not create backup files.
+18. Dry-run output includes `REFSCILINK_DRY_RUN_ENABLED`, `REFSCILINK_DRY_RUN_WOULD_WRITE_JSON` and `REFSCILINK_DRY_RUN_NO_WRITE`.
 
 ---
 

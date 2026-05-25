@@ -306,3 +306,10 @@ Expected focus:
 - inspect JSON contracts, schemas and example output;
 - inspect Node extraction tool and official basic-site fixture;
 - identify contradictions, missing files or implementation gaps before full module testing.
+
+Latest deep-analysis correction sequence:
+
+- generated metadata now uses `module_version` with `schema_version` and timestamps;
+- generated external links are filtered through safe `http:` and `https:` URL checks;
+- `/create_module_ref` lists all SH-001 to SH-030 normative contracts in its contract table;
+- official tests now catch versioning and external-link safety regressions.

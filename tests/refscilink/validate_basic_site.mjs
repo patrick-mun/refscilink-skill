@@ -23,6 +23,8 @@ async function main() {
   await checkJsonFiles();
   await checkBuildToolSyntax();
   await checkRootReferencesStructure();
+  await checkGeneratedMetadata();
+  await checkExternalLinkSafety();
   await checkOfficialExtraction();
   await checkDryRunNoMutation();
   printReport();
@@ -72,6 +74,32 @@ async function checkRootReferencesStructure() {
   validateReferencesPayload(payload, 'json.references.root');
 }
 
+async function checkGeneratedMetadata() {
+  const metadataFiles = [
+    ['data/reference_bibliographique/json/references.json', 'generated_at'],
+    ['data/reference_bibliographique/json/theme_refscilink.json', 'generated_at'],
+    ['refscilink.config.json', 'created_at']
+  ];
+  for (const [file, creationTimestamp] of metadataFiles) {
+    const payload = JSON.parse(await fs.readFile(path.join(repoRoot, file), 'utf8'));
+    const metadata = payload.metadata || {};
+    const hasModuleVersion = typeof metadata.module_version === 'string' && metadata.module_version.length > 0;
+    const hasSchemaVersion = typeof metadata.schema_version === 'string' && metadata.schema_version.length > 0;
+    const hasCreationTimestamp = typeof metadata[creationTimestamp] === 'string' && metadata[creationTimestamp].length > 0;
+    const hasUpdatedAt = file.endsWith('references.json') || file.endsWith('theme_refscilink.json')
+      ? typeof metadata.updated_at === 'string' && metadata.updated_at.length > 0
+      : typeof metadata.updated_at === 'string' && metadata.updated_at.length > 0;
+    record(`metadata.versioning.${file}`, hasModuleVersion && hasSchemaVersion && hasCreationTimestamp && hasUpdatedAt ? 'pass' : 'fail', `${file} includes module_version, schema_version and timestamps.`);
+  }
+}
+
+async function checkExternalLinkSafety() {
+  const script = await fs.readFile(path.join(repoRoot, 'data/reference_bibliographique/assets/js/reference.js'), 'utf8');
+  record('external_links.allowed_protocols', script.includes('REFSCILINK_ALLOWED_EXTERNAL_PROTOCOLS') && script.includes('"http:"') && script.includes('"https:"') ? 'pass' : 'fail', 'reference.js defines allowed external URL protocols.');
+  record('external_links.url_parser', script.includes('new URL(') && script.includes('getSafeExternalHref') ? 'pass' : 'fail', 'reference.js validates external hrefs before rendering.');
+  record('external_links.noopener_noreferrer', script.includes('target = "_blank"') && script.includes('rel = "noopener noreferrer"') ? 'pass' : 'fail', 'External new-tab links include noopener noreferrer.');
+}
+
 async function checkOfficialExtraction() {
   const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'refscilink-basic-site-'));
   await fs.copyFile(exampleMarkdown, path.join(tempDir, 'bibliographie.md'));
@@ -106,6 +134,8 @@ function validateReferencesPayload(payload, prefix) {
   record(`${prefix}.root`, payload.metadata && Array.isArray(payload.references) ? 'pass' : 'fail', 'references.json has metadata and references array.');
   if (!payload.metadata || !Array.isArray(payload.references)) return;
   record(`${prefix}.reference_count`, payload.metadata.reference_count === payload.references.length ? 'pass' : 'fail', 'metadata.reference_count matches references length.');
+  record(`${prefix}.metadata.module_version`, typeof payload.metadata.module_version === 'string' && payload.metadata.module_version.length > 0 ? 'pass' : 'fail', 'metadata.module_version is present.');
+  record(`${prefix}.metadata.schema_version`, typeof payload.metadata.schema_version === 'string' && payload.metadata.schema_version.length > 0 ? 'pass' : 'fail', 'metadata.schema_version is present.');
 
   const ids = new Set();
   const numbers = new Set();

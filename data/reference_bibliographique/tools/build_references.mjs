@@ -190,12 +190,14 @@ async function main() {
     diagnostics.push(createDiagnostic('success', 'REFSCILINK_DRY_RUN_NO_WRITE', 'Dry-run completed without writing files.'));
   }
 
+  const generatedAt = new Date().toISOString();
   const payload = {
     metadata: {
       generated_by: 'RefSciLink Skill',
-      version: '0.2.0-dev',
+      module_version: '0.2.0-dev',
       schema_version: '1.0.0',
-      generated_at: new Date().toISOString(),
+      generated_at: generatedAt,
+      updated_at: generatedAt,
       language: 'fr',
       source_markdown: filePath.trim(),
       source_markdown_sha256: crypto.createHash('sha256').update(markdown).digest('hex'),

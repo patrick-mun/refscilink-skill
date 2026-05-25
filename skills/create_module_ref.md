@@ -227,6 +227,17 @@ Current normative contracts:
 | Dry-run simulation without file writes | `skills/contracts/dry_run_mode_strategy.md` |
 | Rollback planning and safe restore behaviour | `skills/contracts/rollback_mode_strategy.md` |
 | Machine-verifiable validation and success criteria | `skills/contracts/success_criteria_strategy.md` |
+| Official reproducible tests using `examples/basic-site` | `skills/contracts/official_tests_strategy.md` |
+| Offline execution without internet access | `skills/contracts/offline_mode_strategy.md` |
+| Network-available execution without scientific enrichment APIs | `skills/contracts/no_external_api_mode_strategy.md` |
+| Deferred metadata enrichment after installation or extraction | `skills/contracts/deferred_enrichment_strategy.md` |
+| User file protection, overwrite prevention and conflict handling | `skills/contracts/user_file_protection_strategy.md` |
+| Static hosting and GitHub Pages compatibility | `skills/contracts/github_pages_compatibility_strategy.md` |
+| Semantic HTML, ARIA, keyboard and focus accessibility | `skills/contracts/accessibility_strategy.md` |
+| Mobile, tablet and narrow viewport responsive behaviour | `skills/contracts/responsive_design_strategy.md` |
+| External links, safe URL schemes and `noopener noreferrer` rules | `skills/contracts/external_links_security_strategy.md` |
+| Generated module version metadata, schema versions and migration compatibility | `skills/contracts/module_versioning_strategy.md` |
+| Post-install validation checklist and final machine-readable review | `skills/contracts/post_install_validation_checklist.md` |
 
 If a required contract file is missing, continue using the corresponding section in this main skill file and report that the dedicated contract has not yet been created.
 

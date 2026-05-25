@@ -1,9 +1,10 @@
 {
   "metadata": {
     "generated_by": "RefSciLink Skill",
-    "version": "0.2.0-dev",
+    "module_version": "0.2.0-dev",
     "schema_version": "1.0.0",
     "generated_at": "2026-05-24T12:00:00+04:00",
+    "updated_at": "2026-05-24T12:00:00+04:00",
     "language": "fr",
     "source_markdown": "bibliographie.md",
     "source_markdown_sha256": "",

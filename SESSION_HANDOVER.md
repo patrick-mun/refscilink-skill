@@ -198,3 +198,12 @@ Keep technical specifications in English.
 Generated UI must follow the host language.
 Host visual identity has priority.
 ```
+
+Recent deep-analysis corrections:
+
+```text
+- module_version metadata aligned in generated JSON and extraction output;
+- external links are filtered to safe http/https URLs before rendering;
+- create_module_ref contract table includes all SH-001 to SH-030 contracts;
+- official tests include versioning and external-link safety checks.
+```

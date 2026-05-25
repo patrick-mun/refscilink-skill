@@ -14,6 +14,7 @@
 
 const REFSCILINK_REFERENCES_PATH = "./json/references.json";
 const REFSCILINK_VALIDATION_STORAGE_KEY = "refscilink.validation.v1";
+const REFSCILINK_ALLOWED_EXTERNAL_PROTOCOLS = new Set(["http:", "https:"]);
 
 const REFSCILINK_I18N = {
   fr: {
@@ -265,9 +266,16 @@ function bindDetailEvents(reference) {
   document.querySelector("[data-refscilink-copy-reference]")?.addEventListener("click", () => copyReferenceToClipboard(reference));
   document.querySelector("[data-refscilink-validate]")?.addEventListener("click", () => validateReference(reference.id));
   const source = document.querySelector("[data-refscilink-source-link]");
-  const href = reference.url || reference.pdf_url || (reference.doi ? `https://doi.org/${reference.doi}` : "");
-  if (source && href) source.href = href;
-  if (source && !href) source.hidden = true;
+  const href = getSafeExternalHref(reference);
+  if (source && href) {
+    source.href = href;
+    source.target = "_blank";
+    source.rel = "noopener noreferrer";
+  }
+  if (source && !href) {
+    source.removeAttribute("href");
+    source.hidden = true;
+  }
 }
 
 function getReferenceIdFromUrl() {
@@ -354,7 +362,7 @@ function createInternalLink(href, label) {
 }
 
 function createSourceLink(reference) {
-  const href = reference.url || reference.pdf_url || (reference.doi ? `https://doi.org/${reference.doi}` : "");
+  const href = getSafeExternalHref(reference);
   const link = document.createElement("a");
   link.textContent = refscilinkState.labels.viewSource;
   if (href) {
@@ -365,6 +373,27 @@ function createSourceLink(reference) {
     link.hidden = true;
   }
   return link;
+}
+
+function getSafeExternalHref(reference) {
+  const candidates = [reference.url, reference.source_url, reference.pdf_url, getDoiHref(reference.doi)].filter(Boolean);
+  for (const href of candidates) {
+    try {
+      const parsed = new URL(href, window.location.href);
+      if (REFSCILINK_ALLOWED_EXTERNAL_PROTOCOLS.has(parsed.protocol)) return parsed.href;
+    } catch {
+      // Invalid URLs are ignored so unsafe source values cannot break rendering.
+    }
+  }
+  return "";
+}
+
+function getDoiHref(doi) {
+  const normalized = String(doi || "")
+    .trim()
+    .replace(/^doi\s*:?\s*/i, "")
+    .replace(/^https?:\/\/(?:dx\.)?doi\.org\//i, "");
+  return normalized ? `https://doi.org/${encodeURI(normalized)}` : "";
 }
 
 function createButton(label, handler) {

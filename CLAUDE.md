@@ -257,3 +257,11 @@ skills/contracts/responsive_design_strategy.md
 ```
 
 Generated UI must remain readable on mobile and avoid horizontal scrolling without modifying host global responsive rules.
+
+External links security is specified in:
+
+```text
+skills/contracts/external_links_security_strategy.md
+```
+
+External links must use safe URL schemes and `rel="noopener noreferrer"` when opened in a new tab.

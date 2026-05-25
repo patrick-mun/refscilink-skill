@@ -171,6 +171,11 @@ Recommended baseline codes:
 | `REFSCILINK_RESPONSIVE_TOUCH_TARGETS_OK` | `success` | Controls have mobile-friendly spacing. |
 | `REFSCILINK_RESPONSIVE_WARNING` | `warning` | A responsive layout concern requires review. |
 | `REFSCILINK_RESPONSIVE_REVIEW_REQUIRED` | `review_required` | Responsive behaviour needs manual viewport review. |
+| `REFSCILINK_EXTERNAL_LINK_SAFE` | `success` | External links use allowed protocols and safe attributes. |
+| `REFSCILINK_EXTERNAL_LINK_REL_OK` | `success` | `target="_blank"` links include `rel="noopener noreferrer"`. |
+| `REFSCILINK_EXTERNAL_LINK_BLOCKED_UNSAFE_URL` | `warning` | An unsafe or invalid external URL was blocked. |
+| `REFSCILINK_EXTERNAL_LINK_REVIEW_REQUIRED` | `review_required` | External link safety requires manual review. |
+| `REFSCILINK_EXTERNAL_LINK_INTERNAL_TARGET_SKIPPED` | `info` | Internal link was kept in the same tab. |
 | `REFSCILINK_ROLLBACK_STARTED` | `info` | Rollback planning or execution started. |
 | `REFSCILINK_ROLLBACK_BACKUP_SELECTED` | `info` | A backup was selected. |
 | `REFSCILINK_ROLLBACK_PLAN_CREATED` | `info` | A rollback plan was created. |

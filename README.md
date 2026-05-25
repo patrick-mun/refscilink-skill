@@ -358,6 +358,24 @@ The normative responsive strategy is defined in:
 skills/contracts/responsive_design_strategy.md
 ```
 
+## External Links Security
+
+RefSciLink must render external scientific links safely.
+
+Security rules:
+
+- external links opened in a new tab use `target="_blank"` with `rel="noopener noreferrer"`;
+- internal RefSciLink navigation stays in the same tab by default;
+- unsafe URL schemes such as `javascript:`, `data:`, `file:` and `vbscript:` are not used;
+- source and PDF links are hidden or skipped when no safe URL is available;
+- untrusted URLs are never injected through `innerHTML`.
+
+The normative external-link strategy is defined in:
+
+```text
+skills/contracts/external_links_security_strategy.md
+```
+
 The official example must be used whenever a major change is made to:
 
 - bibliography extraction;

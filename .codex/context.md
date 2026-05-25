@@ -312,3 +312,13 @@ skills/contracts/responsive_design_strategy.md
 ```
 
 Generated UI must remain usable down to narrow mobile screens with scoped CSS, wrapped controls and no expected horizontal scrolling.
+
+## External links security
+
+External links security is specified in:
+
+```text
+skills/contracts/external_links_security_strategy.md
+```
+
+External source, DOI, PDF and publisher links must use safe URL schemes and `noopener noreferrer` when opened in a new tab.

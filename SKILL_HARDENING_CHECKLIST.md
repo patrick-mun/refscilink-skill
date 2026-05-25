@@ -50,7 +50,7 @@ The objective is to eliminate ambiguity so that different AI agents (Codex, Clau
 | SH-025 | GitHub Pages compatibility | Define static hosting constraints | GitHub Pages support guaranteed | High | Oui |
 | SH-026 | Accessibility | Define minimum accessibility requirements | Accessible generated interface | Medium | Oui |
 | SH-027 | Responsive design | Define minimum responsive behaviour | Mobile compatibility guaranteed | Medium | Oui |
-| SH-028 | External links security | Define `noopener`, `noreferrer`, target rules | Safer external navigation | Medium | Non |
+| SH-028 | External links security | Define `noopener`, `noreferrer`, target rules | Safer external navigation | Medium | Oui |
 | SH-029 | Module versioning | Define generated module version metadata | Easier maintenance and upgrades | Medium | Non |
 | SH-030 | Validation checklist | Define machine-readable post-install checklist | Automated verification possible | High | Non |
 
@@ -720,9 +720,30 @@ Responsive behaviour must adapt the RefSciLink module without taking control of 
 
 ---
 
+### SH-028 — External Links Security Strategy
+
+Implemented in `skills/contracts/external_links_security_strategy.md` and used as the normative strategy for source, DOI, PDF, publisher and other external links.
+
+The external links security strategy defines:
+
+- link categories for internal RefSciLink links, external scientific links and external PDF links;
+- `target="_blank"` and `rel="noopener noreferrer"` requirements for external new-tab links;
+- internal links staying in the same tab by default;
+- allowed external URL protocols limited to `http:` and `https:`;
+- unsafe scheme blocking for `javascript:`, `data:`, `file:`, `vbscript:` and `blob:`;
+- DOI-derived links generated as `https://doi.org/{normalized_doi}`;
+- JavaScript rules requiring DOM APIs, safe `href` assignment and no default `window.open()`;
+- UI behaviour for hiding unsafe or unavailable source links while preserving identifiers as text;
+- stable diagnostics including `REFSCILINK_EXTERNAL_LINK_SAFE`, `REFSCILINK_EXTERNAL_LINK_REL_OK`, `REFSCILINK_EXTERNAL_LINK_BLOCKED_UNSAFE_URL`, `REFSCILINK_EXTERNAL_LINK_REVIEW_REQUIRED` and `REFSCILINK_EXTERNAL_LINK_INTERNAL_TARGET_SKIPPED`;
+- validation and final report expectations for external link safety.
+
+External link rendering must never inject untrusted URLs through `innerHTML`.
+
+---
+
 ## Contract externalization note
 
-The normative contracts for completed hardening items SH-001 to SH-027 are now externalized in:
+The normative contracts for completed hardening items SH-001 to SH-028 are now externalized in:
 
 ```text
 skills/contracts/
@@ -767,6 +788,7 @@ Current externalized contracts:
 | SH-025 | `skills/contracts/github_pages_compatibility_strategy.md` |
 | SH-026 | `skills/contracts/accessibility_strategy.md` |
 | SH-027 | `skills/contracts/responsive_design_strategy.md` |
+| SH-028 | `skills/contracts/external_links_security_strategy.md` |
 
 ---
 
@@ -774,8 +796,8 @@ Current externalized contracts:
 
 ### Phase 2 — Reliability and execution modes
 
-- SH-028
+- SH-029
 
 Goal:
 
-Define safe external-link behaviour.
+Define generated module version metadata.

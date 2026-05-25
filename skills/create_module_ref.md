@@ -385,6 +385,14 @@ skills/contracts/responsive_design_strategy.md
 
 The assistant must read that strategy before generating or modifying mobile, tablet or narrow-viewport layout behaviour.
 
+External link security rules are externalized in:
+
+```text
+skills/contracts/external_links_security_strategy.md
+```
+
+The assistant must read that strategy before generating or modifying source, DOI, PDF, publisher or other external link behaviour.
+
 Create all required module files under:
 
 ```text

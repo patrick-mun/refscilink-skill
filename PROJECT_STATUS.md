@@ -165,11 +165,12 @@ Completed and validated:
 | SH-025 | Done | GitHub Pages compatibility strategy defined for static subpath deployments. |
 | SH-026 | Done | Accessibility strategy defined for semantic, keyboard-friendly generated UI. |
 | SH-027 | Done | Responsive design strategy defined for mobile and tablet usability. |
+| SH-028 | Done | External links security strategy defined for safe scientific source navigation. |
 
 Next recommended hardening task:
 
 ```text
-SH-028 — External links security
+SH-029 — Module versioning
 ```
 
 ---
@@ -180,7 +181,7 @@ The next hardening item is:
 
 | ID | Topic | Status |
 |---|---|---|
-| SH-028 | External links security | Pending |
+| SH-029 | Module versioning | Pending |
 
 Do not modify completed SH items unless a bug or inconsistency is discovered.
 
@@ -293,13 +294,13 @@ For each new correction:
 Recommended next task:
 
 ```text
-SH-028 — External links security
+SH-029 — Module versioning
 ```
 
 Expected focus:
 
-- define safe `target="_blank"` behaviour;
-- require `rel="noopener noreferrer"` for external links;
-- distinguish internal navigation from external scientific sources;
-- define source/PDF/DOI link rendering safety;
-- prevent unsafe opener access from generated pages.
+- define generated module version metadata;
+- align module version with schema and generated file metadata;
+- define where version appears in JSON/config/files;
+- define update compatibility and migration notes;
+- prepare future validation checklist and upgrade workflows.

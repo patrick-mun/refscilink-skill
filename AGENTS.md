@@ -333,3 +333,13 @@ skills/contracts/responsive_design_strategy.md
 ```
 
 Keep responsive rules scoped to RefSciLink selectors, avoid horizontal scrolling and preserve readable filters, cards and detail pages on mobile.
+
+## External links security
+
+Before generating or modifying source, DOI, PDF or publisher links, read:
+
+```text
+skills/contracts/external_links_security_strategy.md
+```
+
+External links opened in a new tab must use `rel="noopener noreferrer"` and unsafe URL schemes must be blocked or ignored.

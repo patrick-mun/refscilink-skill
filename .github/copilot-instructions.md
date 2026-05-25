@@ -255,3 +255,11 @@ skills/contracts/responsive_design_strategy.md
 ```
 
 Generated UI must keep filters, cards and detail pages readable on mobile without changing host global responsive behaviour.
+
+External links security is defined in:
+
+```text
+skills/contracts/external_links_security_strategy.md
+```
+
+External source, DOI, PDF and publisher links must block unsafe URL schemes and use `noopener noreferrer` with new tabs.

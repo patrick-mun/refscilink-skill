@@ -620,6 +620,12 @@ skills/contracts/no_external_api_mode_strategy.md
 If enrichment is deferred, complete local installation and extraction first, preserve stable IDs and report:
 
 ```text
+Deferred enrichment available through tools/enrich_pubmed.mjs and tools/enrich_europepmc.mjs.
+```
+
+PubMed / Europe PMC enrichment must preserve human validation fields, summaries, stable IDs and review notes. It may fill missing metadata from DOI, PMID or PMCID, but must never set `validated: true`.
+
+```text
 Deferred enrichment planned. Local installation and extraction completed without blocking.
 ```
 
@@ -853,6 +859,12 @@ For dedicated references schema validation, run:
 
 ```text
 npm run test:schema
+```
+
+For dedicated PubMed / Europe PMC enrichment validation, run:
+
+```text
+npm run test:enrich
 ```
 
 The official test strategy is externalized in:

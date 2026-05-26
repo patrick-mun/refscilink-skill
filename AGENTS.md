@@ -312,6 +312,15 @@ skills/contracts/deferred_enrichment_strategy.md
 
 Deferred enrichment must never block installation, must preserve stable IDs and human validation fields, and must never auto-validate AI-generated summaries.
 
+Deferred metadata enrichment is available through:
+
+```text
+tools/enrich_pubmed.mjs
+tools/enrich_europepmc.mjs
+```
+
+These tools may fill missing metadata from PMID, PMCID or DOI, but must preserve human validation fields, summaries and review notes. Conflicting external metadata must be recorded for human review instead of overwriting local scientific data silently.
+
 ## User file protection
 
 Before writing, overwriting, deleting, moving, renaming or restoring files, read:

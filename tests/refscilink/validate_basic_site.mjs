@@ -13,6 +13,8 @@ const serveTool = path.join(repoRoot, 'tools/serve_static.mjs');
 const themeTool = path.join(repoRoot, 'tools/theme_detector.mjs');
 const validateTool = path.join(repoRoot, 'tools/validate_reference.mjs');
 const schemaTool = path.join(repoRoot, 'tools/validate_schema.mjs');
+const pubmedTool = path.join(repoRoot, 'tools/enrich_pubmed.mjs');
+const europePmcTool = path.join(repoRoot, 'tools/enrich_europepmc.mjs');
 const exampleMarkdown = path.join(repoRoot, 'examples/basic-site/bibliographie.md');
 const exampleIndex = path.join(repoRoot, 'examples/basic-site/index.html');
 const exampleStyle = path.join(repoRoot, 'examples/basic-site/style.css');
@@ -43,6 +45,7 @@ async function main() {
   await checkThemeToolSyntax();
   await checkValidateToolSyntax();
   await checkSchemaToolSyntax();
+  await checkEnrichmentToolSyntax();
   await checkRootReferencesStructure();
   await checkThemeDetection();
   await checkThemeManualOverrides();
@@ -111,6 +114,7 @@ async function checkReadmeQuickStart() {
     'npm run test:theme',
     'npm run test:validate',
     'npm run test:schema',
+    'npm run test:enrich',
     'npm run install:module',
     'npm run build:refs',
     'npm run theme:detect',
@@ -123,13 +127,14 @@ async function checkReadmeQuickStart() {
 async function checkPackageScripts() {
   const pkg = JSON.parse(await fs.readFile(path.join(repoRoot, 'package.json'), 'utf8'));
   const scripts = pkg.scripts || {};
-  const required = ['test', 'build:refs', 'install:module', 'theme:detect', 'test:extract', 'test:theme', 'test:validate', 'test:schema', 'serve', 'demo'];
-  record('npm.scripts.required', required.every(name => typeof scripts[name] === 'string' && scripts[name].length > 0) ? 'pass' : 'fail', 'package.json exposes test, build:refs, install:module, theme:detect, test:extract, test:theme, test:validate, test:schema, serve and demo scripts.');
+  const required = ['test', 'build:refs', 'install:module', 'theme:detect', 'test:extract', 'test:theme', 'test:validate', 'test:schema', 'test:enrich', 'serve', 'demo'];
+  record('npm.scripts.required', required.every(name => typeof scripts[name] === 'string' && scripts[name].length > 0) ? 'pass' : 'fail', 'package.json exposes test, build:refs, install:module, theme:detect, test:extract, test:theme, test:validate, test:schema, test:enrich, serve and demo scripts.');
   record('npm.scripts.local_only', !Object.values(scripts).some(script => script.includes('npx serve')) ? 'pass' : 'fail', 'npm serve/demo scripts use local Node tooling instead of npx serve.');
   record('npm.scripts.install_module', scripts['install:module']?.includes('tools/install_refscilink.mjs') ? 'pass' : 'fail', 'install:module calls the local installer.');
   record('npm.scripts.theme_detect', scripts['theme:detect']?.includes('tools/theme_detector.mjs') ? 'pass' : 'fail', 'theme:detect calls the local theme detector.');
   record('npm.scripts.test_validate', scripts['test:validate']?.includes('tests/validate_reference.test.mjs') ? 'pass' : 'fail', 'test:validate calls the local persistent validation test suite.');
   record('npm.scripts.test_schema', scripts['test:schema']?.includes('tests/schema_validation.test.mjs') ? 'pass' : 'fail', 'test:schema calls the local schema validation test suite.');
+  record('npm.scripts.test_enrich', scripts['test:enrich']?.includes('tests/enrichment.test.mjs') ? 'pass' : 'fail', 'test:enrich calls the local enrichment test suite.');
   record('npm.scripts.test', scripts.test === 'npm run test:basic-site' ? 'pass' : 'fail', 'npm test runs the official local validation suite.');
 }
 
@@ -161,6 +166,9 @@ async function checkNpmScriptExecution() {
   const schemaTestResult = await run('npm', ['run', 'test:schema'], repoRoot);
   record('npm.script.test_schema', schemaTestResult.code === 0 && schemaTestResult.stdout.includes('"pass": 10') ? 'pass' : 'fail', schemaTestResult.code === 0 ? 'npm run test:schema passes JSON schema validation tests.' : schemaTestResult.stderr || schemaTestResult.stdout);
 
+  const enrichTestResult = await run('npm', ['run', 'test:enrich'], repoRoot);
+  record('npm.script.test_enrich', enrichTestResult.code === 0 && enrichTestResult.stdout.includes('"pass": 11') ? 'pass' : 'fail', enrichTestResult.code === 0 ? 'npm run test:enrich passes deterministic PubMed / Europe PMC enrichment tests.' : enrichTestResult.stderr || enrichTestResult.stdout);
+
   const serveResult = await run('npm', ['run', 'serve', '--', '--check'], repoRoot);
   record('npm.script.serve', serveResult.code === 0 ? 'pass' : 'fail', serveResult.code === 0 ? 'npm run serve passes static server check mode.' : serveResult.stderr || serveResult.stdout);
 
@@ -183,7 +191,9 @@ async function checkRequiredFiles() {
     'tools/install_refscilink.mjs',
     'tools/theme_detector.mjs',
     'tools/validate_reference.mjs',
-    'tools/validate_schema.mjs'
+    'tools/validate_schema.mjs',
+    'tools/enrich_pubmed.mjs',
+    'tools/enrich_europepmc.mjs'
   ];
   const missing = requiredFiles.filter(file => !existsSync(path.join(repoRoot, file)));
   record('files.required', missing.length ? 'fail' : 'pass', missing.length ? `Missing files: ${missing.join(', ')}` : 'All mandatory files exist.');
@@ -271,6 +281,14 @@ async function checkValidateToolSyntax() {
 async function checkSchemaToolSyntax() {
   const result = await run('node', ['--check', schemaTool], repoRoot);
   record('tool.syntax.validate_schema', result.code === 0 ? 'pass' : 'fail', result.code === 0 ? 'validate_schema.mjs syntax is valid.' : result.stderr || result.stdout);
+}
+
+async function checkEnrichmentToolSyntax() {
+  const pubmed = await run('node', ['--check', pubmedTool], repoRoot);
+  record('tool.syntax.enrich_pubmed', pubmed.code === 0 ? 'pass' : 'fail', pubmed.code === 0 ? 'enrich_pubmed.mjs syntax is valid.' : pubmed.stderr || pubmed.stdout);
+
+  const europePmc = await run('node', ['--check', europePmcTool], repoRoot);
+  record('tool.syntax.enrich_europepmc', europePmc.code === 0 ? 'pass' : 'fail', europePmc.code === 0 ? 'enrich_europepmc.mjs syntax is valid.' : europePmc.stderr || europePmc.stdout);
 }
 
 async function checkRootReferencesStructure() {

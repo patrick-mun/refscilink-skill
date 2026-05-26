@@ -62,15 +62,16 @@ Current task:
 
 ```text
 Continue roadmap-driven module improvements after examples/basic-site validation.
-Current roadmap item 12, JSON schema validation, has now been implemented and validated.
-Next likely roadmap item: 13, PubMed / Europe PMC enrichment.
+Current roadmap item 13, PubMed / Europe PMC enrichment, has now been implemented and validated.
+Next likely roadmap item: 14, Open Access classification via Unpaywall.
 ```
 
 Last completed test sequence:
 
 ```text
-- npm run test:basic-site passed with 88 checks.
+- npm run test:basic-site passed with 92 checks.
 - npm test passed through the official test:basic-site suite.
+- npm run test:enrich passed with 11 checks.
 - npm run test:extract passed with 19 checks.
 - npm run test:theme passed with 16 checks.
 - npm run test:validate passed with 14 checks.
@@ -80,7 +81,7 @@ Last completed test sequence:
 - Current development version is 0.4.0-dev, with generated JSON schema_version 1.0.0.
 - Fresh generated references.json includes module_version 0.4.0-dev, schema_version 1.0.0 and sequential ref001..ref010 IDs.
 - Browser visual inspection was completed: home navigation contains Références, the list page renders 10 French references, card #1 links to reference.html?id=ref001, and the ref001 detail page renders French metadata/actions.
-- Roadmap items 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 and 12 are validated.
+- Roadmap items 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 and 13 are validated.
 ```
 
 Recent pushed commits:
@@ -198,7 +199,7 @@ Do not confuse roadmap upgrades with hardening tasks.
 Next action:
 
 ```text
-Continue roadmap-driven module improvements with item 13: PubMed / Europe PMC enrichment.
+Continue roadmap-driven module improvements with item 14: Open Access classification via Unpaywall.
 ```
 
 Then continue with:
@@ -234,8 +235,9 @@ Generated JSON schema_version remains 1.0.0.
 Latest pushed commit: b3742a5 Align module version to 0.4.0-dev.
 Branch main was clean and aligned with origin/main after the last push.
 First examples/basic-site test passed:
-- npm run test:basic-site => pass, 88 checks.
+- npm run test:basic-site => pass, 92 checks.
 - npm test => pass, through test:basic-site.
+- npm run test:enrich => pass, 11 checks.
 - npm run test:extract => pass, 19 checks.
 - npm run test:theme => pass, 16 checks.
 - npm run test:validate => pass, 14 checks.
@@ -254,11 +256,12 @@ First examples/basic-site test passed:
 - tests/extract_references.test.mjs => dedicated fixtures cover DOI, PMID, PMCID, URL/PDF URL extraction, stable rerun IDs, source-order numbering, no-heading fallback and dry-run safety.
 - tools/validate_reference.mjs => local persistent validation writes human validation fields back to references.json with backup, note appending, JSON preservation and dry-run safety.
 - tools/validate_schema.mjs => validates references.json against schema_references.json plus RefSciLink semantic invariants; npm test now fails if references.json breaks schema quality.
+- tools/enrich_pubmed.mjs and tools/enrich_europepmc.mjs => deferred metadata enrichment from PMID/PMCID/DOI, with backups, dry-run, offline/no-external-API skip modes, conflict marking and preservation of human validation fields.
 - recent commits => b3742a5 version alignment, 68c45e7 maintenance comments, 28c853d persistent validation.
 
 Current task:
 Continue roadmap-driven module improvements.
-Next likely roadmap item: item 13, PubMed / Europe PMC enrichment with tools/enrich_pubmed.mjs and tools/enrich_europepmc.mjs.
+Next likely roadmap item: item 14, Open Access classification via Unpaywall with tools/check_open_access.mjs.
 
 Do not modify completed SH items without justification.
 Keep technical specifications in English.

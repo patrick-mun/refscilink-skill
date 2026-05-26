@@ -9,6 +9,7 @@
     "install:module": "node tools/install_refscilink.mjs",
     "theme:detect": "node tools/theme_detector.mjs --html examples/basic-site/index.html",
     "test:basic-site": "node tests/refscilink/validate_basic_site.mjs",
+    "test:enrich": "node tests/enrichment.test.mjs",
     "test:extract": "node tests/extract_references.test.mjs",
     "test:schema": "node tests/schema_validation.test.mjs",
     "test:validate": "node tests/validate_reference.test.mjs",

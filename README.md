@@ -80,6 +80,12 @@ Run the dedicated JSON schema validation:
 npm run test:schema
 ```
 
+Run the dedicated enrichment validation:
+
+```bash
+npm run test:enrich
+```
+
 To install RefSciLink into another local static site:
 
 ```bash
@@ -360,7 +366,7 @@ From the repository root, run:
 npm run test:basic-site
 ```
 
-This validates the canonical `examples/basic-site/bibliographie.md` fixture, checks required JSON files, verifies `refscilink.config.json` source/output/display/theme/language settings, verifies `build_references.mjs`, `install_refscilink.mjs`, `theme_detector.mjs`, `validate_reference.mjs`, `validate_schema.mjs` and `serve_static.mjs` syntax, tests the local installer and npm scripts on temporary sites, confirms generated version metadata, checks automatic theme detection from the host CSS, checks runtime application and preservation of editable theme overrides, runs the dedicated theme, Markdown extraction, persistent-validation and JSON schema suites, checks mixed-format Markdown extraction, checks the localized navigation entry and French generated pages, verifies stable `ref001` to `ref010` fresh-install IDs and detail links, checks external-link safety guards, confirms the expected 10 extracted references, and ensures dry-run mode does not write generated files.
+This validates the canonical `examples/basic-site/bibliographie.md` fixture, checks required JSON files, verifies `refscilink.config.json` source/output/display/theme/language settings, verifies `build_references.mjs`, `install_refscilink.mjs`, `theme_detector.mjs`, `validate_reference.mjs`, `validate_schema.mjs`, `enrich_pubmed.mjs`, `enrich_europepmc.mjs` and `serve_static.mjs` syntax, tests the local installer and npm scripts on temporary sites, confirms generated version metadata, checks automatic theme detection from the host CSS, checks runtime application and preservation of editable theme overrides, runs the dedicated theme, Markdown extraction, persistent-validation, JSON schema and enrichment suites, checks mixed-format Markdown extraction, checks the localized navigation entry and French generated pages, verifies stable `ref001` to `ref010` fresh-install IDs and detail links, checks external-link safety guards, confirms the expected 10 extracted references, and ensures dry-run mode does not write generated files.
 
 The dedicated extraction suite runs:
 
@@ -393,6 +399,14 @@ npm run test:schema
 ```
 
 It verifies that `tools/validate_schema.mjs` validates `references.json` against `schema_references.json` and catches missing required fields, invalid enum values, duplicate IDs, reference-count mismatches, inconsistent validation booleans, localized internal keys and legacy root-array output.
+
+The dedicated enrichment suite runs:
+
+```bash
+npm run test:enrich
+```
+
+It verifies deterministic PubMed and Europe PMC enrichment from local fixtures, backup creation before writes, preservation of validation state and summaries, dry-run safety, offline and no-external-API skipping, and conflict marking through `metadata_to_verify`.
 
 ### Validation goal
 
@@ -450,6 +464,7 @@ Deferred enrichment means:
 - extraction and static UI generation are completed first;
 - metadata lookup can run later;
 - stable IDs and source traceability are preserved;
+- PubMed / Europe PMC enrichment can fill missing metadata later without validating summaries;
 - human validation fields are never overwritten silently;
 - local human validation can be persisted with `tools/validate_reference.mjs`;
 - AI-generated summaries remain unvalidated until a human validates them.

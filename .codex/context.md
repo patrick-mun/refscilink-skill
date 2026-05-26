@@ -286,6 +286,8 @@ skills/contracts/deferred_enrichment_strategy.md
 
 Install and extract first, enrich later only through a safe rerun that preserves stable IDs, human validation fields and review state.
 
+Use `tools/enrich_pubmed.mjs` and `tools/enrich_europepmc.mjs` for deferred metadata enrichment. They must keep backups before JSON writes, support dry-run/offline/no-external-API modes and mark conflicting metadata for review instead of silently overwriting it.
+
 ## User file protection
 
 User file protection is specified in:

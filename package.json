@@ -4,11 +4,13 @@
   "description": "Vanilla HTML/CSS/JS module for extracting, enriching and displaying scientific bibliographic references.",
   "type": "module",
   "scripts": {
+    "test": "npm run test:basic-site",
     "build:refs": "node data/reference_bibliographique/tools/build_references.mjs examples/basic-site/bibliographie.md",
     "install:module": "node tools/install_refscilink.mjs",
     "theme:detect": "node tools/theme_detector.mjs --html examples/basic-site/index.html",
     "test:basic-site": "node tests/refscilink/validate_basic_site.mjs",
     "test:extract": "node tests/extract_references.test.mjs",
+    "test:schema": "node tests/schema_validation.test.mjs",
     "test:validate": "node tests/validate_reference.test.mjs",
     "test:theme": "node tests/theme_detection.test.mjs",
     "serve": "node tools/serve_static.mjs . --port 8000",

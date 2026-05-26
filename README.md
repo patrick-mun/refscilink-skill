@@ -50,6 +50,12 @@ Run the official local validation:
 npm run test:basic-site
 ```
 
+Run the default validation entry point:
+
+```bash
+npm test
+```
+
 Run the dedicated theme-detection validation:
 
 ```bash
@@ -66,6 +72,12 @@ Run the dedicated persistent-validation validation:
 
 ```bash
 npm run test:validate
+```
+
+Run the dedicated JSON schema validation:
+
+```bash
+npm run test:schema
 ```
 
 To install RefSciLink into another local static site:
@@ -348,7 +360,7 @@ From the repository root, run:
 npm run test:basic-site
 ```
 
-This validates the canonical `examples/basic-site/bibliographie.md` fixture, checks required JSON files, verifies `refscilink.config.json` source/output/display/theme/language settings, verifies `build_references.mjs`, `install_refscilink.mjs`, `theme_detector.mjs`, `validate_reference.mjs` and `serve_static.mjs` syntax, tests the local installer and npm scripts on temporary sites, confirms generated version metadata, checks automatic theme detection from the host CSS, checks runtime application and preservation of editable theme overrides, runs the dedicated theme, Markdown extraction and persistent-validation suites, checks mixed-format Markdown extraction, checks the localized navigation entry and French generated pages, verifies stable `ref001` to `ref010` fresh-install IDs and detail links, checks external-link safety guards, confirms the expected 10 extracted references, and ensures dry-run mode does not write generated files.
+This validates the canonical `examples/basic-site/bibliographie.md` fixture, checks required JSON files, verifies `refscilink.config.json` source/output/display/theme/language settings, verifies `build_references.mjs`, `install_refscilink.mjs`, `theme_detector.mjs`, `validate_reference.mjs`, `validate_schema.mjs` and `serve_static.mjs` syntax, tests the local installer and npm scripts on temporary sites, confirms generated version metadata, checks automatic theme detection from the host CSS, checks runtime application and preservation of editable theme overrides, runs the dedicated theme, Markdown extraction, persistent-validation and JSON schema suites, checks mixed-format Markdown extraction, checks the localized navigation entry and French generated pages, verifies stable `ref001` to `ref010` fresh-install IDs and detail links, checks external-link safety guards, confirms the expected 10 extracted references, and ensures dry-run mode does not write generated files.
 
 The dedicated extraction suite runs:
 
@@ -373,6 +385,14 @@ npm run test:validate
 ```
 
 It verifies that `tools/validate_reference.mjs` updates `validation_status`, keeps `validated` consistent, preserves human-edited JSON content, appends review notes, creates a backup before writing and leaves `references.json` untouched in dry-run mode.
+
+The dedicated JSON schema suite runs:
+
+```bash
+npm run test:schema
+```
+
+It verifies that `tools/validate_schema.mjs` validates `references.json` against `schema_references.json` and catches missing required fields, invalid enum values, duplicate IDs, reference-count mismatches, inconsistent validation booleans, localized internal keys and legacy root-array output.
 
 ### Validation goal
 

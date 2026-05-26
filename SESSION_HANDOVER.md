@@ -18,8 +18,8 @@ Branch and remote:
 
 ```text
 main is aligned with origin/main.
-Latest pushed commit: b3742a5 Align module version to 0.4.0-dev
-Working tree was clean after the last push.
+Latest pushed commit before item 12 work: b3742a5 Align module version to 0.4.0-dev
+Working tree was clean before item 12 work.
 ```
 
 Completed hardening items:
@@ -62,22 +62,25 @@ Current task:
 
 ```text
 Continue roadmap-driven module improvements after examples/basic-site validation.
-Next likely roadmap item: 12, JSON schema validation.
+Current roadmap item 12, JSON schema validation, has now been implemented and validated.
+Next likely roadmap item: 13, PubMed / Europe PMC enrichment.
 ```
 
 Last completed test sequence:
 
 ```text
-- npm run test:basic-site passed with 84 checks.
+- npm run test:basic-site passed with 88 checks.
+- npm test passed through the official test:basic-site suite.
 - npm run test:extract passed with 19 checks.
 - npm run test:theme passed with 16 checks.
 - npm run test:validate passed with 14 checks.
+- npm run test:schema passed with 10 checks.
 - Temporary static-site HTTP checks passed for main pages, CSS, JS and JSON.
 - Fresh-install simulation extracted 10 references from examples/basic-site/bibliographie.md.
 - Current development version is 0.4.0-dev, with generated JSON schema_version 1.0.0.
 - Fresh generated references.json includes module_version 0.4.0-dev, schema_version 1.0.0 and sequential ref001..ref010 IDs.
 - Browser visual inspection was completed: home navigation contains Références, the list page renders 10 French references, card #1 links to reference.html?id=ref001, and the ref001 detail page renders French metadata/actions.
-- Roadmap items 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 and 11 are validated.
+- Roadmap items 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 and 12 are validated.
 ```
 
 Recent pushed commits:
@@ -195,7 +198,7 @@ Do not confuse roadmap upgrades with hardening tasks.
 Next action:
 
 ```text
-Continue roadmap-driven module improvements with item 12: JSON schema validation.
+Continue roadmap-driven module improvements with item 13: PubMed / Europe PMC enrichment.
 ```
 
 Then continue with:
@@ -231,10 +234,12 @@ Generated JSON schema_version remains 1.0.0.
 Latest pushed commit: b3742a5 Align module version to 0.4.0-dev.
 Branch main was clean and aligned with origin/main after the last push.
 First examples/basic-site test passed:
-- npm run test:basic-site => pass, 84 checks.
+- npm run test:basic-site => pass, 88 checks.
+- npm test => pass, through test:basic-site.
 - npm run test:extract => pass, 19 checks.
 - npm run test:theme => pass, 16 checks.
 - npm run test:validate => pass, 14 checks.
+- npm run test:schema => pass, 10 checks.
 - Static HTTP checks => all tested pages/assets/JSON returned 200.
 - Fresh install simulation => 10 references extracted with ref001..ref010.
 - Browser review => home Références link, list page and ref001 detail page validated.
@@ -248,11 +253,12 @@ First examples/basic-site test passed:
 - Markdown extraction now handles mixed numbered, bracketed, bullet and free-form bibliography entries in the same section, preserves subsection metadata and stops at explicit non-bibliographic headings.
 - tests/extract_references.test.mjs => dedicated fixtures cover DOI, PMID, PMCID, URL/PDF URL extraction, stable rerun IDs, source-order numbering, no-heading fallback and dry-run safety.
 - tools/validate_reference.mjs => local persistent validation writes human validation fields back to references.json with backup, note appending, JSON preservation and dry-run safety.
+- tools/validate_schema.mjs => validates references.json against schema_references.json plus RefSciLink semantic invariants; npm test now fails if references.json breaks schema quality.
 - recent commits => b3742a5 version alignment, 68c45e7 maintenance comments, 28c853d persistent validation.
 
 Current task:
 Continue roadmap-driven module improvements.
-Next likely roadmap item: item 12, JSON schema validation with tools/validate_schema.mjs and tests/schema_validation.test.mjs.
+Next likely roadmap item: item 13, PubMed / Europe PMC enrichment with tools/enrich_pubmed.mjs and tools/enrich_europepmc.mjs.
 
 Do not modify completed SH items without justification.
 Keep technical specifications in English.

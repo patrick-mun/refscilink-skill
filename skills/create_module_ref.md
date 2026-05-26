@@ -829,6 +829,7 @@ After installation, verify:
 - `data/reference_bibliographique/assets/css/reference.css` exists;
 - `data/reference_bibliographique/assets/js/reference.js` exists;
 - `data/reference_bibliographique/json/references.json` is valid JSON;
+- `data/reference_bibliographique/json/references.json` passes `tools/validate_schema.mjs`;
 - `data/reference_bibliographique/json/theme_refscilink.json` is valid JSON;
 - `refscilink.config.json` exists;
 - the localized References button was added or a clear reason is reported;
@@ -846,6 +847,12 @@ For repository-level validation of the official fixture, run:
 
 ```text
 npm run test:basic-site
+```
+
+For dedicated references schema validation, run:
+
+```text
+npm run test:schema
 ```
 
 The official test strategy is externalized in:

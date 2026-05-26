@@ -226,18 +226,19 @@ Current known functional state:
 
 - The repository and generated module metadata are aligned on `0.4.0-dev`.
 - JSON schema metadata remains `schema_version: 1.0.0`.
-- `main` is aligned with `origin/main`; latest pushed commit is `b3742a5 Align module version to 0.4.0-dev`.
+- `main` was aligned with `origin/main` before roadmap item 12 work started.
 - `examples/basic-site/` has been created.
 - The global README includes a five-minute developer quick start, the official example and the validation procedure.
 - The skill context files for AI assistants exist or have been planned/created.
-- The latest `examples/basic-site` module test passed with 84 automated checks.
+- The latest `examples/basic-site` module test passed with 88 automated checks.
 - The dedicated theme detection suite passed with 16 automated checks.
 - The dedicated Markdown extraction suite passed with 19 automated checks.
 - The dedicated persistent validation suite passed with 14 automated checks.
+- The dedicated JSON schema validation suite passed with 10 automated checks.
 - A temporary static-site copy served all main pages, assets and JSON files with HTTP 200.
 - A fresh-install simulation extracted 10 references from `examples/basic-site/bibliographie.md`.
 - Browser visual inspection has been completed in Codex for the official example flow: home page navigation, bibliography list, `ref001` detail page and French labels.
-- Roadmap items 1 (`examples/basic-site/`), 2 (`refscilink.config.json`), 3 (`tools/install_refscilink.mjs`), 4 (`package.json` npm scripts), 5 (`README.md` quick start), 6 (`tools/theme_detector.mjs`), 7 (`theme_refscilink.json` editable overrides), 8 (`tests/theme_detection.test.mjs`), 9 (mixed-format Markdown extraction), 10 (`tests/extract_references.test.mjs`) and 11 (`tools/validate_reference.mjs`) are validated.
+- Roadmap items 1 (`examples/basic-site/`), 2 (`refscilink.config.json`), 3 (`tools/install_refscilink.mjs`), 4 (`package.json` npm scripts), 5 (`README.md` quick start), 6 (`tools/theme_detector.mjs`), 7 (`theme_refscilink.json` editable overrides), 8 (`tests/theme_detection.test.mjs`), 9 (mixed-format Markdown extraction), 10 (`tests/extract_references.test.mjs`), 11 (`tools/validate_reference.mjs`) and 12 (`tools/validate_schema.mjs`) are validated.
 
 Before changing roadmap statuses, inspect the actual repository state and update `ROADMAP_UPGRADES.md` deliberately.
 
@@ -311,21 +312,23 @@ Continue roadmap-driven module improvements after validating `examples/basic-sit
 
 Latest completed checks:
 
-- `npm run test:basic-site` passed with 84 checks.
+- `npm run test:basic-site` passed with 88 checks.
+- `npm test` passed through the official `test:basic-site` suite.
 - `npm run test:extract` passed with 19 checks.
 - `npm run test:theme` passed with 16 checks.
 - `npm run test:validate` passed with 14 checks.
+- `npm run test:schema` passed with 10 checks.
 - Temporary static-site HTTP checks returned 200 for `/`, `index.html`, `index_ref.html`, `reference.html`, CSS, JS, `references.json` and `theme_refscilink.json`.
 - Fresh-install simulation in `/tmp/refscilink-basic-site-fresh` extracted 10 references.
 - Fresh install produced `module_version: 0.4.0-dev`, `schema_version: 1.0.0`, `ref001` through `ref010` and `REFSCILINK_EXTRACT_OK`.
-- Static checks confirmed `refscilink.config.json` source/output/display/theme/language settings, README quick-start coverage, automatic theme detection, dedicated theme detection fixtures, dedicated Markdown extraction fixtures, dedicated persistent validation fixtures, editable theme runtime overrides, mixed-format Markdown extraction, local installer syntax, local static server syntax, npm script execution, navigation integration, French generated pages, localized detail metadata, stable detail links and external-link safety guards.
+- Static checks confirmed `refscilink.config.json` source/output/display/theme/language settings, README quick-start coverage, automatic theme detection, dedicated theme detection fixtures, dedicated Markdown extraction fixtures, dedicated persistent validation fixtures, dedicated JSON schema fixtures, editable theme runtime overrides, mixed-format Markdown extraction, local installer syntax, local static server syntax, npm script execution, navigation integration, French generated pages, localized detail metadata, stable detail links and external-link safety guards.
 - Local installer checks confirmed module file creation, `index.html` backup, one localized `Références` link, reusable config creation and idempotent rerun behaviour.
 - Browser review confirmed the flow `index.html` -> `Références` -> bibliography list -> `reference.html?id=ref001`.
 
 Expected next focus:
 
 - continue the module roadmap in `ROADMAP_UPGRADES.md`;
-- next likely target is roadmap item 12, JSON schema validation (`tools/validate_schema.mjs`, `tests/schema_validation.test.mjs`).
+- next likely target is roadmap item 13, PubMed / Europe PMC enrichment (`tools/enrich_pubmed.mjs`, `tools/enrich_europepmc.mjs`).
 
 Recent pushed commits:
 
